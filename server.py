@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home_page():
-    return "COGITO ERGO SUM!!"
+    return "YA ISTIKLAL YA OLUM!"
 
 
 if __name__ == "__main__":
