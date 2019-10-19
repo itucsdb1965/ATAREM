@@ -4,6 +4,7 @@ import requests
 import json
 
 import psycopg2 as dbapi2
+import psycopg2.extras
 
 INIT_STATEMENTS = [
     """
@@ -40,7 +41,7 @@ def initialize(url):
         cursor = connection.cursor()
         for statement in INIT_STATEMENTS:
             cursor.execute(statement)
-        cur = connection.cursor(cursor_factory=dbapi2.extras.DictCursor)
+        cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
         resp = requests.get(
             'https://www.myapifilms.com/imdb/top?start=1&end=250&token=93dd88e2-17fb-40e8-89a3-1707b3c8ac82&format=json&data=1')
         real = json.loads(resp.text)
