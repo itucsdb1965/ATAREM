@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-md navbar-dark" style="background-color: #111">
+  <a class="navbar-brand" href="/"
+    ><img
+      src="/static/img/logo.png"
+      style="width: 187px; height: 50px;"
+      alt="Atarem"
+  /></a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div
+    class="collapse navbar-collapse navbar-default"
+    id="navbarSupportedContent"
+  >
+    <ul class="nav navbar-nav">
+      {% if session.logged_in %}
+      <li class="nav-item">
+        <a class="nav-link" href="/dashboard">Dashboard</a>
+      </li>
+      {%endif%}
+      <li class="nav-item">
+        <a class="nav-link" href="/movies">Movies</a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav ml-auto navbarRight">
+      {% if session.logged_in %}
+      <li class="nav-item">
+        <a class="nav-link" href="/discussion">Discussion</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/register">Register</a>
+      </li>
+      {%endif%}
+    </ul>
+  </div>
+</nav>

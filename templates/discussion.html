@@ -1,0 +1,55 @@
+{% extends 'layout.html' %} {% block body %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    const socket = io.connect("http://127.0.0.1:5000");
+
+    socket.on("connect", function() {
+      socket.send({
+        message: "Hey folks",
+        username: $("#username").val(),
+        time: new Date
+      });
+    });
+
+    socket.on("message", function(msg) {
+      if(msg !== '') {
+        const newDate = new Date(msg.time)
+        $("#chatList").append(
+          `<li class="userInput --standard"><h5>${msg.message}</h5>${msg.username} <small>${newDate.getHours()}:${newDate.getMinutes()}</small></li>`
+        );
+      }
+    });
+
+    $("#send_button").on("click", function() {
+      socket.send({
+        message: $("#messageInput").val(),
+        username: $("#username").val(),
+        time: new Date
+      });
+      $("#messageInput").val("");
+    });
+  });
+</script>
+<div class="text-center">
+  <h1>TODAY'S TOPIC</h1>
+  <h3>Joker 2019</h3>
+</div>
+<div class="block--background">
+  <div class="chatbot__overview">
+    <ul class="chatlist" id="chatList"></ul>
+  </div>
+  <div class="chatbox-area">
+    <div id="chatform">
+      <input
+        type="text"
+        placeholder="Type something!"
+        class="chatbox"
+        id="messageInput"
+        minlength="2"
+      ></input>
+      <input style="display: none" type="text" name="name" id="username" value={{session.username}}>
+      <button class="chat__button" id="send_button">Send</button>
+    </div>
+  </div>
+  {% endblock %}
+</div>
