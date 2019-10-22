@@ -4,12 +4,10 @@ from psycopg2 import connect, extras
 from passlib.hash import pbkdf2_sha256
 from functools import wraps
 from flask_socketio import SocketIO, send
-from flask_cors import CORS
 
 con = connect(dbname='de9gpi5nc7pnj5', user='fvpxkozyyyirvo', port='5432',
             host='ec2-54-217-234-157.eu-west-1.compute.amazonaws.com', password='2c9deabd2e3ceadf157c8cf47204c3aac97fff8d3179dc58d06814489b24fd5a')
 app = Flask(__name__, static_url_path='/static')
-cors = CORS(app,resources={r"/*":{"origins":"*"}})
 socketio = SocketIO(app, cors_allowed_origins="*")
 app.secret_key = '65vet6'
 
