@@ -97,7 +97,7 @@ def register():
         con.commit()
         cur.close()
         flash('Registration successful!', 'success')
-        return redirect(url_for('register'))
+        return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
 
