@@ -1,11 +1,11 @@
 {% extends 'layout.html' %} {% block body %}
 <script type="text/javascript">
   $(document).ready(function() {
-    const socket = io.connect("http://itucsdb1965.herokuapp.com:80");
+    const socket = io.connect("http://itucsdb1965.herokuapp.com");
 
     socket.on("connect", function() {
       socket.send({
-        message: "Hello!",
+        message: "Hey folks",
         username: $("#username").val(),
         time: new Date
       });
