@@ -140,8 +140,8 @@ def initialize(url):
             for writer in movie['writers']:
                 writers.append(writer['name'])
             cur = connection.cursor()
-            cur.execute("INSERT INTO movies (title, year, directors, writers, urlPoster, genres, plot, simpleplot, idIMDB, rating, runtime) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                        (movie['title'], movie['year'], directors, writers, movie['urlPoster'], movie['genres'], movie['plot'], movie['simplePlot'], movie['idIMDB'], movie['rating'], movie['runtime']))
+            cur.execute("INSERT INTO movies (title, year, directors, writers, urlPoster, genres, plot, simpleplot,rating, runtime) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                        (movie['title'], movie['year'], directors, writers, movie['urlPoster'], movie['genres'], movie['plot'], movie['simplePlot'] , movie['rating'], movie['runtime']))
         connection.commit()
         cursor.close()
 
