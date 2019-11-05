@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS USERS (
   name VARCHAR(25) NOT NULL,
   email VARCHAR(35) NOT NULL,
   username VARCHAR(16) NOT NULL,
-  rep INT NOT NULL default 0,
   password VARCHAR(200) NOT NULL,
   register_date DATE NOT NULL default CURRENT_DATE
 );
