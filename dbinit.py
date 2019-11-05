@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS WATCHLIST(
 CREATE TABLE  IF NOT EXISTS MOVIEPOSTS(
   id BIGSERIAL PRIMARY KEY NOT NULL,
   movie_id VARCHAR(25) NOT NULL,
-  type INT(1) NOT NULL default 0, -- 0 for comments, 1 for reviews 
+  type INT NOT NULL default 0, -- 0 for comments, 1 for reviews 
   username VARCHAR(25) NOT NULL,
   title VARCHAR(25) NOT NULL,
   body VARCHAR(250) NOT NULL,
