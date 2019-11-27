@@ -46,6 +46,7 @@ CREATE TABLE  IF NOT EXISTS MOVIES (
   writers VARCHAR[] NOT NULL,
   urlPoster VARCHAR NOT NULL,
   genres VARCHAR[] NOT NULL,
+  idIMDB VARCHAR NOT NULL,
   plot TEXT NOT NULL,
   simpleplot TEXT NOT NULL,
   runtime VARCHAR NOT NULL,
@@ -139,8 +140,8 @@ def initialize(url):
             for writer in movie['writers']:
                 writers.append(writer['name'])
             cur = connection.cursor()
-            cur.execute("INSERT INTO movies (title, year, directors, writers, urlPoster, genres, plot, simpleplot,rating, runtime) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                        (movie['title'], movie['year'], directors, writers, movie['urlPoster'], movie['genres'], movie['plot'], movie['simplePlot'] , movie['rating'], movie['runtime']))
+            cur.execute("INSERT INTO movies (title, year, directors, writers, urlPoster, genres, plot, simpleplot,rating, runtime, idIMDB) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                        (movie['title'], movie['year'], directors, writers, movie['urlPoster'], movie['genres'], movie['plot'], movie['simplePlot'] , movie['rating'], movie['runtime'], movie['idIMDB']))
         connection.commit()
         cursor.close()
 
