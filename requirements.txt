@@ -9,3 +9,4 @@ requests==2.22.0
 wrapt==1.11.2
 WTForms==2.2.1
 requests==2.22.0
+furl==2.1.0
