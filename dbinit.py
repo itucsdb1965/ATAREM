@@ -129,19 +129,22 @@ def initialize(url):
         for statement in INIT_STATEMENTS:
             cursor.execute(statement)
         cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        resp = requests.get(
-            'https://www.myapifilms.com/imdb/top?start=1&end=250&token=93dd88e2-17fb-40e8-89a3-1707b3c8ac82&format=json&data=1')
-        real = json.loads(resp.text)
-        for movie in real['data']['movies']:
-            directors = []
-            writers = []
-            for director in movie['directors']:
-                directors.append(director['name'])
-            for writer in movie['writers']:
-                writers.append(writer['name'])
-            cur = connection.cursor()
-            cur.execute("INSERT INTO movies (title, year, directors, writers, urlPoster, genres, plot, simpleplot,rating, runtime, idIMDB) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                        (movie['title'], movie['year'], directors, writers, movie['urlPoster'], movie['genres'], movie['plot'], movie['simplePlot'] , movie['rating'], movie['runtime'], movie['idIMDB']))
+        cur.execute('SELECT COUNT(*) FROM MOVIES')
+        count = cur.fetchone()
+        if count[0] < 200:
+          resp = requests.get(
+          'https://www.myapifilms.com/imdb/top?start=1&end=250&token=93dd88e2-17fb-40e8-89a3-1707b3c8ac82&format=json&data=1')
+          real = json.loads(resp.text)
+          for movie in real['data']['movies']:
+              directors = []
+              writers = []
+              for director in movie['directors']:
+                  directors.append(director['name'])
+              for writer in movie['writers']:
+                  writers.append(writer['name'])
+              cur = connection.cursor()
+              cur.execute("INSERT INTO movies (title, year, directors, writers, urlPoster, genres, plot, simpleplot,rating, runtime, idIMDB) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                          (movie['title'], movie['year'], directors, writers, movie['urlPoster'], movie['genres'], movie['plot'], movie['simplePlot'] , movie['rating'], movie['runtime'], movie['idIMDB']))
         connection.commit()
         cursor.close()
 
