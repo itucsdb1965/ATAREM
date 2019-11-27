@@ -136,7 +136,7 @@ def watchlist(username):
     title = requests.get(
             f'{domain}/api/user/watchlist/{username}')
     if(title.json()["content"]=='empty_list'):
-        return render_template('watchlist.html',username=username,title=["No movie has been added"])
+        return render_template('watchlist.html',username=username,title=[["No movie has been added"]])
 
     return render_template('watchlist.html',username=username,title=title.json()["content"])
 
