@@ -3,7 +3,9 @@ from wtforms import Form, StringField, BooleanField, TextAreaField, PasswordFiel
 from psycopg2 import connect, extras
 from passlib.hash import pbkdf2_sha256
 from functools import wraps
+import requests
 from flask_socketio import SocketIO, send
+from furl import furl
 
 con = connect(dbname='de9gpi5nc7pnj5', user='fvpxkozyyyirvo', port='5432',
             host='ec2-54-217-234-157.eu-west-1.compute.amazonaws.com', password='2c9deabd2e3ceadf157c8cf47204c3aac97fff8d3179dc58d06814489b24fd5a')
@@ -90,14 +92,13 @@ def register():
         name = form.name.data
         username = form.username.data
         email = form.email.data
-        password = pbkdf2_sha256.hash(form.password.data)
-        cur = con.cursor()
-        cur.execute("INSERT INTO users (name, username, email, password) VALUES (%s, %s, %s, %s)",
-                    (name, username, email, password))
-        con.commit()
-        cur.close()
-        flash('Registration successful!', 'success')
-        return redirect(url_for('login'))
+        password = form.password.data
+        response = requests.post(f'http://localhost:5000/api/user/register?name={name}&username={username}&email={email}&password={password}')
+        if response.json()["content"] == "success":
+            flash('Registration successful!', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash('Registration failed', 'danger')
     return render_template('register.html', form=form)
 
 
@@ -117,20 +118,14 @@ def discussion():
 
 @app.route('/movies')
 def movies():
-    cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute("SELECT * FROM movies")
-    movies = cur.fetchall()
-    cur.close()
-    return render_template('movies.html', movies=movies)
+    morollo = requests.get('http://localhost:5000/api/movie')
+    return render_template('movies.html', movies=morollo.json()["content"])
 
 
 @app.route('/movie/<string:id>/')
 def movie(id):
-    cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT * FROM movies WHERE idimdb='{id}'")
-    movie = cur.fetchone()
-    cur.close()
-    return render_template('movie.html', movie=movie)
+    movie = requests.get('http://localhost:5000/api/movie/'+id)
+    return render_template('movie.html', movie=movie.json()["content"])
 
 
 @app.route('/dashboard')
@@ -139,5 +134,52 @@ def dashboard():
     return render_template('dashboard.html')
 
 
+# ATAREM API
+
+# @Route /api/movie/id
+# @Methods GET ONLY
+# @Desc Get movie data with parameter id
+@app.route('/api/movie/<id>', methods=['GET'])
+def getMovie(id):
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"SELECT * FROM movies WHERE idimdb='{id}'")
+    movie = cur.fetchone()
+    cur.close()
+    return {"content": dict(movie)}
+
+# @Route /api/movie
+# @Methods GET ONLY
+# @Desc Get data of all movies
+@app.route('/api/movie', methods=['GET'])
+def getMovies():
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute("SELECT * FROM movies")
+    movies = cur.fetchall()
+    for i in range(0, len(movies)):
+        movies[i] = dict(movies[i])
+    cur.close()
+    return {"content": movies}
+
+# @Route /api/user/register
+# @Methods POST ONLY
+# @Desc Register a user with parameters
+@app.route('/api/user/register', methods=['POST'])
+def registerUser():
+    f = furl(request.url)
+    params = dict(f.args)
+    name = params["name"]
+    username = params["username"]
+    email = params["email"]
+    password = params["password"]
+    cur = con.cursor()
+    cur.execute(f"SELECT COUNT(*) FROM USERS WHERE username='{username}' OR email='{email}'")
+    count = cur.fetchone()
+    if count[0] > 0:
+        return {"content": "failure"}
+    cur.execute("INSERT INTO users (name, username, email, password) VALUES (%s, %s, %s, %s)",
+                (name, username, email, pbkdf2_sha256.hash(password)))
+    con.commit()
+    cur.close()
+    return {"content": "success"}
 if __name__ == '__main__':
-    socketio.run(app, debug=False)
+    socketio.run(app, debug=True)

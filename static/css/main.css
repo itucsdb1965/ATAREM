@@ -163,7 +163,7 @@ https://codepen.io/manojsilag/pen/YBOOmB */
   color: #9ac7fa;
   font-weight: 400;
 }
-.movie_card .info_section .movie_header .minutes {
+.movie_card .info_section .movie_desc .minutes {
   display: inline-block;
   margin-top: 10px;
   color: #fff;
@@ -171,7 +171,7 @@ https://codepen.io/manojsilag/pen/YBOOmB */
   border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.13);
 }
-.movie_card .info_section .movie_header .type {
+.movie_card .info_section .movie_desc .type {
   display: inline-block;
   color: #cee4fd;
   margin-left: 10px;

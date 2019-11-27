@@ -7,15 +7,14 @@
       <h1>{{movie['title']}}</h1>
       <h4>{{movie['year']}}, {% for director in movie['directors'] %} {{director}}{% if loop.index != loop.length %},
         {% endif %} {% endfor %}</h4>
-      <span class="minutes">{{movie['runtime']}}</span>
-      <p class="type">{% for genre in movie['genres'] %} {{genre}}{% if loop.index != loop.length %},
-        {% endif %} {% endfor %}</p>
     </div>
     <div class="movie_desc">
       <p class="text">
-        Set in a world where fantasy creatures live side by side with humans. A human cop is forced to work with an Orc
-        to find a weapon everyone is prepared to kill for.
+        {{movie['simpleplot']}}
       </p>
+      <span class="minutes">{{movie['runtime']}}</span>
+      <p class="type">{% for genre in movie['genres'] %} {{genre}}{% if loop.index != loop.length %},
+        {% endif %} {% endfor %}</p>
     </div>
   </div>
   <div class="blur_back" style="background-image: url({{movie['urlposter']}});">
