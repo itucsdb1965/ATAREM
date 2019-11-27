@@ -133,6 +133,18 @@ def movie(id):
 def dashboard():
     return render_template('dashboard.html')
 
+@app.route('/watchlist/<string:username>/')
+@is_logged_in
+def watchlist(username):
+    username=session['username']
+    title = requests.get(
+            f'http://localhost:5000/api/user/watchlist/'+username)
+    if(title.json()["content"]=='empty_list'):
+        return render_template('watchlist.html',username=username,title=["No movie has been added"])
+
+    return render_template('watchlist.html',username=username,title=title.json()["content"])
+
+
 
 # ATAREM API
 
@@ -181,5 +193,24 @@ def registerUser():
     con.commit()
     cur.close()
     return {"content": "success"}
+
+# @Route /api/user/watchlist
+# @Methods GET ONLY
+# @Desc get the parameters from db
+@app.route('/api/user/watchlist/<username>',methods=['GET'])
+def watchlist_user(username):
+       
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'") 
+    movie_id =cur.fetchall()
+    title=[]
+    for i in movie_id:
+        cur.execute(f"SELECT title FROM movies WHERE id='%s'" % (i[0]))
+        temp=cur.fetchone()
+        title.append(temp)
+    cur.close()
+    if(title==[]):
+        return{"content": "empty_list"}
+    return{"content": list(title)}
 if __name__ == '__main__':
     socketio.run(app, debug=True)
