@@ -3,9 +3,7 @@
 {% block body %}
 <h1>Hello
   {{username}}
-  <br>
-
- 
+  <br/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/watchlist.css') }}">
 
     <table id="customers">
@@ -16,14 +14,8 @@
       {% for title in title %}
       <tr>
         <td>{{title[0]}}</td>
-
-
       </tr>
       {% endfor %}
     </table>
-
-
-
-
 </h1>
 {% endblock %}

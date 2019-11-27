@@ -5,14 +5,13 @@ from passlib.hash import pbkdf2_sha256
 from functools import wraps
 import requests
 from flask_socketio import SocketIO, send
-from furl import furl
 
 con = connect(dbname='de9gpi5nc7pnj5', user='fvpxkozyyyirvo', port='5432',
             host='ec2-54-217-234-157.eu-west-1.compute.amazonaws.com', password='2c9deabd2e3ceadf157c8cf47204c3aac97fff8d3179dc58d06814489b24fd5a')
 app = Flask(__name__, static_url_path='/static')
 socketio = SocketIO(app, cors_allowed_origins="*")
 app.secret_key = '65vet6'
-domain = 'http://itucsdb1965.herokuapp.com'
+domain = 'http://localhost:5000'
 
 def is_logged_in(f):
     @wraps(f)
@@ -114,8 +113,7 @@ def discussion():
 
 @app.route('/movies')
 def movies():
-    movies = requests.get(f'{domain}/api/movie')
-    return render_template('movies.html', movies=movies.json()["content"])
+    return render_template('movies.html')
 
 
 @app.route('/movie/<string:id>/')
@@ -149,10 +147,8 @@ def watchlist(username):
 # @Desc Register a user with parameters
 @app.route('/api/user/login', methods=['GET', 'POST'])
 def loginUser():
-    f = furl(request.url)
-    params = dict(f.args)
-    username = params["username"]
-    password = params["password"]
+    username = request.args.get("username")
+    password = request.args.get("password")
     cur = con.cursor(cursor_factory=extras.DictCursor)
     cur.execute(
         "SELECT * FROM users WHERE username='%s'" % (username))
@@ -180,11 +176,14 @@ def getMovie(id):
 
 # @Route /api/movie
 # @Methods GET ONLY
-# @Desc Get data of all movies
+# @Desc Get data of movies with counter
 @app.route('/api/movie', methods=['GET'])
 def getMovies():
+    count = request.args.get("count")
+    if int(count) >= 250:
+        return {"content": {}}
     cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute("SELECT * FROM movies")
+    cur.execute(f"SELECT * FROM movies WHERE id>{int(count)} AND id<={int(count)+9}")
     movies = cur.fetchall()
     for i in range(0, len(movies)):
         movies[i] = dict(movies[i])
@@ -196,12 +195,10 @@ def getMovies():
 # @Desc Register a user with parameters
 @app.route('/api/user/register', methods=['POST'])
 def registerUser():
-    f = furl(request.url)
-    params = dict(f.args)
-    name = params["name"]
-    username = params["username"]
-    email = params["email"]
-    password = params["password"]
+    name = request.args.get("name")
+    username = request.args.get("username")
+    email = request.args.get("email")
+    password = request.args.get("password")
     cur = con.cursor()
     cur.execute(f"SELECT COUNT(*) FROM USERS WHERE username='{username}' OR email='{email}'")
     count = cur.fetchone()
