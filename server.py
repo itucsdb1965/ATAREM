@@ -53,21 +53,17 @@ def login():
     if(request.method == 'POST'):
         username = request.form['username']
         password = request.form['password']
-        cur = con.cursor(cursor_factory=extras.DictCursor)
-        cur.execute(
-            "SELECT * FROM users WHERE username='%s'" % (username))
-        data = cur.fetchone()
-        if(data):
-            hash = data['password']
-            if pbkdf2_sha256.verify(password, hash):
-                session['logged_in'] = True
-                session['username'] = username
-                flash('Logged in successfully!', 'success')
-                return redirect(url_for('dashboard'))
-            else:
-                flash('Invalid Credentials', 'danger')
-        else:
+        response = requests.post(
+            f'http://localhost:5000/api/user/login?username={username}&password={password}')
+        if response.json()["content"] == "failure":
             flash('Invalid Credentials', 'danger')
+            return redirect(url_for('login'))
+        else:
+            flash('Logged in successfully!', 'success')
+            session['logged_in'] = True
+            session['username'] = username
+            return redirect(url_for('dashboard'))
+
     return render_template('login.html')
 
 
@@ -147,6 +143,29 @@ def watchlist(username):
 
 
 # ATAREM API
+
+# @Route /api/user/login
+# @Methods GET and POST
+# @Desc Register a user with parameters
+@app.route('/api/user/login', methods=['GET', 'POST'])
+def loginUser():
+    f = furl(request.url)
+    params = dict(f.args)
+    username = params["username"]
+    password = params["password"]
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(
+        "SELECT * FROM users WHERE username='%s'" % (username))
+    data = cur.fetchone()
+    if(data):
+        hash = data['password']
+        if pbkdf2_sha256.verify(password, hash):
+
+            return{"content": "succes"}
+        else:
+            return{"content": "failure"}
+    else:
+        return{"content": "failure"}
 
 # @Route /api/movie/id
 # @Methods GET ONLY
