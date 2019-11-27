@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h1>Hello
+  {{username}}
+  <br>
+
+ 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/watchlist.css') }}">
+
+    <table id="customers">
+
+      <tr>
+        <th>Watchlist</th>
+      </tr>
+      {% for title in title %}
+      <tr>
+        <td>{{title[0]}}</td>
+
+
+      </tr>
+      {% endfor %}
+    </table>
+
+
+
+
+</h1>
+{% endblock %}
