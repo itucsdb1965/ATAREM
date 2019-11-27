@@ -54,7 +54,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         response = requests.post(
-            f'http://localhost:5000/api/user/login?username={username}&password={password}')
+            f'{domain}/api/user/login?username={username}&password={password}')
         if response.json()["content"] == "failure":
             flash('Invalid Credentials', 'danger')
             return redirect(url_for('login'))
