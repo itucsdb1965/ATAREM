@@ -12,7 +12,7 @@ con = connect(dbname='de9gpi5nc7pnj5', user='fvpxkozyyyirvo', port='5432',
 app = Flask(__name__, static_url_path='/static')
 socketio = SocketIO(app, cors_allowed_origins="*")
 app.secret_key = '65vet6'
-
+domain = 'http://itucsdb1965.herokuapp.com'
 
 def is_logged_in(f):
     @wraps(f)
@@ -93,7 +93,7 @@ def register():
         username = form.username.data
         email = form.email.data
         password = form.password.data
-        response = requests.post(f'http://localhost:5000/api/user/register?name={name}&username={username}&email={email}&password={password}')
+        response = requests.post(f'{domain}/api/user/register?name={name}&username={username}&email={email}&password={password}')
         if response.json()["content"] == "success":
             flash('Registration successful!', 'success')
             return redirect(url_for('login'))
@@ -118,13 +118,13 @@ def discussion():
 
 @app.route('/movies')
 def movies():
-    morollo = requests.get('http://localhost:5000/api/movie')
-    return render_template('movies.html', movies=morollo.json()["content"])
+    movies = requests.get(f'{domain}/api/movie')
+    return render_template('movies.html', movies=movies.json()["content"])
 
 
 @app.route('/movie/<string:id>/')
 def movie(id):
-    movie = requests.get('http://localhost:5000/api/movie/'+id)
+    movie = requests.get(f'{domain}/api/movie/'+id)
     return render_template('movie.html', movie=movie.json()["content"])
 
 
@@ -138,7 +138,7 @@ def dashboard():
 def watchlist(username):
     username=session['username']
     title = requests.get(
-            f'http://localhost:5000/api/user/watchlist/'+username)
+            f'{domain}/api/user/watchlist/{username}')
     if(title.json()["content"]=='empty_list'):
         return render_template('watchlist.html',username=username,title=["No movie has been added"])
 
