@@ -131,6 +131,68 @@ def watchlist(username):
 
     return render_template('watchlist.html',username=username,title=title.json()["content"])
 
+@app.route('/forum')
+@is_logged_in
+def forum():
+    response = requests.get(f'{domain}/api/forum/thread?count=5')
+    return render_template('forum.html', latest=response.json()["content"])
+
+class ThreadForm(Form):
+    title = StringField('Title', [validators.Length(min=6, max=200)])
+    body = TextAreaField('Body', [validators.Length(min=30)])
+
+@app.route('/forum/thread/create', methods=['POST', 'GET'])
+@is_logged_in
+def createThreadRoute():
+    form = ThreadForm(request.form)
+    if(request.method == 'POST'):
+        title = form.title.data
+        body = form.body.data
+        username = session['username']
+        response = requests.post(f"{domain}/api/forum/thread?title={title}&body={body}&username={username}")
+        response = response.json()
+        if(response['content'] == "success"):
+            flash('Thanks for your contribution', 'success')
+            return redirect(url_for('forum'))
+        else:
+            flash('Something went wrong, please try again later', 'warning')        
+    return render_template('createthread.html', form=form)
+
+@app.route('/forum/thread/<id>')
+@is_logged_in
+def singleThread(id):
+    return render_template('singlethread.html', id=id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # ATAREM API
@@ -156,7 +218,7 @@ def loginUser():
         return{"content": "failure"}
 
 # @Route /api/movie/id
-# @Methods GET ONLY
+# @Methods GET
 # @Desc Get movie data with parameter id
 @app.route('/api/movie/<id>', methods=['GET'])
 def getMovie(id):
@@ -167,7 +229,7 @@ def getMovie(id):
     return {"content": dict(movie)}
 
 # @Route /api/movie
-# @Methods GET ONLY
+# @Methods GET
 # @Desc Get data of movies with counter
 @app.route('/api/movie', methods=['GET'])
 def getMovies():
@@ -183,7 +245,7 @@ def getMovies():
     return {"content": movies}
 
 # @Route /api/user/register
-# @Methods POST ONLY
+# @Methods POST
 # @Desc Register a user with parameters
 @app.route('/api/user/register', methods=['POST'])
 def registerUser():
@@ -203,11 +265,10 @@ def registerUser():
     return {"content": "success"}
 
 # @Route /api/user/watchlist
-# @Methods GET ONLY
+# @Methods GET
 # @Desc get the parameters from db
 @app.route('/api/user/watchlist/<username>',methods=['GET'])
 def watchlist_user(username):
-       
     cur = con.cursor(cursor_factory=extras.DictCursor)
     cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'") 
     movie_id =cur.fetchall()
@@ -220,5 +281,49 @@ def watchlist_user(username):
     if(title==[]):
         return{"content": "empty_list"}
     return{"content": list(title)}
+
+# @Route /api/forum/thread
+# @Methods POST
+# @Desc create a thread with parameters username, title and body
+@app.route('/api/forum/thread', methods=['POST'])
+def createThreadApi():
+    username = request.args.get('username')
+    title = request.args.get('title')
+    body = request.args.get('body')
+    print(body)
+    cur = con.cursor()
+    cur.execute("INSERT INTO forumposts (username, title, body) VALUES (%s, %s, %s)",
+                (username, title, body))
+    con.commit()
+    cur.close()
+    return {"content": "success"}
+
+# @Route /api/forum/thread
+# @Methods GET
+# @Desc Get thread info with either id or count and offset as paramters,
+#   if both parameters provided thread with given id will be returned
+#   count will return latest submitted n threads disregarding first offset rows
+@app.route('/api/forum/thread')
+def getThread():
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    id = request.args.get('id')
+    count = request.args.get('count')
+    offset = request.args.get('offset')
+    if id:
+        cur.execute(f'SELECT * FROM forumposts WHERE id={id}')
+        thread = cur.fetchone()
+        cur.close()
+        return {"content": dict(thread)}
+    elif count:
+        if not offset:
+            offset = 0
+        cur.execute(f'SELECT * FROM forumposts ORDER BY id DESC LIMIT {count} OFFSET {offset}')
+        threads = cur.fetchall()
+        for i in range(0, len(threads)):
+            threads[i] = dict(threads[i])
+        cur.close()
+        return {"content": threads}
+    else:
+        return {"content": "failure"}
 if __name__ == '__main__':
     app.run(debug=True)

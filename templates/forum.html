@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="bg-yoda" style="background-image: url('/static/img/bg-05.jpg')">
+</div>
+    <div class="forum-container">
+        <head>
+            <h1>In forum, you must share</h1>
+          </head>
+          <main>
+            <section>
+              <div style="margin-top: 2rem;" class="latest">
+                <h2 style="display: inline;">Latest Threads:</h2>
+                <p class="btn btn-black" style="display: inline; float: right;"><a style="color: white;" href="/forum/thread/create">Create New Thread</a></p>
+                <hr>
+                <ul id="unordered">
+                  {% for thread in latest %}
+                    <li>
+                      <a href="/forum/thread/{{thread['id']}}"><h6>{{thread["title"]}}</h6></a>
+                      <hr>
+                    </li>
+                  {% endfor %}
+                </ul>
+                <p><a href="#" class="" id="moreClick">Load more</a></p>
+              </div>
+            </section>
+          </main>
+    </div>
+<script>
+  count = 5
+  flag = false
+  $("#moreClick").on("click", function(e) {
+    e.preventDefault();
+    if (flag) {
+      return;
+    } else {
+      fetch(`/api/forum/thread?count=5&offset=${count}`)
+      .then(response => response.json())
+      .then(data => {
+        for(let i = 0; i < data.content.length; i++) {
+        let item = data.content[i]
+        $('#unordered').append(
+          `<li>
+            <a href="/forum/thread/${item.id}"><h6>${item.title}</h6></a>
+            <hr>
+          </li>`
+        );
+        }
+        if(data.content.length < 5) {
+          flag=true;
+          const but = document.querySelector('#moreClick');
+          but.innerHTML = "We have run out ouf things to talk about... Guess its time to break up"
+          but.setAttribute('class', 'disabled')
+        }
+        count += data.content.length
+      })
+    }
+    
+  });
+</script>
+{% endblock %}

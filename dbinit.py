@@ -66,8 +66,10 @@ CREATE TABLE IF NOT EXISTS STARS(
 CREATE TABLE IF NOT EXISTS FORUMPOSTS (
   id BIGSERIAL PRIMARY KEY NOT NULL,
   username VARCHAR(25) NOT NULL,
-  type INT NOT NULL, -- 0 for threads, 1 for news
+  type INT NOT NULL default 0, -- 0 for threads, 1 for news
+  title VARCHAR(200) NOT NULL,
   body VARCHAR(120) NOT NULL,
+  rep INT NOT NULL default 0,
   date_created DATE NOT NULL default CURRENT_DATE
 );
 
