@@ -4,12 +4,10 @@ from psycopg2 import connect, extras
 from passlib.hash import pbkdf2_sha256
 from functools import wraps
 import requests
-from flask_socketio import SocketIO, send
 
 con = connect(dbname='de9gpi5nc7pnj5', user='fvpxkozyyyirvo', port='5432',
             host='ec2-54-217-234-157.eu-west-1.compute.amazonaws.com', password='2c9deabd2e3ceadf157c8cf47204c3aac97fff8d3179dc58d06814489b24fd5a')
 app = Flask(__name__, static_url_path='/static')
-socketio = SocketIO(app, cors_allowed_origins="*")
 app.secret_key = '65vet6'
 domain = 'http://localhost:5000'
 
@@ -35,11 +33,6 @@ def is_logged_out(f):
     return wrap
 
 
-@socketio.on('message')
-def handleMessage(msg):
-    send(msg, broadcast=True)
-
-
 @app.route('/')
 @is_logged_out
 def index():
@@ -54,6 +47,7 @@ def login():
         password = request.form['password']
         response = requests.post(
             f'{domain}/api/user/login?username={username}&password={password}')
+        print(response.json())
         if response.json()["content"] == "failure":
             flash('Invalid Credentials', 'danger')
             return redirect(url_for('login'))
@@ -62,7 +56,6 @@ def login():
             session['logged_in'] = True
             session['username'] = username
             return redirect(url_for('dashboard'))
-
     return render_template('login.html')
 
 
@@ -145,7 +138,7 @@ def watchlist(username):
 # @Route /api/user/login
 # @Methods GET and POST
 # @Desc Register a user with parameters
-@app.route('/api/user/login', methods=['GET', 'POST'])
+@app.route('/api/user/login', methods=['POST'])
 def loginUser():
     username = request.args.get("username")
     password = request.args.get("password")
@@ -156,8 +149,7 @@ def loginUser():
     if(data):
         hash = data['password']
         if pbkdf2_sha256.verify(password, hash):
-
-            return{"content": "succes"}
+            return{"content": "success"}
         else:
             return{"content": "failure"}
     else:
@@ -229,4 +221,4 @@ def watchlist_user(username):
         return{"content": "empty_list"}
     return{"content": list(title)}
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    app.run(debug=True)
