@@ -135,7 +135,7 @@ def watchlist(username):
 @is_logged_in
 def forum():
     response = requests.get(f'{domain}/api/forum/thread?count=5')
-    response2 = requests.get(f'http://localhost:5000/api/forum/comment?count=5')
+    response2 = requests.get(f'{domain}/api/forum/comment?count=5')
     return render_template('forum.html', threads=response.json()["content"], comments=response2.json()["content"])
 
 class ThreadForm(Form):
