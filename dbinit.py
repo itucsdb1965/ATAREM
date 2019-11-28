@@ -33,8 +33,8 @@ CREATE TABLE  IF NOT EXISTS MOVIEPOSTS(
   movie_id VARCHAR(25) NOT NULL,
   type INT NOT NULL default 0, -- 0 for comments, 1 for reviews 
   username VARCHAR(25) NOT NULL,
-  title VARCHAR(25) NOT NULL,
-  body VARCHAR(250) NOT NULL,
+  title VARCHAR NOT NULL,
+  body VARCHAR NOT NULL,
   date_created DATE NOT NULL default CURRENT_DATE
 );
 
@@ -67,8 +67,8 @@ CREATE TABLE IF NOT EXISTS FORUMPOSTS (
   id BIGSERIAL PRIMARY KEY NOT NULL,
   username VARCHAR(25) NOT NULL,
   type INT NOT NULL default 0, -- 0 for threads, 1 for news
-  title VARCHAR(200) NOT NULL,
-  body VARCHAR(120) NOT NULL,
+  title VARCHAR NOT NULL,
+  body VARCHAR NOT NULL,
   rep INT NOT NULL default 0,
   date_created DATE NOT NULL default CURRENT_DATE
 );
@@ -77,7 +77,7 @@ CREATE TABLE  IF NOT EXISTS COMMENTS(
   id BIGSERIAL PRIMARY KEY NOT NULL,
   thread BIGSERIAL NOT NULL,
   username VARCHAR(25) NOT NULL,
-  body VARCHAR(120) NOT NULL,
+  body VARCHAR NOT NULL,
   date_created DATE NOT NULL default CURRENT_DATE
 );
 

@@ -1,22 +1,22 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="bg-yoda" style="background-image: url('/static/img/bg-05.jpg')">
-</div>
-    <div class="forum-container">
+<div>
+<div class="bg-yoda bg-made" style="background-image: url('/static/img/bg-05.jpg'); z-index: -9999;">
+    <div class="container forum-container" style="z-index: 999999;">
         <head>
             <h1>In forum, you must share</h1>
           </head>
-          <main>
+          <main style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 2rem;">
             <section>
-              <div style="margin-top: 2rem;" class="latest">
+              <div style="margin-top: 2rem;">
                 <h2 style="display: inline;">Latest Threads:</h2>
                 <p class="btn btn-black" style="display: inline; float: right;"><a style="color: white;" href="/forum/thread/create">Create New Thread</a></p>
                 <hr>
                 <ul id="unordered">
-                  {% for thread in latest %}
+                  {% for thread in threads %}
                     <li>
-                      <a href="/forum/thread/{{thread['id']}}"><h6>{{thread["title"]}}</h6></a>
+                      <a href="/forum/thread/{{thread['id']}}"><h6>{{thread["title"]}}<small style="float: right;">{{thread["username"]}}</small></h6></a>
                       <hr>
                     </li>
                   {% endfor %}
@@ -24,14 +24,32 @@
                 <p><a href="#" class="" id="moreClick">Load more</a></p>
               </div>
             </section>
+            <section>
+              <div style="margin-top: 2rem;">
+                <h2 style="display: inline;">Latest Comments:</h2>
+                <hr>
+                <ul id="unordered2">
+                  {% for comment in comments %}
+                    <li>
+                      <a href="/forum/thread/{{comment['thread']}}"><h6>{{comment["body"][0:60]}}<small style="float: right;">{{comment["username"]}}</small></h6></a>
+                      <hr>
+                    </li>
+                  {% endfor %}
+                </ul>
+                <p><a href="#" class="" id="moreClick2">Load more</a></p>
+              </div>
+            </section>
           </main>
     </div>
+  </div></div>
 <script>
   count = 5
-  flag = false
+  commcount = 5
+  flagThread = false
+  flagComment = false
   $("#moreClick").on("click", function(e) {
     e.preventDefault();
-    if (flag) {
+    if (flagThread) {
       return;
     } else {
       fetch(`/api/forum/thread?count=5&offset=${count}`)
@@ -41,18 +59,46 @@
         let item = data.content[i]
         $('#unordered').append(
           `<li>
-            <a href="/forum/thread/${item.id}"><h6>${item.title}</h6></a>
+            <a href="/forum/thread/${item.id}"><h6>${item.title}<small style="float: right;">${item.username}</small></h6></a>
             <hr>
           </li>`
         );
         }
         if(data.content.length < 5) {
-          flag=true;
+          flagThread=true;
           const but = document.querySelector('#moreClick');
-          but.innerHTML = "We have run out ouf things to talk about... Guess its time to break up"
+          but.innerHTML = "We have run out ouf things to talk about... Guess its time we seperate our ways"
           but.setAttribute('class', 'disabled')
         }
         count += data.content.length
+      })
+    }
+    
+  });
+  $("#moreClick2").on("click", function(e) {
+    e.preventDefault();
+    if (flagComment) {
+      return;
+    } else {
+      fetch(`/api/forum/comment?count=5&offset=${commcount}`)
+      .then(response => response.json())
+      .then(data => {
+        for(let i = 0; i < data.content.length; i++) {
+        let item = data.content[i]
+        $('#unordered2').append(
+          `<li>
+            <a href="/forum/thread/${item.thread}"><h6>${item.body}<small style="float: right;">${item.username}</small></h6></a>
+            <hr>
+          </li>`
+        );
+        }
+        if(data.content.length < 5) {
+          flagComment=true;
+          const but = document.querySelector('#moreClick2');
+          but.innerHTML = "Eeeend, thats the end of it!"
+          but.setAttribute('class', 'disabled')
+        }
+        commcount += data.content.length
       })
     }
     

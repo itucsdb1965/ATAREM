@@ -135,7 +135,8 @@ def watchlist(username):
 @is_logged_in
 def forum():
     response = requests.get(f'{domain}/api/forum/thread?count=5')
-    return render_template('forum.html', latest=response.json()["content"])
+    response2 = requests.get(f'http://localhost:5000/api/forum/comment?count=5')
+    return render_template('forum.html', threads=response.json()["content"], comments=response2.json()["content"])
 
 class ThreadForm(Form):
     title = StringField('Title', [validators.Length(min=6, max=200)])
@@ -301,15 +302,23 @@ def createThreadApi():
 # @Route /api/forum/thread
 # @Methods GET
 # @Desc Get thread info with either id or count and offset as paramters,
-#   if both parameters provided thread with given id will be returned
+#   if both parameters provided, threads first with username, then with given id will be returned
 #   count will return latest submitted n threads disregarding first offset rows
 @app.route('/api/forum/thread')
 def getThread():
     cur = con.cursor(cursor_factory=extras.DictCursor)
+    username = request.args.get('username')
     id = request.args.get('id')
     count = request.args.get('count')
     offset = request.args.get('offset')
-    if id:
+    if username:
+        cur.execute(f"SELECT * FROM forumposts WHERE username='{username}")
+        threads = cur.fetchall()
+        for i in range(0, len(threads)):
+            threads[i] = dict(threads[i])
+        cur.close()
+        return {"content": threads}
+    elif id:
         cur.execute(f'SELECT * FROM forumposts WHERE id={id}')
         thread = cur.fetchone()
         cur.close()
@@ -325,5 +334,58 @@ def getThread():
         return {"content": threads}
     else:
         return {"content": "failure"}
+
+# @Route /api/forum/comment
+# @Methods POST
+# @Desc send comment via parameters thread id, body, username
+@app.route('/api/forum/comment', methods=['POST'])
+def sendComment():
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    thread = request.args.get('thread')
+    body = request.args.get('body')
+    username = request.args.get('username')
+    cur.execute(f"INSERT INTO COMMENTS (username, body, thread) VALUES ('{username}', '{body}', '{thread}')")
+    con.commit()
+    cur.close()
+    return {"content": "success"}
+
+# @Route /api/forum/comment
+# @Methods GET
+# @Desc Get comment info with either username or thread or count and offset as paramters,
+#   if both parameters provided comment with first username, then given thread will be returned
+#   count will return latest submitted n comments disregarding first offset rows
+@app.route('/api/forum/comment')
+def getComment():
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    username = request.args.get('username')
+    thread = request.args.get('thread')
+    count = request.args.get('count')
+    offset = request.args.get('offset')
+    if username:
+        cur.execute(f"SELECT * FROM comments WHERE username='{username}'")
+        comments = cur.fetchall()
+        for i in range(0, len(comments)):
+            comments[i] = dict(comments[i])
+        cur.close()
+        return {"content": comments}
+    elif thread:
+        cur.execute(f'SELECT * FROM comments WHERE thread={thread}')
+        comments = cur.fetchall()
+        for i in range(0, len(comments)):
+            comments[i] = dict(comments[i])
+        cur.close()
+        return {"content": comments}
+    elif count:
+        if not offset:
+            offset = 0
+        cur.execute(f'SELECT * FROM comments ORDER BY id DESC LIMIT {count} OFFSET {offset}')
+        comments = cur.fetchall()
+        for i in range(0, len(comments)):
+            comments[i] = dict(comments[i])
+        cur.close()
+        return {"content": comments}
+    else:
+        return {"content": "failure"}
+
 if __name__ == '__main__':
     app.run(debug=True)
