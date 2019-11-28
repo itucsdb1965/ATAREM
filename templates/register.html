@@ -1,33 +1,40 @@
 {% extends 'layout.html' %} {% block body %}
 <h1 style="margin-bottom: 1rem">Register</h1>
 {% from 'includes/_formhelpers.html' import render_field %}
-<form action="" method="post">
-  <div class="form-group">
-    <div class="form-group">
-      {{render_field(form.name, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.username, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.email, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.password, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.confirm, class_="form-control")}}
-    </div>
-    <div class="form-group">
+<div class="limiter">
+  <div class="container-register" style="background-image: url('/static/img/bg-04.jpg')">
+    <form class="w-bg" action="" method="post">
+      <span class="login100-form-title p-b-41" style="color: #111;">
+        Come join us!
+      </span>
+      <div class="form-group">
+        <div class="form-group">
+          {{render_field(form.name, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.username, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.email, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.password, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.confirm, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          <p>
+            By creating an account you accept our
+            <a href="!#">Privacy Policy</a> and
+            <a href="!#">Terms of Service</a> agreements.
+          </p>
+        </div>
+      </div>
       <p>
-        By creating an account you accept our
-        <a href="!#">Privacy Policy</a> and
-        <a href="!#">Terms of Service</a> agreements.
+        <input type="submit" value="Submit" class="btn btn-primary btn-black" />
       </p>
-    </div>
+    </form>
   </div>
-  <p>
-    <input type="submit" value="Submit" class="btn btn-primary btn-black" />
-  </p>
-</form>
+</div>
 {% endblock %}
