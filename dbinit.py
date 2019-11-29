@@ -2,7 +2,7 @@ import os
 import sys
 import requests
 import json
-
+import random
 import psycopg2 as dbapi2
 import psycopg2.extras
 
