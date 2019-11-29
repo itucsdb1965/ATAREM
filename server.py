@@ -160,6 +160,14 @@ def movie(id):
     movie = requests.get(f'{domain}/api/movie/'+id)
     return render_template('movie.html', movie=movie.json()["content"])
 
+@app.route('/stars')
+def stars():
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"SELECT * FROM stars ")
+    stars = cur.fetchall()
+    
+    return render_template('stars.html', stars=stars)
+
 
 @app.route('/dashboard')
 @is_logged_in
