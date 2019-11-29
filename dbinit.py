@@ -58,7 +58,8 @@ CREATE TABLE IF NOT EXISTS STARS(
   urlIMDB VARCHAR(50) NOT NULL,
   name VARCHAR(30) NOT NULL,
   knownFor VARCHAR[] NOT NULL,
-  rating INT NOT NULL
+  rating INT NOT NULL,
+  date_created DATE NOT NULL default CURRENT_DATE
 );
 
 /* FORUM */
