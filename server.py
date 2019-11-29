@@ -70,6 +70,18 @@ class RegistrationForm(Form):
         validators.Length(min=6, max=16)
     ])
     confirm = PasswordField('Confirm Password')
+class UpdateForm(Form):
+    name = StringField('Name', [validators.Length(min=4, max=16)])
+    username = StringField('Username', [validators.Length(min=4, max=16)])
+    email = StringField('Email Address', [validators.Length(min=6, max=25)])
+    password = PasswordField('Password', [
+        validators.DataRequired(),
+        validators.Length(min=6, max=16)
+    ])
+    newpassword = PasswordField('New Password',[
+        validators.DataRequired(),
+        validators.Length(min=6, max=16)  ])
+
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -88,6 +100,40 @@ def register():
         else:
             flash('Registration failed', 'danger')
     return render_template('register.html', form=form)
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+@is_logged_in
+def update_infos():
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    username =session['username']
+    cur.execute(f"SELECT * FROM users WHERE username='%s'"%username)
+    user =cur.fetchone()
+    cur.close() 
+    
+    form = UpdateForm(request.form)
+    if request.method == 'POST' and form.validate():
+        
+        name = form.name.data
+        username = form.username.data
+        email = form.email.data
+        password = form.password.data
+        newpassword=form.newpassword.data
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        oldusername =session['username']
+        cur.execute(f"SELECT * FROM users WHERE username='%s'"%username)
+        user =cur.fetchone()
+        cur.close() 
+        hash = user['password']
+        if pbkdf2_sha256.verify(password, hash):
+            flash("Your password is wrong","danger")
+            return render_template('dashboard.html', form=form,user=user)
+       
+        response = requests.post( f'http://localhost:5000/api/user/dashboard?name={name}&username={username}&email={email}&newpassword={newpassword}&oldusername={oldusername}')
+        
+        if response.json()["content"] == "success":          
+            flash("Your informations has been updated","success")  
+      
+    return render_template('dashboard.html', form=form,user=user)
 
 
 @app.route('/logout')
@@ -261,6 +307,26 @@ def registerUser():
         return {"content": "failure"}
     cur.execute("INSERT INTO users (name, username, email, password) VALUES (%s, %s, %s, %s)",
                 (name, username, email, pbkdf2_sha256.hash(password)))
+    con.commit()
+    cur.close()
+    return {"content": "success"}
+
+# @Route /api/user/dashboard
+# @Methods POST
+# @Desc Update a user with parameters
+@app.route('/api/user/dashboard', methods=['POST'])
+def updateUser():
+   
+    name = request.args.get("name")
+    print(name)
+    username = request.args.get("username")
+    email = request.args.get("email")
+    newpassword = pbkdf2_sha256.hash(request.args.get("newpassword"))
+    oldusername =request.args.get('oldusername')
+    cur = con.cursor()
+    cur.execute(
+        f"UPDATE users SET username='{username}',name='{name}',email='{email}',password='{newpassword}'  WHERE username='{oldusername}'")
+        
     con.commit()
     cur.close()
     return {"content": "success"}
