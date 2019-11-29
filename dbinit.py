@@ -147,6 +147,19 @@ def initialize(url):
               cur = connection.cursor()
               cur.execute("INSERT INTO movies (title, year, directors, writers, urlPoster, genres, plot, simpleplot,rating, runtime, idIMDB) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                           (movie['title'], movie['year'], directors, writers, movie['urlPoster'], movie['genres'], movie['plot'], movie['simplePlot'] , movie['rating'], movie['runtime'], movie['idIMDB']))
+        cur.execute('SELECT COUNT(*) FROM STARS')
+        count_star=cur.fetchone()
+        if count_star[0]<80:
+          resp_star=requests.get("https://www.myapifilms.com/imdb/starmeter?token=93dd88e2-17fb-40e8-89a3-1707b3c8ac82&format=json")
+          text= json.loads(resp_star.text)
+          for star in text['data']:
+            knownFor=[]
+            knownFor.append(star['knownFor'])
+                  
+            cur.execute("INSERT INTO stars (name, urlIMDB, knownFor, rating) VALUES (%s, %s, %s, %s)",
+                          (star['name'], star['urlIMDB'],knownFor,random.randint(6,10) ))
+            
+            
         connection.commit()
         cursor.close()
 
