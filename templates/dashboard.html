@@ -1,5 +1,27 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h1>hello</h1>
+<h1>Profile settings</h1>
+{% from "includes/_formhelpers.html" import render_field %}
+<img src="/static/img/defaultprofile.jpeg" alt="Italian Trulli  "style="width:128px;height:128x;">
+<form form class="w-bg" action="" method="post" >
+<div class="form-group">
+    {{render_field(form.name, class_="form-control",placeholder=user['name'])}}
+  </div>
+  <div class="form-group">
+    {{render_field(form.username, class_="form-control",placeholder=user['username'])}}
+  </div>
+  <div class="form-group">
+    {{render_field(form.email, class_="form-control",placeholder=user['email'])}}
+  </div>
+  <div class="form-group">
+    {{render_field(form.password, class_="form-control",placeholder="Enter your current password")}}
+  </div>
+  <div class="form-group">
+    {{render_field(form.newpassword, class_="form-control",placeholder="Enter your new password")}}
+  </div>
+
+  <input type="submit" value="Submit" class="btn btn-primary btn-black" /> 
+</form>
+
 {% endblock %}
