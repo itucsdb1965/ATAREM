@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+  <br/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/watchlist.css') }}">
+    <h2>STAR LIST</h2>
+    <br>
+    <table id="customers">
+
+      
+      <tr>
+         <th>Name</th>
+         <th>Rating</th>
+         <th>Popular Films</th>
+       </tr>
+      
+      {% for star in stars %}
+      <tr>
+        <td><a href="{{star[1]}}">{{star[2]}}</a>  </td>
+        <td>{{star[4]}}</td>
+        <td>{{star[3][0]}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+{% endblock %}
