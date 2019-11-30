@@ -157,6 +157,19 @@ def movies():
 
 @app.route('/movie/<string:id>/')
 def movie(id):
+    username = session['username']
+    if(request.method == 'POST'):
+        cur = con.cursor(cursor_factory=extras.DictCursor) 
+        cur.execute(f"SELECT EXISTS(SELECT *FROM watchlist WHERE username='{username}' and movie_id = '{id}') ")
+        exist=cur.fetchone()
+        
+        if(exist[0]==True): 
+            flash('It is already in your watchlist', 'danger')
+        else:
+            cur.execute(f"INSERT INTO watchlist(username,movie_id) VALUES ('{username}','{id}')")
+            con.commit()
+            cur.close()
+            flash('Added to your watchlist', 'success')
     movie = requests.get(f'{domain}/api/movie/'+id)
     return render_template('movie.html', movie=movie.json()["content"])
 
@@ -178,13 +191,20 @@ def dashboard():
 @is_logged_in
 def watchlist(username):
     username=session['username']
-    title = requests.get(
-            f'{domain}/api/user/watchlist/{username}')
-    if(title.json()["content"]=='empty_list'):
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'") 
+    movie_id =cur.fetchall()
+    title=[]
+    for i in movie_id:
+        cur.execute(f"SELECT title FROM movies WHERE idimdb='{i[0]}'" )
+        temp=cur.fetchone()
+        title.append(temp)
+    cur.close()
+   
+    if(title==[]):
         return render_template('watchlist.html',username=username,title=[["No movie has been added"]])
 
-    return render_template('watchlist.html',username=username,title=title.json()["content"])
-
+    return render_template('watchlist.html',username=username,title=title)
 @app.route('/forum')
 @is_logged_in
 def forum():
