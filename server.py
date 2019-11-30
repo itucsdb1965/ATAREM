@@ -155,7 +155,7 @@ def movies():
     return render_template('movies.html')
 
 
-@app.route('/movie/<string:id>/')
+@app.route('/movie/<string:id>/'methods=['GET','POST'])
 def movie(id):
     username = session['username']
     if(request.method == 'POST'):
