@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS USERS (
 CREATE TABLE IF NOT EXISTS WATCHLIST(
   id BIGSERIAL PRIMARY KEY NOT NULL,
   username VARCHAR(25) NOT NULL,
-  movie_id BIGSERIAL NOT NULL
+  movie_id VARCHAR(25) NOT NULL
 );
 
 /* MOVIES */
@@ -163,7 +163,6 @@ def initialize(url):
             
         connection.commit()
         cursor.close()
-
 
 if __name__ == "__main__":
     url = os.getenv("DATABASE_URL")
