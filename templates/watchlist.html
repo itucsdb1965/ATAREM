@@ -2,12 +2,12 @@
 
 {% block body %}
 <h1>Hello
-  {{username}}</h1>
+  {{username}}
   <br/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/watchlist.css') }}">
 
-    <table id="watchlist">
-
+    <table id="customers">
+      <br/>
       <tr>
         <th>Watchlist</th>
       </tr>
@@ -17,5 +17,5 @@
       </tr>
       {% endfor %}
     </table>
-
+</h1>
 {% endblock %}
