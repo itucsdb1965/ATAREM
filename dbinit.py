@@ -184,7 +184,7 @@ def initialize(url):
               shuffle(content_part)
               user = random.choice(names)
               bodddy  = " ".join(content_part)
-              cur.execute(f"INSERT INTO forumposts (username, thread, body) VALUES ({user}, {j}, '{bodddy}')")
+              cur.execute(f"INSERT INTO comments (username, thread, body) VALUES ({user}, {j}, '{bodddy}')")
         connection.commit()
         cursor.close()
 
