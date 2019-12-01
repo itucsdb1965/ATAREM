@@ -1,5 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h1>Thread {{id}}</h1>
+<h1 id={{id}}>Thread {{id}}</h1>
+<script>
+  const id = {{id}};
+  fetch(`/api/forum/threadh?id=${id}`)
+    .then(response => response.json())
+    .then(data => {
+      
+    })
+</script>
 {% endblock %}

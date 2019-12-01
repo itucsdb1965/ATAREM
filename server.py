@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, flash, session, logging, request
-from wtforms import Form, StringField, BooleanField, TextAreaField, PasswordField, validators, BooleanField
+from wtforms import Form, StringField, BooleanField, TextAreaField, PasswordField, validators, BooleanField, DateField
 from psycopg2 import connect, extras
 from passlib.hash import pbkdf2_sha256
 from functools import wraps
@@ -63,6 +63,7 @@ class RegistrationForm(Form):
     name = StringField('Name', [validators.Length(min=4, max=16)])
     username = StringField('Username', [validators.Length(min=4, max=16)])
     email = StringField('Email Address', [validators.Length(min=6, max=25)])
+    birth = DateField('Birth Date', format='%d/%m/%Y')
     password = PasswordField('Password', [
         validators.DataRequired(),
         validators.EqualTo(
@@ -93,7 +94,8 @@ def register():
         username = form.username.data
         email = form.email.data
         password = form.password.data
-        response = requests.post(f'{domain}/api/user/register?name={name}&username={username}&email={email}&password={password}')
+        birth = form.birth.data
+        response = requests.post(f'{domain}/api/user/register?name={name}&username={username}&email={email}&password={password}&birth={birth}')
         if response.json()["content"] == "success":
             flash('Registration successful!', 'success')
             return redirect(url_for('login'))
@@ -308,13 +310,14 @@ def registerUser():
     username = request.args.get("username")
     email = request.args.get("email")
     password = request.args.get("password")
+    birth = request.args.get("birth")
     cur = con.cursor()
     cur.execute(f"SELECT COUNT(*) FROM USERS WHERE username='{username}' OR email='{email}'")
     count = cur.fetchone()
     if count[0] > 0:
         return {"content": "failure"}
-    cur.execute("INSERT INTO users (name, username, email, password) VALUES (%s, %s, %s, %s)",
-                (name, username, email, pbkdf2_sha256.hash(password)))
+    cur.execute("INSERT INTO users (name, username, email, password, birth_date) VALUES (%s, %s, %s, %s, %s)",
+                (name, username, email, pbkdf2_sha256.hash(password), birth))
     con.commit()
     cur.close()
     return {"content": "success"}
@@ -408,6 +411,21 @@ def getThread():
         return {"content": threads}
     else:
         return {"content": "failure"}
+
+# @Route /api/forum/thread/single
+# @Methods GET
+# @Desc get thread with parameter id, get comments that belong to that id
+@app.route('/api/forum/thread/single')
+def getSingleThread():
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    id = request.args.get('id')
+    cur.execute(f"SELECT * FROM forumposts WHERE id={id}")
+    thread = cur.fetchone()
+    cur.execute(f"SELECT * FROM comments WHERE thread={id}")
+    comments = cur.fetchall()
+    for i in range(0, len(comments)):
+        comments[i] = dict(comments[i])
+    return {"content": {"thread": dict(thread), "comments": comments}}
 
 # @Route /api/forum/comment
 # @Methods POST
