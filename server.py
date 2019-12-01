@@ -181,13 +181,32 @@ def movie(id):
     movie = requests.get(f'{domain}/api/movie/'+id)
     return render_template('movie.html', movie=movie.json()["content"])
 
-@app.route('/stars')
+@app.route('/stars',methods=['GET','POST'])
 def stars():
+    form=RatingForm(request.form)
+    id = request.form.get('user_id')
     cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT * FROM stars ")
+    cur.execute(f"SELECT * FROM stars ORDER BY id ASC ")
     stars = cur.fetchall()
-    
-    return render_template('stars.html', stars=stars)
+    cur.close()
+    if(request.method == 'POST'):
+        
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        cur.execute(f"SELECT user_rating FROM stars WHERE id={id} ")
+        star_rate=cur.fetchone()
+        try:
+            user_rating = int(form.point.data) + int(star_rate['user_rating'])
+        except:
+            flash("Must be a integer value","danger")
+            return redirect(url_for('stars'))
+
+        cur.execute(
+        f"UPDATE stars SET user_rating={user_rating}  WHERE id={id}")
+        con.commit()
+        cur.close
+        return redirect(url_for('stars'))
+       
+    return render_template('stars.html', stars=stars , form=form)
 
 
 @app.route('/dashboard')
