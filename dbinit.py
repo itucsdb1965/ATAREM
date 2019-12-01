@@ -186,7 +186,7 @@ def initialize(url):
               content_part = content.split(" ")
               shuffle(content_part)
               user = random.choice(names)
-              cur.execute('INSERT INTO forumposts (username, thread, body) VALUES (%s, %d, %s)', (user, j, content_part))
+              cur.execute(f'INSERT INTO forumposts (username, thread, body) VALUES ({user}, {j}, {content_part})')
         connection.commit()
         cursor.close()
 
