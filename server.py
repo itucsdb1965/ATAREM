@@ -4,12 +4,18 @@ from psycopg2 import connect, extras
 from passlib.hash import pbkdf2_sha256
 from functools import wraps
 import requests
+import re
 
 con = connect(dbname='de9gpi5nc7pnj5', user='fvpxkozyyyirvo', port='5432',
             host='ec2-54-217-234-157.eu-west-1.compute.amazonaws.com', password='2c9deabd2e3ceadf157c8cf47204c3aac97fff8d3179dc58d06814489b24fd5a')
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = '65vet6'
 domain = 'http://itucsdb1965.herokuapp.com:80'
+
+def cleanhtml(raw_html):
+  cleanr = re.compile('<.*?>')
+  cleantext = re.sub(cleanr, '', raw_html)
+  return cleantext # https://stackoverflow.com/questions/9662346/python-code-to-remove-html-tags-from-a-string
 
 def is_logged_in(f):
     @wraps(f)
@@ -212,7 +218,13 @@ def watchlist(username):
 def forum():
     response = requests.get(f'{domain}/api/forum/thread?count=5')
     response2 = requests.get(f'{domain}/api/forum/comment?count=5')
-    return render_template('forum.html', threads=response.json()["content"], comments=response2.json()["content"])
+    comments = []
+    threads = []
+    for comment in response2.json()["content"]:
+        co = comment
+        co["body"] = cleanhtml(comment["body"])
+        comments.append(co)
+    return render_template('forum.html', threads=response.json()["content"], comments=comments)
 
 class ThreadForm(Form):
     title = StringField('Title', [validators.Length(min=6, max=200)])
