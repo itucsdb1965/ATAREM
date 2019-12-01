@@ -63,8 +63,10 @@ CREATE TABLE IF NOT EXISTS STARS(
   name VARCHAR(30) NOT NULL,
   knownFor VARCHAR[] NOT NULL,
   rating INT NOT NULL,
+  user_rating INT DEFAULT 0,
   date_created DATE NOT NULL default CURRENT_DATE
 );
+
 
 /* FORUM */
 
