@@ -178,16 +178,16 @@ def initialize(url):
             shuffle(content_part)
             user = random.choice(names)
             cur.execute('INSERT INTO forumposts (username, title, body) VALUES (%s, %s, %s)', (user, " ".join(head_part), " ".join(content_part)))
-        cur.execute('SELECT COUNT(*) FROM comments')
-        count_comments = cur.fetchone()
-        if count_comments[0] < 10:
-          for i in range(0, 25):
-            for j in range(0, 3):
-              content_part = content.split(" ")
-              shuffle(content_part)
-              user = random.choice(names)
-              bodddy  = " ".join(content_part)
-              cur.execute(f'INSERT INTO forumposts (username, thread, body) VALUES ({user}, {j}, {bodddy})')
+        # cur.execute('SELECT COUNT(*) FROM comments')
+        # count_comments = cur.fetchone()
+        # if count_comments[0] < 10:
+        #   for i in range(0, 25):
+        #     for j in range(0, 3):
+        #       content_part = content.split(" ")
+        #       shuffle(content_part)
+        #       user = random.choice(names)
+        #       bodddy  = " ".join(content_part)
+        #       cur.execute(f'INSERT INTO forumposts (username, thread, body) VALUES ({user}, {j}, {bodddy})')
         connection.commit()
         cursor.close()
 
