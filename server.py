@@ -214,9 +214,9 @@ def stars():
 def dashboard():
     return render_template('dashboard.html')
 
-@app.route('/watchlist/<string:username>/')
+@app.route('/watchlist')
 @is_logged_in
-def watchlist(username):
+def watchlist():
     username=session['username']
     cur = con.cursor(cursor_factory=extras.DictCursor)
     cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'") 
