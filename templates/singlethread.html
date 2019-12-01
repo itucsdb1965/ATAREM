@@ -1,13 +1,79 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h1 id={{id}}>Thread {{id}}</h1>
+<ul id="thread">
+
+</ul>
+<h2 class="mt-5">Comments</h2>
+<hr>
+<ul id="comments" class="mb-2">
+</ul>
+<p class="mb-3"><a href="#" class="" id="moreClick">Load more</a></p>
+<hr>
+{% from "includes/_formhelpers.html" import render_field %}
+
+<form style="margin-top: 1rem;" action="" method="post">
+    <h3>Send a comment</h3>
+    <div class="form-group">
+        {{ render_field(form.body, class_="form-control", id="threadEditor") }}
+      </div>
+      <p><input type="submit" class="btn btn-black" value="Submit"></p>
+  </form>
 <script>
   const id = {{id}};
-  fetch(`/api/forum/threadh?id=${id}`)
+  let count = 5;
+  let com;
+  fetch(`/api/forum/thread/single?id=${id}`)
     .then(response => response.json())
     .then(data => {
-      
+      if(!data.content) {
+        return;
+      } else {
+        let comments = data.content.comments;
+        com = comments;
+        let thread = data.content.thread;
+        $('#thread').append(`
+          <li class="fadeIn animated">
+            <h1 class="mb-2">${thread.title} <small>from ${thread.username}</small></h1>
+            <h4>${thread.body}</h4>
+          </li>`)
+      }
+      if (com.length == 0) {
+        const but = document.querySelector('#moreClick');
+        but.innerHTML = "No comments here"
+        but.setAttribute('class', 'disabled')
+      } else if (com.length < 5) {
+        const but = document.querySelector('#moreClick');
+          but.innerHTML = "There are no more comments"
+          but.setAttribute('class', 'disabled')
+      }
+      for(let i = 0; i < 5; i++) {
+        $('#comments').append(`
+          <li class="fadeIn animated">
+            <h5 class="mb-2">${com[i].username}</h5>
+            <h6>${com[i].body}</h6>
+            <hr>
+          </li>`)
+      }
+      $('#moreClick').on('click', function(e) {
+        e.preventDefault();
+        for(let i = count; i < count+5; i++) {
+        $('#comments').append(`
+          <li class="fadeIn animated">
+            <h5 class="mb-2">${com[i].username}</h5>
+            <h6>${com[i].body}</h6>
+            <hr>
+          </li>`)
+        }
+        count += 5;
+        if(count == com.length) {
+          const but = document.querySelector('#moreClick');
+          but.innerHTML = "There are no more comments"
+          but.setAttribute('class', 'disabled')
+        }
+      });
     })
+    CKEDITOR.replace('threadEditor')
+
 </script>
 {% endblock %}

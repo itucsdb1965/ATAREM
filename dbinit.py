@@ -134,7 +134,7 @@ def initialize(url):
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam venenatis commodo magna sed sollicitudin. In vel venenatis libero. Fusce in ultricies est. Ut porta elit ac lacus consequat, quis malesuada ex aliquam. Aenean lorem arcu, pellentesque at mattis pretium, suscipit maximus arcu. Duis nulla orci, vulputate ac mauris et, tincidunt cursus odio. Cras ante ante, maximus eget erat nec, lobortis rutrum ante. Vivamus ac nunc ornare, viverra dui cursus, pretium neque. Cras non nisi vitae sem egestas tincidunt vel ac tellus. Suspendisse eleifend fermentum ultricies. Cras semper porta ex, vel posuere quam fermentum ut. 
     """.split(" ")
     head_part = """
-      Lorem ipsum dolor sit amet
+      Lorem ipsum dolor sit amet Ut condimentum turpis at
     """.split(" ")
     with dbapi2.connect(url) as connection:
         cursor = connection.cursor()
@@ -179,8 +179,8 @@ def initialize(url):
         cur.execute('SELECT COUNT(*) FROM comments')
         count_comments = cur.fetchone()
         if count_comments[0] < 10:
-          for i in range(0, 25):
-            for j in range(0, 3):
+          for i in range(0, 3):
+            for j in range(0, 25):
               shuffle(content_part)
               user = random.choice(names)
               bodddy  = " ".join(content_part)

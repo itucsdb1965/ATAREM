@@ -235,10 +235,19 @@ def createThreadRoute():
             flash('Something went wrong, please try again later', 'warning')        
     return render_template('createthread.html', form=form)
 
-@app.route('/forum/thread/<id>')
+class CommentForm(Form):
+    body = TextAreaField('Body', [validators.Length(min=10)])
+
+@app.route('/forum/thread/<id>', methods=['POST', 'GET'])
 @is_logged_in
 def singleThread(id):
-    return render_template('singlethread.html', id=id)
+    form = CommentForm(request.form)
+    if request.method == 'POST':
+        body = form.body.data
+        username = session['username']
+        response = requests.post(f"{domain}/api/forum/comment?username={username}&body={body}&thread={id}")
+        return redirect(f"{domain}/forum/thread/{id}")
+    return render_template('singlethread.html', id=id, form=form)
 
 
 

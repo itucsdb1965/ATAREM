@@ -31,7 +31,7 @@
                 <ul id="unordered2">
                   {% for comment in comments %}
                     <li class="fadeIn animated">
-                      <a href="/forum/thread/{{comment['thread']}}"><h6>{{comment["body"][0:60]}}<small style="float: right;">{{comment["username"]}}</small></h6></a>
+                      <a href="/forum/thread/{{comment['thread']}}"><h6>{{comment["body"][0:50]}}<small style="float: right;">{{comment["username"]}}</small></h6></a>
                       <hr>
                     </li>
                   {% endfor %}
@@ -85,9 +85,10 @@
       .then(data => {
         for(let i = 0; i < data.content.length; i++) {
         let item = data.content[i]
+        let bod = item.body.slice(0, 50)
         $('#unordered2').append(
           `<li class="fadeIn animated">
-            <a href="/forum/thread/${item.thread}"><h6>${item.body}<small style="float: right;">${item.username}</small></h6></a>
+            <a href="/forum/thread/${item.thread}"><h6>${bod}<small style="float: right;">${item.username}</small></h6></a>
             <hr>
           </li>`
         );
