@@ -520,5 +520,18 @@ def getComment():
     else:
         return {"content": "failure"}
 
+# @Route /api/movie/rate
+# @Methods POST
+# @Desc Rating for a movie with id and rating parameters
+@app.route('/api/movie/rate')
+def RateMovie():
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    id = request.args.get('id')
+    rating = request.args.get('rating')
+    cur.execute(f"UPDATE MOVIES SET overallRating=(overallRating*votes + {rating})/(votes+1), votes=votes+1 WHERE id = {id}")
+    con.commit()
+    cur.close()
+    return {"content": "success"}
+    
 if __name__ == '__main__':
     app.run(debug=True)
