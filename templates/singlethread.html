@@ -34,7 +34,8 @@
         let thread = data.content.thread;
         $('#thread').append(`
           <li class="fadeIn animated">
-            <h1 class="mb-2">${thread.title} <small>from ${thread.username}</small></h1>
+            <h1 class="mb-2">${thread.title}</h1>
+            <small style="float: right;">from ${thread.username}</small>
             <h4>${thread.body}</h4>
           </li>`)
       }

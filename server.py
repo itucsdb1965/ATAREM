@@ -245,7 +245,7 @@ def singleThread(id):
     if request.method == 'POST':
         body = form.body.data
         username = session['username']
-        response = requests.post(f"{domain}/api/forum/comment?username={username}&body={body}&thread={id}")
+        requests.post(f"{domain}/api/forum/comment?username={username}&body={body}&thread={id}")
         return redirect(f"{domain}/forum/thread/{id}")
     return render_template('singlethread.html', id=id, form=form)
 

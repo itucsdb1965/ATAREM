@@ -180,7 +180,7 @@ def initialize(url):
         count_comments = cur.fetchone()
         if count_comments[0] < 10:
           for i in range(0, 3):
-            for j in range(0, 25):
+            for j in range(1, 26):
               shuffle(content_part)
               user = random.choice(names)
               bodddy  = " ".join(content_part)

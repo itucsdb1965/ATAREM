@@ -43,6 +43,13 @@
     </div>
   </div></div>
 <script>
+  function strip(str) {
+    if ((str===null) || (str===''))
+        return false;
+    else
+      str = str.toString();
+    return str.replace(/<[^>]*>/g, '');
+  }
   count = 5
   commcount = 5
   flagThread = false
@@ -85,7 +92,7 @@
       .then(data => {
         for(let i = 0; i < data.content.length; i++) {
         let item = data.content[i]
-        let bod = item.body.slice(0, 50)
+        let bod = strip(item.body.slice(0, 50));
         $('#unordered2').append(
           `<li class="fadeIn animated">
             <a href="/forum/thread/${item.thread}"><h6>${bod}<small style="float: right;">${item.username}</small></h6></a>
