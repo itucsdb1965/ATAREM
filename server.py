@@ -402,23 +402,7 @@ def updateUser():
     cur.close()
     return {"content": "success"}
 
-"""# @Route /api/user/watchlist
-# @Methods GET
-# @Desc get the parameters from db
-@app.route('/api/user/watchlist/<username>',methods=['GET'])
-def watchlist_user(username):
-    cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'") 
-    movie_id =cur.fetchall()
-    title=[]
-    for i in movie_id:
-        cur.execute(f"SELECT title FROM movies WHERE id='%s'" % (i[0]))
-        temp=cur.fetchone()
-        title.append(temp)
-    cur.close()
-    if(title==[]):
-        return{"content": "empty_list"}
-    return{"content": list(title)}"""
+
 
 # @Route /api/forum/thread
 # @Methods POST
