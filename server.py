@@ -359,7 +359,7 @@ def updateUser():
     cur.close()
     return {"content": "success"}
 
-# @Route /api/user/watchlist
+"""# @Route /api/user/watchlist
 # @Methods GET
 # @Desc get the parameters from db
 @app.route('/api/user/watchlist/<username>',methods=['GET'])
@@ -375,7 +375,7 @@ def watchlist_user(username):
     cur.close()
     if(title==[]):
         return{"content": "empty_list"}
-    return{"content": list(title)}
+    return{"content": list(title)}"""
 
 # @Route /api/forum/thread
 # @Methods POST
