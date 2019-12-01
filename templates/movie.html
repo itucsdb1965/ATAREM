@@ -25,8 +25,13 @@
     <form form class="w-bg" action="" method="post" >
       <input type="submit" value="Add to my watchlist" class="btn btn-primary btn-black" /> 
     </form>
-    <form action="/api/try" method="post">
-      <fieldset id="rating" class="rating w-bg" style="">
+    <div class="w-bg">
+        <h3>IMDB Rating: {{movie["rating"]}}</h3>
+        <h3>User Rating: {% if movie["overallrating"] > 0 %} {{'%.2f' % movie["overallrating"]}}{%else%} 0{%endif%}/5 out of {{movie["votes"]}} votes.</h3>
+    </div>
+    <div>
+      <h3 class="w-bg">Vote Now!
+      <fieldset id="rating" class="rating " style="">
           <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
           <input type="radio" id="star4half" name="rating" value="4.5" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
           <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
@@ -37,16 +42,17 @@
           <input type="radio" id="star1half" name="rating" value="1.5" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
           <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
           <input type="radio" id="starhalf" name="rating" value="0.5" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-        </fieldset>
-    </form>
+        </fieldset>  
+      </h3>
+    </div>
   </div>
 </div>
 <script>
-  const id = {{id}}
+  const id = {{movie["id"]}}
+  const reload = false;
   $('#rating').change(function(e) {
-    fetch(`/api/movie/rate?rating=${e.target.value}&id=${id}`, { method = 'POST'})
-      .then(data => data.json())
-      .then(result => console.log(result));
+    fetch(`/api/movie/rate?id=${id}&rating=${e.target.value}`, { method: 'POST'});
+    location.reload();
   });
 </script>
 {% endblock %}

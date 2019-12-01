@@ -195,7 +195,7 @@ def stars():
 def dashboard():
     return render_template('dashboard.html')
 
-@app.route('/watchlist/<string:username>/')
+@app.route('/watchlist')
 @is_logged_in
 def watchlist(username):
     username=session['username']
@@ -523,7 +523,7 @@ def getComment():
 # @Route /api/movie/rate
 # @Methods POST
 # @Desc Rating for a movie with id and rating parameters
-@app.route('/api/movie/rate')
+@app.route('/api/movie/rate', methods=['POST'])
 def RateMovie():
     cur = con.cursor(cursor_factory=extras.DictCursor)
     id = request.args.get('id')
@@ -532,6 +532,6 @@ def RateMovie():
     con.commit()
     cur.close()
     return {"content": "success"}
-    
+
 if __name__ == '__main__':
     app.run(debug=True)
