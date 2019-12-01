@@ -89,6 +89,8 @@ class UpdateForm(Form):
         validators.DataRequired(),
         validators.Length(min=6, max=16)  ])
 
+class RatingForm(Form):
+    point = StringField('')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -181,13 +183,32 @@ def movie(id):
     movie = requests.get(f'{domain}/api/movie/'+id)
     return render_template('movie.html', movie=movie.json()["content"])
 
-@app.route('/stars')
+@app.route('/stars',methods=['GET','POST'])
 def stars():
+    form=RatingForm(request.form)
+    id = request.form.get('user_id')
     cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT * FROM stars ")
+    cur.execute(f"SELECT * FROM stars ORDER BY id ASC ")
     stars = cur.fetchall()
-    
-    return render_template('stars.html', stars=stars)
+    cur.close()
+    if(request.method == 'POST'):
+        
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        cur.execute(f"SELECT user_rating FROM stars WHERE id={id} ")
+        star_rate=cur.fetchone()
+        try:
+            user_rating = int(form.point.data) + int(star_rate['user_rating'])
+        except:
+            flash("Must be a integer value","danger")
+            return redirect(url_for('stars'))
+
+        cur.execute(
+        f"UPDATE stars SET user_rating={user_rating}  WHERE id={id}")
+        con.commit()
+        cur.close
+        return redirect(url_for('stars'))
+       
+    return render_template('stars.html', stars=stars , form=form)
 
 
 @app.route('/dashboard')
@@ -195,9 +216,10 @@ def stars():
 def dashboard():
     return render_template('dashboard.html')
 
+
 @app.route('/watchlist')
 @is_logged_in
-def watchlist(username):
+def watchlist():
     username=session['username']
     cur = con.cursor(cursor_factory=extras.DictCursor)
     cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'") 
@@ -383,23 +405,7 @@ def updateUser():
     cur.close()
     return {"content": "success"}
 
-"""# @Route /api/user/watchlist
-# @Methods GET
-# @Desc get the parameters from db
-@app.route('/api/user/watchlist/<username>',methods=['GET'])
-def watchlist_user(username):
-    cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'") 
-    movie_id =cur.fetchall()
-    title=[]
-    for i in movie_id:
-        cur.execute(f"SELECT title FROM movies WHERE id='%s'" % (i[0]))
-        temp=cur.fetchone()
-        title.append(temp)
-    cur.close()
-    if(title==[]):
-        return{"content": "empty_list"}
-    return{"content": list(title)}"""
+
 
 # @Route /api/forum/thread
 # @Methods POST
