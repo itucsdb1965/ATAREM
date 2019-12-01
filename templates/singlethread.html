@@ -42,7 +42,7 @@
         const but = document.querySelector('#moreClick');
         but.innerHTML = "No comments here"
         but.setAttribute('class', 'disabled')
-      } else if (com.length < 5) {
+      } else if (com.length <= 5) {
         const but = document.querySelector('#moreClick');
           but.innerHTML = "There are no more comments"
           but.setAttribute('class', 'disabled')
