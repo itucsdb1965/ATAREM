@@ -89,6 +89,8 @@ class UpdateForm(Form):
         validators.DataRequired(),
         validators.Length(min=6, max=16)  ])
 
+class RatingForm(Form):
+    point = StringField('')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -213,6 +215,8 @@ def stars():
 @is_logged_in
 def dashboard():
     return render_template('dashboard.html')
+
+
 
 @app.route('/watchlist')
 @is_logged_in
