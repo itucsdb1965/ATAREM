@@ -130,12 +130,12 @@ CREATE TABLE IF NOT EXISTS TICKETS(
 
 def initialize(url):
     names = ["ugure17", "stranger", "hola"]
-    content = """
+    content_part = """
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam venenatis commodo magna sed sollicitudin. In vel venenatis libero. Fusce in ultricies est. Ut porta elit ac lacus consequat, quis malesuada ex aliquam. Aenean lorem arcu, pellentesque at mattis pretium, suscipit maximus arcu. Duis nulla orci, vulputate ac mauris et, tincidunt cursus odio. Cras ante ante, maximus eget erat nec, lobortis rutrum ante. Vivamus ac nunc ornare, viverra dui cursus, pretium neque. Cras non nisi vitae sem egestas tincidunt vel ac tellus. Suspendisse eleifend fermentum ultricies. Cras semper porta ex, vel posuere quam fermentum ut. 
-    """
-    heading = """
+    """.split(" ")
+    head_part = """
       Lorem ipsum dolor sit amet
-    """
+    """.split(" ")
     with dbapi2.connect(url) as connection:
         cursor = connection.cursor()
         for statement in INIT_STATEMENTS:
@@ -172,22 +172,19 @@ def initialize(url):
         count_posts = cur.fetchone()
         if count_posts[0] < 10:
           for i in range(0, 25):
-            head_part = heading.split(" ")
             shuffle(head_part)
-            content_part = content.split(" ")
             shuffle(content_part)
             user = random.choice(names)
             cur.execute('INSERT INTO forumposts (username, title, body) VALUES (%s, %s, %s)', (user, " ".join(head_part), " ".join(content_part)))
-        # cur.execute('SELECT COUNT(*) FROM comments')
-        # count_comments = cur.fetchone()
-        # if count_comments[0] < 10:
-        #   for i in range(0, 25):
-        #     for j in range(0, 3):
-        #       content_part = content.split(" ")
-        #       shuffle(content_part)
-        #       user = random.choice(names)
-        #       bodddy  = " ".join(content_part)
-        #       cur.execute(f'INSERT INTO forumposts (username, thread, body) VALUES ({user}, {j}, {bodddy})')
+        cur.execute('SELECT COUNT(*) FROM comments')
+        count_comments = cur.fetchone()
+        if count_comments[0] < 10:
+          for i in range(0, 25):
+            for j in range(0, 3):
+              shuffle(content_part)
+              user = random.choice(names)
+              bodddy  = " ".join(content_part)
+              cur.execute(f"INSERT INTO forumposts (username, thread, body) VALUES ({user}, {j}, '{bodddy}')")
         connection.commit()
         cursor.close()
 
