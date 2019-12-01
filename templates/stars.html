@@ -13,13 +13,29 @@
          <th>Name</th>
          <th>Rating</th>
          <th>Popular Films</th>
+         <th>Give a point</th>
+         <th>Starpoint</th>
        </tr>
-      
+       {% set i = namespace(value=0) %}
       {% for star in stars %}
       <tr>
         <td><a href="{{star[1]}}">{{star[2]}}</a>  </td>
         <td>{{star[4]}}</td>
         <td>{{star[3][0]}}</td>
+        
+        <td>
+            {% from "includes/_formhelpers.html" import render_field %}
+            <form name="row{{i.value}}" action="/stars" method="post" >
+            <div class="form-group">
+                {{render_field(form.point, class_="form-control",value=0)}}
+              </div>
+              <input type="hidden" value="{{star[0]}}" name="user_id" />
+              <input type="submit" value="Submit your point" class="btn btn-primary btn-black"  /> 
+            </form>
+            </td>
+            {% set i.value = i.value + 1 %}
+        <td>{{star[5]}}</td>
+    
       </tr>
       {% endfor %}
     </table>
