@@ -115,11 +115,6 @@ def register():
 @is_logged_in
 def update_infos():
     cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT EXISTS(SELECT *FROM watchlist WHERE username='{username}' and movie_id = '{id}') ")
-    exist=cur.fetchone()
-    if(exist[0]==False): 
-        session.clear()
-        return redirect(url_for('login'))
     username =session['username']
     cur.execute(f"SELECT * FROM users WHERE username='%s'"%username)
     user =cur.fetchone()
@@ -143,7 +138,7 @@ def update_infos():
             flash("Your password is wrong","danger")
             return render_template('dashboard.html', form=form,user=user)
        
-        response = requests.post( f'http://itucsdb1965.herokuapp.com/api/user/dashboard?name={name}&username={username}&email={email}&newpassword={newpassword}&oldusername={oldusername}')
+        response = requests.post( f'http://localhost:5000/api/user/dashboard?name={name}&username={username}&email={email}&newpassword={newpassword}&oldusername={oldusername}')
         
         if response.json()["content"] == "success":          
             flash("Your informations has been updated","success")  
@@ -157,6 +152,13 @@ def logout():
     session.clear()
     flash('Logged out successfully', 'success')
     return redirect(url_for('login'))
+
+
+@app.route('/discussion')
+@is_logged_in
+def discussion():
+    return render_template('discussion.html')
+
 
 @app.route('/movies')
 def movies():
