@@ -641,10 +641,10 @@ def deleteMovie():
     cur.close()
     return {"content": "success"}
 
-# @Route /api/thread/edit
+# @Route /api/forum/thread/edit
 # @Methods POST
 # @Desc Edit thread with id, title and body parameters
-@app.route('/api/thread/edit', methods=['POST'])
+@app.route('/api/forum/thread/edit', methods=['POST'])
 def editThread():
     id = request.args.get('id')
     title = request.args.get('title')
