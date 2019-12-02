@@ -264,7 +264,7 @@ def theater(id):
             cur.close()
             flash('Added to your watchlist', 'success')
     movie = requests.get(f'{domain}/api/inTheater/'+id)
-    return render_template('movie.html', movie=movie.json()["content"])
+    return render_template('theater.html', movie=movie.json()["content"])
 
 
 @app.route('/forum')
