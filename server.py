@@ -216,25 +216,57 @@ def stars():
 def dashboard():
     return render_template('dashboard.html')
 
-
 @app.route('/watchlist')
 @is_logged_in
 def watchlist():
     username=session['username']
     cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'") 
+    cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'and type =0") 
     movie_id =cur.fetchall()
     title=[]
     for i in movie_id:
         cur.execute(f"SELECT title FROM movies WHERE idimdb='{i[0]}'" )
         temp=cur.fetchone()
         title.append(temp)
+    cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'and type =1") 
+    id =cur.fetchall()
+    for i in id:
+        cur.execute(f"SELECT title FROM in_theaters WHERE id='{i[0]}'" )
+        temp=cur.fetchone()
+        title.append(temp)
     cur.close()
+
    
     if(title==[]):
         return render_template('watchlist.html',username=username,title=[["No movie has been added"]])
 
     return render_template('watchlist.html',username=username,title=title)
+
+@app.route('/inTheaters')
+@is_logged_in
+def inTheaters(): 
+        
+    return render_template('inTheaters.html')
+
+@app.route('/inTheaters/<string:id>/',methods=['GET','POST'])
+def theater(id):
+    username = session['username']
+    if(request.method == 'POST'):
+        cur = con.cursor(cursor_factory=extras.DictCursor) 
+        cur.execute(f"SELECT EXISTS(SELECT *FROM watchlist WHERE username='{username}' and movie_id = '{id}') ")
+        exist=cur.fetchone()
+        
+        if(exist[0]==True): 
+            flash('It is already in your watchlist', 'danger')
+        else:
+            cur.execute(f"INSERT INTO watchlist(username,movie_id,type) VALUES ('{username}','{id}','{1}')")
+            con.commit()
+            cur.close()
+            flash('Added to your watchlist', 'success')
+    movie = requests.get(f'{domain}/api/inTheater/'+id)
+    return render_template('movie.html', movie=movie.json()["content"])
+
+
 @app.route('/forum')
 @is_logged_in
 def forum():
@@ -538,6 +570,22 @@ def RateMovie():
     con.commit()
     cur.close()
     return {"content": "success"}
+
+# @Route /api/inTheaters
+# @Methods get
+# @Desc getting the intheater movies from database
+@app.route('/api/inTheaters', methods=['GET'])
+def getTheaters():
+    count = request.args.get("count")
+    if int(count) >= 10:
+        return {"content": {}}
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"SELECT * FROM in_theaters WHERE id>{int(count)} AND id<={int(count)+9}")
+    movies = cur.fetchall()
+    for i in range(0, len(movies)):
+        movies[i] = dict(movies[i])
+    cur.close()
+    return {"content": movies}
 
 if __name__ == '__main__':
     app.run(debug=True)
