@@ -17,11 +17,25 @@
   border-color: #111
 }
 
+.btn-green {
+  color: #fff;
+  background-color: #32CD32;
+  border-color: #32CD32
+}
+
 .btn-black:hover {
   transition: .2s;
   color: #fff;
   background-color: #111;
   border-color: #111;
+  opacity: .9;
+}
+
+.btn-green:hover {
+  transition: .2s;
+  color: #fff;
+  background-color: #32CD32;
+  border-color: #32CD32;
   opacity: .9;
 }
 

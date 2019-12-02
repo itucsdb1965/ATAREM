@@ -617,10 +617,10 @@ def getTheater(id):
     cur.close()
     return {"content": dict(movie)}
 
-# @Route /api/thread/delete
+# @Route /api/forum/thread/delete
 # @Methods POST
 # @Desc Remove thread with parameter id
-@app.route('/api/thread/delete', methods=['POST'])
+@app.route('/api/forum/thread/delete', methods=['POST'])
 def deleteThread():
     id = request.args.get('id')
     cur = con.cursor(cursor_factory=extras.DictCursor)
@@ -654,5 +654,30 @@ def editThread():
     con.commit()
     cur.close()
     return {"content": "success"}
+
+# @Route /api/forum/thread/rep
+# @Methods POST
+# @Desc Update rep point with parameter id
+@app.route('/api/forum/thread/rep', methods=['POST'])
+def repThread():
+    id = request.args.get('id')
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"UPDATE forumposts SET rep=rep+1 WHERE id={id}")
+    con.commit()
+    cur.close()
+    return {"content": "success"}
+
+# @Route /api/user/delete
+# @MEthods POST
+# @Desc Remove user with parameter username
+@app.route('/api/user/delete', methods=['POST'])
+def deleteUser():
+    username = request.args.get('username')
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"DELETE FROM USERS WHERE username='{username}'")
+    con.commit()
+    cur.close()
+    return {"content": "success"}
+
 if __name__ == '__main__':
     app.run(debug=True)

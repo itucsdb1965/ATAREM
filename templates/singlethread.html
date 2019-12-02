@@ -1,12 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="form-group" id="delete">
-
-</div>
+<div class="form-group" id="delete"></div>
+<div class="form-group" id="editIt"></div>
+<div class="form-group" id="reput"></div>
 <ul id="thread">
-
 </ul>
+<hr>
+<h3 id="reputLabel"></h3>
 <h2 class="mt-5">Comments</h2>
 <hr>
 <ul id="comments" class="mb-2">
@@ -36,6 +37,10 @@
         let comments = data.content.comments;
         com = comments;
         let thread = data.content.thread;
+        $('#reputLabel').append(`
+        <p>
+          This thread has ${thread.rep} rep points
+        </p>`);
         $('#thread').append(`
           <li class="fadeIn animated">
             <small style="float: right;">from ${thread.username}</small>
@@ -44,9 +49,15 @@
           </li>`)
         if(thread.username == username) {
           $('#delete').append(`
-            <p id="delButton"><input type="submit" class="btn btn-black" value="Delete"></p>
-            <p class="mt-3" id="editButton"><a style="color: white;" href='/forum/thread/edit/${id}' type="submit" class="btn btn-black">Edit</a></p>
+            <p class="btn btn-black" id="deleteButton">Delete</p>
           `)
+          $('#editIt').append(`
+            <p class="mt-3" id="editButton"><a style="color: white;" href='/forum/thread/edit/${id}' type="submit" class="btn btn-black">Edit</a></p>
+          `);
+        } else {
+          $('#reput').append(`
+            <p class="btn btn-green" id="repButton">+Rep</p>
+          `);
         }
       }
       if (com.length == 0) {
@@ -84,10 +95,10 @@
         }
       });
     })
-    $('#delButton').on('click', () => {
+    $('#delete').on('click', () => {
       $.ajax({
       type: "POST",
-      url: `/api/thread/delete?id=${id}`,
+      url: `/api/forum/thread/delete?id=${id}`,
       success: function() {
         console.log("success");
         location.replace('http://itucsdb1965.herokuapp.com/forum');
@@ -95,8 +106,17 @@
     })
     });
     $('#editButton').on('click', () => {
-      location.replace(`http://127.0.0.1:5000/forum/thread/edit/${id}`)
+      location.replace(`http://itucsdb1965.herokuapp.com/forum/thread/edit/${id}`)
     });
+    $('#reput').on('click', () => {
+      $.ajax({
+        type: "POST",
+        url: `http://itucsdb1965.herokuapp.com/api/forum/thread/rep?id=${id}`,
+        success: function() {
+          location.reload();
+        }
+      })
+    })
     CKEDITOR.replace('threadEditor')
 
 </script>
