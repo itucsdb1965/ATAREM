@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container">
+  <div class="movie_card" id="bright">
+    <div class="info_section">
+      <div class="movie_header">
+        <h1>{{movie['title']}}</h1>
+        <h4>{{movie['year']}}, {% for director in movie['directors'] %} {{director}}{% if loop.index != loop.length %},
+          {% endif %} {% endfor %}</h4>
+      </div>
+      <div class="movie_desc">
+        <p class="text">
+          {{movie['simpleplot']}}
+        </p>
+        <span class="minutes">{{movie['runtime']}}</span>
+        <p class="type">{% for genre in movie['genres'] %} {{genre}}{% if loop.index != loop.length %},
+          {% endif %} {% endfor %}</p>
+      </div>
+    </div>
+    <div class="blur_back" style="background-image: url({{movie['urlposter']}});">
+    </div>
+  </div>
+  <form form class="w-bg" action="" method="post" >
+           
+        <input type="submit" value="Add to my watchlist" class="btn btn-primary btn-black" /> 
+      </form>
+</div>
+{% endblock %}
