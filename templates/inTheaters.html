@@ -1,0 +1,80 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h1 class="text-center">Top Rated Movies</h1>
+<h3 class="text-center">Top 250 as rated by IMDb Users</h3>
+<div id="main" class="row">
+</div>
+<div class="d-flex justify-content-center mb-3" id="sentinel">
+  <div class="spinner-border" role="status"></div>
+</div>
+<script>
+  const sentinel = document.querySelector('#sentinel')
+  let count = 0
+  
+  function loadItems() {
+    fetch(`/api/inTheaters?count=${count}`)
+      .then(response => response.json())
+      .then(data => {
+        if (!data.content.length) {
+          sentinel.innerHTML = "For this is the end, hold your breath and count to ten...";
+          setTimeout(() => {
+            console.log("https://www.youtube.com/watch?v=DeumyOzKqgI")
+          }, 10000)
+        }
+        for(let i = 0; i < data.content.length; i++) {
+          let item = data.content[i]
+          let genres = ""
+          for(let j = 0; j < item.genres.length; j++) {
+            genres += item.genres[j];
+            if(j+1 != item.genres.length) {
+              genres += ", "
+            }
+          }
+          $('#main').append(
+            `<div class="card animated fadeIn shadow-sm">
+              <div class="imgBx">
+                <a href="inTheaters/${item.id}">
+                  <img src=${item.urlposter.split('_V1_, 1')[0] + '_V1_.jpg'} alt="Poster">
+                </a>
+              </div>
+              <div class="details">
+                <h2>${item.title}
+                      <br>
+                    <span>
+                      ${genres}
+                    </span>
+                </h2>
+              </div>
+            </div>`
+          );
+          count++;
+        }
+        if(count == 9) {
+          window.scrollTo(0, 0)
+        }
+      })
+  }
+
+  const intersectionObserver = new IntersectionObserver(entries => {
+    if(entries[0].intersectionRatio <= 0) {
+      return;
+    } 
+    loadItems();
+  })
+  intersectionObserver.observe(sentinel);
+</script>
+  <!-- {% for movie in movies %}
+  <div class="card">
+    <div class="imgBx">
+      <a href="movie/{{movie['idimdb']}}">
+        <img src={{movie['urlposter'].split('_V1_', 1)[0] + '_V1_.jpg'}} alt="Poster">
+      </a>
+    </div>
+    <div class="details">
+      <h2>{{movie['title']}}<br><span>{% for genre in movie['genres'] %} {{genre}}{% if loop.index != loop.length %},
+          {% endif %} {% endfor %}</span></h2>
+    </div>
+  </div>
+  {% endfor %} -->
+{% endblock %}
