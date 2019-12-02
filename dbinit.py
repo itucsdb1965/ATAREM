@@ -103,7 +103,7 @@ CREATE TABLE  IF NOT EXISTS IN_THEATERS(
   type INT NOT NULL, -- 0 for in theaters, 1 for incoming
   title VARCHAR,
   year INT NOT NULL,
-  release_date DATE NOT NULL ,
+  releaseDate DATE NOT NULL ,
   directors VARCHAR[] NOT NULL,
   genres  VARCHAR[] NOT NULL,
   simpleplot VARCHAR NOT NULL,
