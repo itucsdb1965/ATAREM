@@ -21,12 +21,13 @@ CREATE TABLE IF NOT EXISTS USERS (
   register_date DATE NOT NULL default CURRENT_DATE
 );
 
-
 CREATE TABLE IF NOT EXISTS WATCHLIST(
   id BIGSERIAL PRIMARY KEY NOT NULL,
   username VARCHAR(25) NOT NULL,
-  movie_id VARCHAR(25) NOT NULL
+  movie_id VARCHAR(25) NOT NULL,
+  type INT default 0
 );
+
 
 /* MOVIES */
 
@@ -191,6 +192,30 @@ def initialize(url):
               cur.execute(f"INSERT INTO comments (username, thread, body) VALUES ('{user}', '{j}', '{bodddy}')")
         connection.commit()
         cursor.close()
+        
+        cur.execute('SELECT COUNT(*) FROM IN_THEATERS')
+        count_theater=cur.fetchone()
+        if count_theater[0]<4:
+          resp_theaters=requests.get("https://www.myapifilms.com/imdb/inTheaters?token=93dd88e2-17fb-40e8-89a3-1707b3c8ac82&format=json&language=en-us")
+          data_t= json.loads(resp_theaters.text)
+          
+          movies=data_t['data']['inTheaters']
+          for movie in movies:
+            try:
+              movies=movie['movies']
+            except:
+              pass
+          for movie in movies:
+              directors = []
+              writers = []
+             
+              for director in movie['directors']:
+                  directors.append(director['name'])
+              for writer in movie['writers']:
+                  writers.append(writer['name'])
+             
+              cur.execute("INSERT INTO IN_THEATERS (title, year, directors, writers, urlPoster, genres, simpleplot,rating, runtime, urlIMDB,releaseDate) VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s)",
+                          (movie['title'], movie['year'], directors, writers, movie['urlPoster'], movie['genres'], movie['simplePlot'] , movie['rating'], movie['runtime'], movie['urlIMDB'], movie['releaseDate']))      
 
 if __name__ == "__main__":
     url = os.getenv("DATABASE_URL")
