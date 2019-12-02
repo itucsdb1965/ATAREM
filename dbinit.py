@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS DISCUSSION(
 
 CREATE TABLE  IF NOT EXISTS IN_THEATERS(
   id BIGSERIAL PRIMARY KEY NOT NULL,
-  type INT NOT NULL, -- 0 for in theaters, 1 for incoming
+  type INT DEFAULT 0, -- 0 for in theaters, 1 for incoming
   title VARCHAR,
   year INT NOT NULL,
   releaseDate DATE NOT NULL ,
