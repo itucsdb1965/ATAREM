@@ -313,7 +313,29 @@ def singleThread(id):
         username = session['username']
         requests.post(f"{domain}/api/forum/comment?username={username}&body={body}&thread={id}")
         return redirect(f"{domain}/forum/thread/{id}")
-    return render_template('singlethread.html', id=id, form=form)
+    return render_template('singlethread.html', id=id, form=form, user=session["username"])
+
+class EditThreadForm(Form):
+    title = StringField('Title', [validators.Length(min=6, max=200)])
+    body = TextAreaField('Body', [validators.Length(min=30)])
+
+@app.route('/forum/thread/edit/<id>', methods=['POST', 'GET'])
+@is_logged_in
+def editThreadRoute(id):
+    form = EditThreadForm(request.form)
+    thread = requests.get(f"{domain}/api/forum/thread?id={id}")
+    if(request.method == 'POST'):
+        title = form.title.data
+        body = form.body.data
+        response = requests.post(f"{domain}/api/forum/thread/edit?title={title}&body={body}&id={id}")
+        response = response.json()
+        if(response['content'] == "success"):
+            flash('It is now correct', 'success')
+            return redirect(url_for('forum'))
+        else:
+            flash('Something went wrong, please try again later', 'warning')        
+    return render_template('editThread.html', form=form, thread=thread.json()["content"])
+
 
 
 
@@ -595,5 +617,42 @@ def getTheater(id):
     cur.close()
     return {"content": dict(movie)}
 
+# @Route /api/thread/delete
+# @Methods POST
+# @Desc Remove thread with parameter id
+@app.route('/api/thread/delete', methods=['POST'])
+def deleteThread():
+    id = request.args.get('id')
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"DELETE FROM FORUMPOSTS WHERE id={id}")
+    con.commit()
+    cur.close()
+    return {"content": "success"}
+
+# @Route /api/movie/delete
+# @Methods POST
+# @Desc Remove movie with parameter id
+@app.route('/api/movie/delete', methods=['POST'])
+def deleteMovie():
+    id = request.args.get('id')
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"DELETE FROM MOVIES WHERE id={id}")
+    con.commit()
+    cur.close()
+    return {"content": "success"}
+
+# @Route /api/thread/edit
+# @Methods POST
+# @Desc Edit thread with id, title and body parameters
+@app.route('/api/thread/edit', methods=['POST'])
+def editThread():
+    id = request.args.get('id')
+    title = request.args.get('title')
+    body = request.args.get('body')
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"UPDATE forumposts SET title='{title}', body='{body}' WHERE id={id}")
+    con.commit()
+    cur.close()
+    return {"content": "success"}
 if __name__ == '__main__':
     app.run(debug=True)

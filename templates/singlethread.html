@@ -1,6 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+<div class="form-group" id="delete">
+
+</div>
 <ul id="thread">
 
 </ul>
@@ -21,6 +24,7 @@
   </form>
 <script>
   const id = {{id}};
+  let username = "{{user}}";
   let count = 5;
   let com;
   fetch(`/api/forum/thread/single?id=${id}`)
@@ -34,10 +38,16 @@
         let thread = data.content.thread;
         $('#thread').append(`
           <li class="fadeIn animated">
-            <h1 class="mb-2">${thread.title}</h1>
             <small style="float: right;">from ${thread.username}</small>
+            <h1 class="mb-2">${thread.title}</h1>
             <h4>${thread.body}</h4>
           </li>`)
+        if(thread.username == username) {
+          $('#delete').append(`
+            <p id="delButton"><input type="submit" class="btn btn-black" value="Delete"></p>
+            <p class="mt-3" id="editButton"><a style="color: white;" href='/forum/thread/edit/${id}' type="submit" class="btn btn-black">Edit</a></p>
+          `)
+        }
       }
       if (com.length == 0) {
         const but = document.querySelector('#moreClick');
@@ -48,7 +58,7 @@
           but.innerHTML = "There are no more comments"
           but.setAttribute('class', 'disabled')
       }
-      for(let i = 0; i < 5; i++) {
+      for(let i = 0; i < com.length; i++) {
         $('#comments').append(`
           <li class="fadeIn animated">
             <h5 class="mb-2">${com[i].username}</h5>
@@ -74,6 +84,19 @@
         }
       });
     })
+    $('#delButton').on('click', () => {
+      $.ajax({
+      type: "POST",
+      url: `/api/thread/delete?id=${id}`,
+      success: function() {
+        console.log("success");
+        location.replace('http://itucsdb1965.herokuapp.com/forum');
+      }
+    })
+    });
+    $('#editButton').on('click', () => {
+      location.replace(`http://127.0.0.1:5000/forum/thread/edit/${id}`)
+    });
     CKEDITOR.replace('threadEditor')
 
 </script>
