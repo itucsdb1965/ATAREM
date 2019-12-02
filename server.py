@@ -587,5 +587,13 @@ def getTheaters():
     cur.close()
     return {"content": movies}
 
+@app.route('/api/inTheater/<id>', methods=['GET'])
+def getTheater(id):
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"SELECT * FROM in_theaters WHERE id='{id}'")
+    movie = cur.fetchone()
+    cur.close()
+    return {"content": dict(movie)}
+
 if __name__ == '__main__':
     app.run(debug=True)
