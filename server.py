@@ -420,7 +420,7 @@ def registerUser():
 # @Route /api/user/dashboard
 # @Methods POST
 # @Desc Update a user with parameters
-@app.route('/api/user/dashboard', methods=['POST'])
+@app.route('/api/user/dashboard', methods=['POST'])#NOT WORKING
 def updateUser():
    
     name = request.args.get("name")
