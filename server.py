@@ -153,13 +153,6 @@ def logout():
     flash('Logged out successfully', 'success')
     return redirect(url_for('login'))
 
-
-@app.route('/discussion')
-@is_logged_in
-def discussion():
-    return render_template('discussion.html')
-
-
 @app.route('/movies')
 def movies():
     return render_template('movies.html')
@@ -214,7 +207,14 @@ def stars():
 @app.route('/dashboard')
 @is_logged_in
 def dashboard():
-    return render_template('dashboard.html')
+    cur = con.cursor(cursor_factory=extras.DictCursor) 
+    cur.execute(f"SELECT EXISTS(SELECT *FROM watchlist WHERE username='{username}' and movie_id = '{id}') ")
+    exist=cur.fetchone()
+    if(exist[0]==False): 
+        session['username'] = None
+        return redirect(url_for('login'))
+    else:
+        return render_template('dashboard.html')
 
 @app.route('/watchlist')
 @is_logged_in
