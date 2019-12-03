@@ -273,7 +273,6 @@ def forum():
     response = requests.get(f'{domain}/api/forum/thread?count=5')
     response2 = requests.get(f'{domain}/api/forum/comment?count=5')
     comments = []
-    threads = []
     for comment in response2.json()["content"]:
         co = comment
         co["body"] = cleanhtml(comment["body"])
