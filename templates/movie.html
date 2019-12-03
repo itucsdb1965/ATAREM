@@ -23,14 +23,14 @@
   </div>
   <div style="display: flex;">
     <form form class="w-bg" action="" method="post" >
-      <input type="submit" value="Add to my watchlist" class="btn btn-primary btn-black" /> 
+      <input type="submit" value="Add to my watchlist" class="btn btn-primary btn-black" />
+      <div id="delete" class="w-bg">
+        <p class="btn btn-black">Delete</p>
+      </div>
     </form>
     <div class="w-bg">
       <h3>IMDB Rating: {{movie["rating"]}}</h3>
       <h3>User Rating: {% if movie["overallrating"] > 0 %} {{'%.2f' % movie["overallrating"]}}{%else%} 0{%endif%}/5 out of {{movie["votes"]}} votes.</h3>
-    </div>
-    <div id="delete" class="w-bg">
-      <p class="btn btn-black">Delete</p>
     </div>
     <div>
       <h3 class="w-bg">Vote Now!
@@ -63,7 +63,7 @@
       }
     })
   });
-  $('delete').on('click', () => {
+  $('#delete').on('click', () => {
     $.ajax({
       type: "POST",
       url: `/api/movie/delete?id=${id}`,

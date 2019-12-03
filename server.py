@@ -114,15 +114,14 @@ def register():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @is_logged_in
 def update_infos():
+    form = UpdateForm(request.form)
     cur = con.cursor(cursor_factory=extras.DictCursor)
     username =session['username']
+    cur.execute(f"SELECT EXISTS (SELECT * FROM USERS WHERE username='{username}')")
+    flag = cur.fetchone()
     cur.execute(f"SELECT * FROM users WHERE username='%s'"%username)
     user =cur.fetchone()
-    cur.close() 
-    
-    form = UpdateForm(request.form)
     if request.method == 'POST' and form.validate():
-        
         name = form.name.data
         username = form.username.data
         email = form.email.data
@@ -132,18 +131,19 @@ def update_infos():
         oldusername =session['username']
         cur.execute(f"SELECT * FROM users WHERE username='%s'"%username)
         user =cur.fetchone()
-        cur.close() 
         hash = user['password']
         if pbkdf2_sha256.verify(password, hash):
             flash("Your password is wrong","danger")
-            return render_template('dashboard.html', form=form,user=user)
-       
+            return render_template('dashboard.html', form=form,user=user, flag=flag[0])
         response = requests.post( f'http://localhost:5000/api/user/dashboard?name={name}&username={username}&email={email}&newpassword={newpassword}&oldusername={oldusername}')
-        
         if response.json()["content"] == "success":          
-            flash("Your informations has been updated","success")  
-      
-    return render_template('dashboard.html', form=form,user=user)
+            flash("Your informations has been updated","success") 
+    elif request.method == 'GET':
+       
+        if flag[0] == False:
+            session.clear()
+            return redirect(url_for('login'))
+        return render_template('dashboard.html', form=form,user=user, flag=flag[0])
 
 
 @app.route('/logout')
