@@ -675,7 +675,7 @@ def deleteUser():
     cur = con.cursor(cursor_factory=extras.DictCursor)
     cur.execute(f"DELETE FROM USERS WHERE username='{username}'")
     con.commit()
-    cur.close()
+    cur.close() 
     return {"content": "success"}
 
 if __name__ == '__main__':
