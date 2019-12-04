@@ -409,7 +409,7 @@ def getMovies():
     if int(count) >= 250:
         return {"content": {}}
     cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT * FROM movies WHERE LIMIT 9 OFFSET {int(count)}")
+    cur.execute(f"SELECT * FROM movies LIMIT 9 OFFSET {int(count)}")
     movies = cur.fetchall()
     for i in range(0, len(movies)):
         movies[i] = dict(movies[i])
