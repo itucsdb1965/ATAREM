@@ -183,7 +183,7 @@ def movie(id):
     movie = requests.get(f'{domain}/api/movie/'+id)
     return render_template('movie.html', movie=movie.json()["content"])
 
-@app.route('/stars',methods=['GET','POST'])
+app.route('/stars',methods=['GET','POST'])
 def stars():
     form=RatingForm(request.form)
     id = request.form.get('user_id')
@@ -191,7 +191,8 @@ def stars():
     cur.execute(f"SELECT * FROM stars ORDER BY id ASC ")
     stars = cur.fetchall()
     cur.close()
-    if(request.method == 'POST'):
+    formname=request.form.get('formname')
+    if(request.method == 'POST' and formname=="update"):
         
         cur = con.cursor(cursor_factory=extras.DictCursor)
         cur.execute(f"SELECT user_rating FROM stars WHERE id={id} ")
@@ -207,8 +208,14 @@ def stars():
         con.commit()
         cur.close
         return redirect(url_for('stars'))
-       
+    elif (request.method == 'POST' and formname=="delete"):
+          cur = con.cursor(cursor_factory=extras.DictCursor)
+          name =request.form.get('name')
+          cur.execute(f"DELETE FROM stars WHERE name='{name}'")
+          return redirect(url_for('stars'))
+
     return render_template('stars.html', stars=stars , form=form)
+
 
 
 @app.route('/dashboard')
