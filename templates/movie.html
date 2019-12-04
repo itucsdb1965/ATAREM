@@ -52,7 +52,7 @@
 </div>
 <script>
   const id = {{movie["id"]}}
-  const imdb = {{movie["idimdb"]}}
+  const imdb = "{{movie["idimdb"]}}"
   const reload = false;
   $('#rating').change(function(e) {
     $.ajax({
