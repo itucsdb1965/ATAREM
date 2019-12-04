@@ -15,6 +15,7 @@
          <th>Popular Films</th>
          <th>Give a point</th>
          <th>Starpoint</th>
+         <th></th>
        </tr>
        {% set i = namespace(value=0) %}
       {% for star in stars %}
@@ -31,11 +32,26 @@
               </div>
               <input type="hidden" value="{{star[0]}}" name="user_id" />
               <input type="submit" value="Submit your point" class="btn btn-primary btn-black"  /> 
+              <input type="hidden" value="update" name="formname" />
             </form>
             </td>
             {% set i.value = i.value + 1 %}
         <td>{{star[5]}}</td>
-    
+            <td>
+                <form name="delete" type="submit" method="post">
+                   
+                    <input type="hidden" value="{{star[2]}}" name="name" />
+                    <input type="submit" value="delete"  class="btn btn-primary btn-black" />
+                    <input type="hidden" value="delete" name="formname" />
+                    
+                  </form>
+
+
+
+
+
+
+            </td>
       </tr>
       {% endfor %}
     </table>
