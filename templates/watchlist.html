@@ -3,19 +3,51 @@
 {% block body %}
 <h1>Hello
   {{username}}
-  <br/></h1>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/watchlist.css') }}">
+  <br /></h1>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/watchlist.css') }}">
 
-    <table id="customers">
-      <br/>
-      <tr>
-        <th>Watchlist</th>
-      </tr>
-      {% for title in title %}
-      <tr>
-        <td>{{title[0]}}</td>
-      </tr>
-      {% endfor %}
-    </table>
+<table id="customers">
+  <br />
+  <tr>
+    <th>Watchlist</th>
+    <th>Order</th>
+  </tr>
+  {% for title in title %}
+  <tr>
+    <form action="" method="post">
+      <input type="hidden" value="{{title[1]}}" name="movie_id" />
+      <input type="hidden" value="{{title[2]}}" name="type" />
+      <input type="hidden" value="delete" name="formname" />
+
+      {% if title[0]!="No movie has been added" %}
+      <td>{{title[0]}}<input type="submit" value="Delete from my watchlist" class="btn btn-primary btn-black"
+          style="float: right;" /> </td>
+    </form>
+
+
+    <td>
+
+
+      <form name="plus" type="submit" method="post">
+        {{title[3][0]}}
+        <input type="hidden" value="{{title[1]}}" name="movie_id" />
+        <input type="submit" value="+" name="plus" class="btn btn-primary btn-black" style="float: right;" />
+        <input type="submit" value="-" name="minus" class="btn btn-primary btn-black" style="float: right;" />
+        <input type="hidden" value="order" name="formname" />
+
+      </form>
+
+
+
+
+
+    </td>
+
+    {% endif %}
+  </tr>
+
+  {% endfor %}
+</table>
+
 
 {% endblock %}
