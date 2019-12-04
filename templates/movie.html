@@ -52,7 +52,6 @@
 </div>
 <script>
   const id = {{movie["id"]}}
-  const imdb = "{{movie["idimdb"]}}"
   const reload = false;
   $('#rating').change(function(e) {
     $.ajax({
@@ -67,10 +66,12 @@
   $('#delete').on('click', () => {
     $.ajax({
       type: "POST",
-      url: `/api/movie/delete?id=${id}&imdb=${imdb}`,
+      url: `/api/movie/delete?id=${id}`,
       success: () => {
-        console.log('success');
-        location.replace('http://itucsdb1965.herokuapp.com/movies')
+        console.log(id);
+      },
+      error: (e) => {
+        console.log('error', e)
       }
     })
   });

@@ -409,7 +409,7 @@ def getMovies():
     if int(count) >= 250:
         return {"content": {}}
     cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT * FROM movies LIMIT 9 OFFSET {int(count)}")
+    cur.execute(f"SELECT * FROM movies WHERE LIMIT 9 OFFSET {int(count)}")
     movies = cur.fetchall()
     for i in range(0, len(movies)):
         movies[i] = dict(movies[i])
@@ -633,10 +633,8 @@ def deleteThread():
 @app.route('/api/movie/delete', methods=['POST'])
 def deleteMovie():
     id = request.args.get('id')
-    idimdb = request.args.get('idimdb')
     cur = con.cursor(cursor_factory=extras.DictCursor)
     cur.execute(f"DELETE FROM MOVIES WHERE id={id}")
-    cur.execute(f"DELETE FROM WATCHLIST WHERE movie_id={idimdb}")
     con.commit()
     cur.close()
     return {"content": "success"}
