@@ -183,7 +183,7 @@ def movie(id):
     movie = requests.get(f'{domain}/api/movie/'+id)
     return render_template('movie.html', movie=movie.json()["content"])
 
-app.route('/stars',methods=['GET','POST'])
+@app.route('/stars',methods=['GET','POST'])
 def stars():
     form=RatingForm(request.form)
     id = request.form.get('user_id')
