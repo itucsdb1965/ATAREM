@@ -212,6 +212,8 @@ def stars():
           cur = con.cursor(cursor_factory=extras.DictCursor)
           name =request.form.get('name')
           cur.execute(f"DELETE FROM stars WHERE name='{name}'")
+          con.commit()
+          cur.close()
           return redirect(url_for('stars'))
 
     return render_template('stars.html', stars=stars , form=form)
