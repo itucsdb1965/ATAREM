@@ -633,8 +633,10 @@ def deleteThread():
 @app.route('/api/movie/delete', methods=['POST'])
 def deleteMovie():
     id = request.args.get('id')
+    idimdb = request.args.get('idimdb')
     cur = con.cursor(cursor_factory=extras.DictCursor)
     cur.execute(f"DELETE FROM MOVIES WHERE id={id}")
+    cur.execute(f"DELETE FROM WATCHLIST WHERE movie_id={idimdb}")
     con.commit()
     cur.close()
     return {"content": "success"}
