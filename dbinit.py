@@ -25,9 +25,10 @@ CREATE TABLE IF NOT EXISTS WATCHLIST(
   id BIGSERIAL PRIMARY KEY NOT NULL,
   username VARCHAR(25) NOT NULL,
   movie_id VARCHAR(25) NOT NULL,
-  type INT default 0
+  type INT default 0,
+  watchOrder INT default 1,
+  register_date DATE NOT NULL default CURRENT_DATE
 );
-
 
 /* MOVIES */
 
