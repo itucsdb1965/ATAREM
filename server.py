@@ -139,6 +139,7 @@ def update_infos():
         if response.json()["content"] == "success":          
             flash("Your informations has been updated","success") 
     elif request.method == 'GET':
+       
         if flag[0] == False:
             session.clear()
             return redirect(url_for('login'))
@@ -409,7 +410,7 @@ def getMovies():
     if int(count) >= 250:
         return {"content": {}}
     cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT * FROM movies WHERE LIMIT 9 OFFSET {int(count)}")
+    cur.execute(f"SELECT * FROM movies WHERE id>{int(count)} AND id<={int(count)+9}")
     movies = cur.fetchall()
     for i in range(0, len(movies)):
         movies[i] = dict(movies[i])

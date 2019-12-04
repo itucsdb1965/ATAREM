@@ -68,10 +68,8 @@
       type: "POST",
       url: `/api/movie/delete?id=${id}`,
       success: () => {
-        console.log(id);
-      },
-      error: (e) => {
-        console.log('error', e)
+        console.log('success');
+        location.replace('http://itucsdb1965.herokuapp.com/movies')
       }
     })
   });
