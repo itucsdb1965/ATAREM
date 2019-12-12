@@ -128,10 +128,11 @@ def dash():
             if allowed_file(image.filename):
                 uname = session["username"]
                 fname = session["username"] + str(randint(100, 10000)) + "." + image.filename.rsplit('.', 1)[1].lower()
-                image.save(os.path.join(app.root_path, "static/img/uploads", fname))
+                image.save(os.path.join("/app/static/img/uploads", fname))
                 requests.post(f"{domain}/api/avatar?username={uname}&path=/static/img/uploads/{fname}")
                 flash('Image uploaded successfully', 'success')
                 return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboard'))
     return render_template('dashboard.html', user=user)
 
 
