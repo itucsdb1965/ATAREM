@@ -18,20 +18,19 @@
   </form>
 <script>
   var uname = "{{session['username']}}";
-$('#deleteUser').on('click', () => {
-  $.ajax({
-    type: 'POST',
-    url: `http://127.0.0.1:5000/api/user/delete?username=${uname}`,
-    success: () => {
-      location.replace('http://127.0.0.1:5000/login')
-    }
+  $('#deleteUser').on('click', () => {
+    $.ajax({
+      type: 'POST',
+      url: `http://itucsdb1965.heorkuapp.com/api/user/delete?username=${uname}`,
+      success: () => {
+        location.replace('http://itucsdb1965.heorkuapp.com/login')
+      }
+    })
   })
-})
-
-$('#image').on('change', (e) => {
-    var label = document.getElementById('labeled');
-    var fname = document.getElementById('image').files[0].name;
-    label.innerHTML = fname;
+  $('#image').on('change', (e) => {
+      var label = document.getElementById('labeled');
+      var fname = document.getElementById('image').files[0].name;
+      label.innerHTML = fname;
   })
 </script>
 {% endblock %}
