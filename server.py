@@ -3,8 +3,10 @@ from wtforms import Form, StringField, BooleanField, TextAreaField, PasswordFiel
 from psycopg2 import connect, extras
 from passlib.hash import pbkdf2_sha256
 from functools import wraps
+from random import randint
 import requests
 import re
+import os
 
 con = connect(dbname='de9gpi5nc7pnj5', user='fvpxkozyyyirvo', port='5432',
             host='ec2-54-217-234-157.eu-west-1.compute.amazonaws.com', password='2c9deabd2e3ceadf157c8cf47204c3aac97fff8d3179dc58d06814489b24fd5a')
@@ -77,21 +79,9 @@ class RegistrationForm(Form):
         validators.Length(min=6, max=16)
     ])
     confirm = PasswordField('Confirm Password')
-class UpdateForm(Form):
-    name = StringField('Name', [validators.Length(min=4, max=16)])
-    username = StringField('Username', [validators.Length(min=4, max=16)])
-    email = StringField('Email Address', [validators.Length(min=6, max=25)])
-    password = PasswordField('Password', [
-        validators.DataRequired(),
-        validators.Length(min=6, max=16)
-    ])
-    newpassword = PasswordField('New Password',[
-        validators.DataRequired(),
-        validators.Length(min=6, max=16)  ])
 
 class RatingForm(Form):
     point = StringField('')
-
 
 @app.route('/register', methods=['GET', 'POST'])
 @is_logged_out
@@ -113,37 +103,17 @@ def register():
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 @is_logged_in
-def update_infos():
-    form = UpdateForm(request.form)
+def dash():
     cur = con.cursor(cursor_factory=extras.DictCursor)
     username =session['username']
     cur.execute(f"SELECT EXISTS (SELECT * FROM USERS WHERE username='{username}')")
     flag = cur.fetchone()
     cur.execute(f"SELECT * FROM users WHERE username='%s'"%username)
     user =cur.fetchone()
-    if request.method == 'POST' and form.validate():
-        name = form.name.data
-        username = form.username.data
-        email = form.email.data
-        password = form.password.data
-        newpassword=form.newpassword.data
-        cur = con.cursor(cursor_factory=extras.DictCursor)
-        oldusername =session['username']
-        cur.execute(f"SELECT * FROM users WHERE username='%s'"%username)
-        user =cur.fetchone()
-        hash = user['password']
-        if pbkdf2_sha256.verify(password, hash):
-            flash("Your password is wrong","danger")
-            return render_template('dashboard.html', form=form,user=user, flag=flag[0])
-        response = requests.post( f'http://localhost:5000/api/user/dashboard?name={name}&username={username}&email={email}&newpassword={newpassword}&oldusername={oldusername}')
-        if response.json()["content"] == "success":          
-            flash("Your informations has been updated","success") 
-    elif request.method == 'GET':
-       
-        if flag[0] == False:
-            session.clear()
-            return redirect(url_for('login'))
-        return render_template('dashboard.html', form=form,user=user, flag=flag[0])
+    if flag[0] == False:
+        session.clear()
+        return redirect(url_for('login'))
+    return render_template('dashboard.html', user=user)
 
 
 @app.route('/logout')
@@ -342,7 +312,27 @@ def editThreadRoute(id):
             flash('Something went wrong, please try again later', 'warning')        
     return render_template('editThread.html', form=form, thread=thread.json()["content"])
 
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
+def allowed_file(filename): # https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/upload', methods=["POST", "GET"])
+@is_logged_in
+def upload():
+    if request.method == "POST":
+        if request.files:
+            image = request.files["image"]
+            if image.filename == "":
+                flash('You must select a file', 'danger')
+                return redirect(request.url)
+            if allowed_file(image.filename):
+                fname = session["username"] + str(randint(100, 10000)) + "." + image.filename.rsplit('.', 1)[1].lower()
+                image.save(os.path.join(app.root_path, "static/img/uploads", fname))
+                flash('Image uploaded successfully', 'success')
+                return redirect(url_for('dashboard'))
+    return render_template('imgup.html')
 
 
 
@@ -417,7 +407,7 @@ def getMovies():
     if int(count) >= 250:
         return {"content": {}}
     cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT * FROM movies WHERE id>{int(count)} AND id<={int(count)+9}")
+    cur.execute(f"SELECT * FROM movies LIMIT 9 OFFSET {int(count)}")
     movies = cur.fetchall()
     for i in range(0, len(movies)):
         movies[i] = dict(movies[i])

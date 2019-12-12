@@ -64,17 +64,4 @@
   })
   intersectionObserver.observe(sentinel);
 </script>
-  <!-- {% for movie in movies %}
-  <div class="card">
-    <div class="imgBx">
-      <a href="movie/{{movie['idimdb']}}">
-        <img src={{movie['urlposter'].split('_V1_', 1)[0] + '_V1_.jpg'}} alt="Poster">
-      </a>
-    </div>
-    <div class="details">
-      <h2>{{movie['title']}}<br><span>{% for genre in movie['genres'] %} {{genre}}{% if loop.index != loop.length %},
-          {% endif %} {% endfor %}</span></h2>
-    </div>
-  </div>
-  {% endfor %} -->
 {% endblock %}

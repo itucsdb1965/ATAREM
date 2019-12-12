@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h1>Upload Image</h1>
+<form action="" enctype="multipart/form-data" method="POST">
+  <div class="form-group mt-3">
+    <div class="custom-file">
+      <input type="file" name="image" multiple="false" id="image" class="custom-file-input">
+      <label id="labeled" class="custom-file-label" for="image">Select Image...</label>
+    </div>
+  </div>
+  <button class="btn btn-black" type="submit">Upload</button>
+</form>
+
+<script>
+  $('#image').on('change', (e) => {
+    var label = document.getElementById('labeled');
+    var fname = document.getElementById('image').files[0].name;
+    label.innerHTML = fname;
+  })
+</script>
+{% endblock %}
