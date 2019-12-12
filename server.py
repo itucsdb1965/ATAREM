@@ -509,6 +509,7 @@ def setAvatar():
     username = request.args.get('username')
     path = request.args.get('path')
     cur.execute(f"UPDATE USERS SET AVATAR='{path}' WHERE username='{username}'")
+    con.commit()
     cur.close()
     return {"content": "success"}
 
