@@ -153,7 +153,7 @@ def movie(id):
     movie = requests.get(f'{domain}/api/movie/'+id)
     return render_template('movie.html', movie=movie.json()["content"])
 
-app.route('/stars',methods=['GET','POST'])
+@app.route('/stars',methods=['GET','POST'])
 def stars():
     form=RatingForm(request.form)
     id = request.form.get('user_id')
@@ -182,6 +182,8 @@ def stars():
           cur = con.cursor(cursor_factory=extras.DictCursor)
           name =request.form.get('name')
           cur.execute(f"DELETE FROM stars WHERE name='{name}'")
+          con.commit()
+          cur.close()
           return redirect(url_for('stars'))
 
     return render_template('stars.html', stars=stars , form=form)
@@ -193,27 +195,77 @@ def stars():
 def dashboard():
     return render_template('dashboard.html')
 
-@app.route('/watchlist')
+@app.route('/watchlist',methods=['GET', 'POST'])
 @is_logged_in
 def watchlist():
-    username=session['username']
+    username=session['username']   
     cur = con.cursor(cursor_factory=extras.DictCursor)
     cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'and type =0") 
+    #cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'and type =0") 
     movie_id =cur.fetchall()
+    cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'and type =0")
+    watchorder =cur.fetchall()
+    
     title=[]
+    count =0
     for i in movie_id:
         cur.execute(f"SELECT title FROM movies WHERE idimdb='{i[0]}'" )
-        temp=cur.fetchone()
+        temp=cur.fetchone()        
+        temp.append(i)
+        temp.append(0)
+
+        temp.append(watchorder[count])
         title.append(temp)
+        count= count+1 
     cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'and type =1") 
     id =cur.fetchall()
+    cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'and type =1")
+    watchorder_in = cur.fetchall()
+    count=0
     for i in id:
-        cur.execute(f"SELECT title FROM in_theaters WHERE id='{i[0]}'" )
+        cur.execute(f"SELECT title  FROM in_theaters WHERE id='{i[0]}'" )
         temp=cur.fetchone()
+        temp.append(i)
+        temp.append(1)
+        temp.append(watchorder_in[count])
         title.append(temp)
+        count=count+1
     cur.close()
 
+
+
+    formname=request.form.get('formname')
+    
+    if request.method == 'POST'and formname=="delete":
+        
+        movie_id=request.form.get('movie_id')
+        type=request.form.get('type')        
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        movie_id=movie_id.split("'")[1]
+        cur.execute(f"DELETE FROM watchlist WHERE movie_id='{movie_id}' and type='{type[0]}' and username='{username}'")
+        con.commit()
+        cur.close()      
+        return redirect(url_for('watchlist'))
    
+    if request.method == 'POST' and(formname=="order")  :
+        movie_id=request.form.get('movie_id')
+        movie_id=movie_id.split("'")[1]
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'and movie_id ='{movie_id}'")
+        order = cur.fetchone()
+        order =order[0]
+        
+        if(request.form.get("minus")=='-' and order>1):
+            order =order-1
+            
+
+        if(request.form.get("plus")=="+"and order<3):
+            order =order+1
+            
+        cur.execute(f"UPDATE  watchlist SET watchorder ={order} WHERE username='{username}'and movie_id ='{movie_id}'")
+        con.commit()
+        cur.close
+        return redirect(url_for('watchlist'))
     if(title==[]):
         return render_template('watchlist.html',username=username,title=[["No movie has been added"]])
 
