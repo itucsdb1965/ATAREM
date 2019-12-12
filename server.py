@@ -55,7 +55,6 @@ def login():
         password = request.form['password']
         response = requests.post(
             f'{domain}/api/user/login?username={username}&password={password}')
-        print(response.json())
         if response.json()["content"] == "failure":
             flash('Invalid Credentials', 'danger')
             return redirect(url_for('login'))
@@ -101,6 +100,13 @@ def register():
             flash('Registration failed', 'danger')
     return render_template('register.html', form=form)
 
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename): # https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 @is_logged_in
 def dash():
@@ -113,6 +119,19 @@ def dash():
     if flag[0] == False:
         session.clear()
         return redirect(url_for('login'))
+    if request.method == "POST":
+        if request.files:
+            image = request.files["image"]
+            if image.filename == "":
+                flash('You must select a file', 'danger')
+                return redirect(request.url)
+            if allowed_file(image.filename):
+                uname = session["username"]
+                fname = session["username"] + str(randint(100, 10000)) + "." + image.filename.rsplit('.', 1)[1].lower()
+                image.save(os.path.join(app.root_path, "static/img/uploads", fname))
+                requests.post(f"{domain}/api/avatar?username={uname}&path=/static/img/uploads/{fname}")
+                flash('Image uploaded successfully', 'success')
+                return redirect(url_for('dashboard'))
     return render_template('dashboard.html', user=user)
 
 
@@ -364,27 +383,6 @@ def editThreadRoute(id):
             flash('Something went wrong, please try again later', 'warning')        
     return render_template('editThread.html', form=form, thread=thread.json()["content"])
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-def allowed_file(filename): # https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-@app.route('/upload', methods=["POST", "GET"])
-@is_logged_in
-def upload():
-    if request.method == "POST":
-        if request.files:
-            image = request.files["image"]
-            if image.filename == "":
-                flash('You must select a file', 'danger')
-                return redirect(request.url)
-            if allowed_file(image.filename):
-                fname = session["username"] + str(randint(100, 10000)) + "." + image.filename.rsplit('.', 1)[1].lower()
-                image.save(os.path.join(app.root_path, "static/img/uploads", fname))
-                flash('Image uploaded successfully', 'success')
-                return redirect(url_for('dashboard'))
-    return render_template('imgup.html')
 
 
 
@@ -487,28 +485,6 @@ def registerUser():
     cur.close()
     return {"content": "success"}
 
-# @Route /api/user/dashboard
-# @Methods POST
-# @Desc Update a user with parameters
-@app.route('/api/user/dashboard', methods=['POST'])#NOT WORKING
-def updateUser():
-   
-    name = request.args.get("name")
-    print(name)
-    username = request.args.get("username")
-    email = request.args.get("email")
-    newpassword = pbkdf2_sha256.hash(request.args.get("newpassword"))
-    oldusername =request.args.get('oldusername')
-    cur = con.cursor()
-    cur.execute(
-        f"UPDATE users SET username='{username}',name='{name}',email='{email}',password='{newpassword}'  WHERE username='{oldusername}'")
-        
-    con.commit()
-    cur.close()
-    return {"content": "success"}
-
-
-
 # @Route /api/forum/thread
 # @Methods POST
 # @Desc create a thread with parameters username, title and body
@@ -517,11 +493,22 @@ def createThreadApi():
     username = request.args.get('username')
     title = request.args.get('title')
     body = request.args.get('body')
-    print(body)
     cur = con.cursor()
     cur.execute("INSERT INTO forumposts (username, title, body) VALUES (%s, %s, %s)",
                 (username, title, body))
     con.commit()
+    cur.close()
+    return {"content": "success"}
+
+# @Route /api/avatar
+# @Methods POST
+# @Desc parameters id and image route changes user avatar
+@app.route('/api/avatar', methods=["POST"])
+def setAvatar():
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    username = request.args.get('username')
+    path = request.args.get('path')
+    cur.execute(f"UPDATE USERS SET AVATAR='{path}' WHERE username='{username}'")
     cur.close()
     return {"content": "success"}
 
