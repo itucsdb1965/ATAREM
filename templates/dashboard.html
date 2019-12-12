@@ -21,9 +21,9 @@
   $('#deleteUser').on('click', () => {
     $.ajax({
       type: 'POST',
-      url: `http://itucsdb1965.heorkuapp.com/api/user/delete?username=${uname}`,
+      url: `http://itucsdb1965.herokuapp.com/api/user/delete?username=${uname}`,
       success: () => {
-        location.replace('http://itucsdb1965.heorkuapp.com/login')
+        location.replace('http://itucsdb1965.herokuapp.com/login')
       }
     })
   })
