@@ -673,7 +673,10 @@ def deleteThread():
 def deleteMovie():
     id = request.args.get('id')
     cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"Select idIMDB FROM MOVIES WHERE id={id}")
+    movie_id=cur.fetchone()
     cur.execute(f"DELETE FROM MOVIES WHERE id={id}")
+    cur.execute(f"DELETE FROM watchlist WHERE movie_id='{movie_id[0]}'")
     con.commit()
     cur.close()
     return {"content": "success"}
