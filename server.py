@@ -322,16 +322,11 @@ def theater(id):
         cur.close()
         return redirect(url_for('inTheaters'))
     elif(request.method == 'POST' and formname=="like"):
-        cur = con.cursor(cursor_factory=extras.DictCursor)
-        cur.execute(f"SElECT plike FROM in_theaters where  id ='{id}'")
-        people = cur.fetchone()
-        if(username in people ):
-            print("hello")
-        else:
-            cur.execute(f"SElECT point FROM in_theaters where  id ='{id}'")
-            point=cur.fetchone()
-            point[0]=int(point[0]) +1                    
-            cur.execute(f"UPDATE in_theaters set point = '{point[0]}'  WHERE id ='{id}' ")
+        cur = con.cursor(cursor_factory=extras.DictCursor)       
+        cur.execute(f"SELECT point FROM in_theaters where  id ='{id}'")
+        point=cur.fetchone()
+        point[0]=int(point[0]) +1                    
+        cur.execute(f"UPDATE in_theaters set point = '{point[0]}'  WHERE id ='{id}' ")
             
         
         con.commit()
