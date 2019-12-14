@@ -97,7 +97,7 @@ CREATE TABLE  IF NOT EXISTS IN_THEATERS(
   urlIMDB VARCHAR NOT NULL,
   urlPoster VARCHAR NOT NULL,
   writers VARCHAR[] NOT NULL,
-  point int DEFAULT 0,
+  point int DEFAULT 0
 
 );
 
