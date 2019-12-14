@@ -300,7 +300,9 @@ def inTheaters():
 @app.route('/inTheaters/<string:id>/',methods=['GET','POST'])
 def theater(id):
     username = session['username']
-    if(request.method == 'POST'):
+    formname=request.form.get('formname')
+    print(formname)
+    if(request.method == 'POST'and formname=="Add"):
         cur = con.cursor(cursor_factory=extras.DictCursor) 
         cur.execute(f"SELECT EXISTS(SELECT *FROM watchlist WHERE username='{username}' and movie_id = '{id}') ")
         exist=cur.fetchone()
@@ -312,8 +314,33 @@ def theater(id):
             con.commit()
             cur.close()
             flash('Added to your watchlist', 'success')
+    elif(request.method == 'POST' and formname=="delete"):
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        cur.execute(f"DELETE from watchlist  WHERE movie_id ='{id}' ")
+        cur.execute(f"DELETE from in_theaters  WHERE id ='{id}' ")
+        con.commit()
+        cur.close()
+        return redirect(url_for('inTheaters'))
+    elif(request.method == 'POST' and formname=="like"):
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        cur.execute(f"SElECT plike FROM in_theaters where  id ='{id}'")
+        people = cur.fetchone()
+        if(username in people ):
+            print("hello")
+        else:
+            cur.execute(f"SElECT point FROM in_theaters where  id ='{id}'")
+            point=cur.fetchone()
+            point[0]=int(point[0]) +1                    
+            cur.execute(f"UPDATE in_theaters set point = '{point[0]}'  WHERE id ='{id}' ")
+            
+        
+        con.commit()
+        cur.close()
+        
+
     movie = requests.get(f'{domain}/api/inTheater/'+id)
     return render_template('theater.html', movie=movie.json()["content"])
+
 
 
 @app.route('/forum')
