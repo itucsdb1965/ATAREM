@@ -381,7 +381,7 @@ def theater(id):
         cur.execute(f"SElECT plike FROM in_theaters where  id ='{id}'")
         people = cur.fetchone()
         
-        if(username in people[0] ):
+        if(people[0]!=None and username in people[0] ):
             flash("You have already liked it","danger")
         else:
             people=[]
