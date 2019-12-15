@@ -160,14 +160,20 @@ def movies():
 def movie(id):
     username = session['username']
     if(request.method == 'POST'):
-        cur = con.cursor(cursor_factory=extras.DictCursor) 
-        cur.execute(f"SELECT EXISTS(SELECT *FROM watchlist WHERE username='{username}' and movie_id = '{id}') ")
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        try: 
+            cur.execute(f"SELECT EXISTS(SELECT *FROM watchlist WHERE username='{username}' and movie_id = '{id}') ")
+        except :
+            con.rollback()
         exist=cur.fetchone()
         
         if(exist[0]==True): 
             flash('It is already in your watchlist', 'danger')
         else:
-            cur.execute(f"INSERT INTO watchlist(username,movie_id) VALUES ('{username}','{id}')")
+            try:
+                cur.execute(f"INSERT INTO watchlist(username,movie_id) VALUES ('{username}','{id}')")
+            except :
+                con.rollback()
             con.commit()
             cur.close()
             flash('Added to your watchlist', 'success')
@@ -179,30 +185,41 @@ def stars():
     form=RatingForm(request.form)
     id = request.form.get('user_id')
     cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT * FROM stars ORDER BY id ASC ")
+    try:
+        cur.execute(f"SELECT * FROM stars ORDER BY id ASC ")
+    except :
+            con.rollback()
     stars = cur.fetchall()
     cur.close()
     formname=request.form.get('formname')
     if(request.method == 'POST' and formname=="update"):
         
         cur = con.cursor(cursor_factory=extras.DictCursor)
-        cur.execute(f"SELECT user_rating FROM stars WHERE id={id} ")
+        try:
+            cur.execute(f"SELECT user_rating FROM stars WHERE id={id} ")
+        except :
+            con.rollback()
         star_rate=cur.fetchone()
         try:
             user_rating = int(form.point.data) + int(star_rate['user_rating'])
         except:
             flash("Must be a integer value","danger")
             return redirect(url_for('stars'))
-
-        cur.execute(
-        f"UPDATE stars SET user_rating={user_rating}  WHERE id={id}")
+        try:
+            cur.execute(
+            f"UPDATE stars SET user_rating={user_rating}  WHERE id={id}")
+        except :
+            con.rollback()
         con.commit()
         cur.close
         return redirect(url_for('stars'))
     elif (request.method == 'POST' and formname=="delete"):
           cur = con.cursor(cursor_factory=extras.DictCursor)
           name =request.form.get('name')
-          cur.execute(f"DELETE FROM stars WHERE name='{name}'")
+          try:
+            cur.execute(f"DELETE FROM stars WHERE name='{name}'")
+          except :
+            con.rollback()
           con.commit()
           cur.close()
           return redirect(url_for('stars'))
@@ -221,16 +238,25 @@ def dashboard():
 def watchlist():
     username=session['username']   
     cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'and type =0") 
+    try:
+        cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'and type =0") 
+    except :
+            con.rollback()
     #cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'and type =0") 
     movie_id =cur.fetchall()
-    cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'and type =0")
+    try:
+        cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'and type =0")
+    except :
+            con.rollback()
     watchorder =cur.fetchall()
     
     title=[]
     count =0
     for i in movie_id:
-        cur.execute(f"SELECT title FROM movies WHERE idimdb='{i[0]}'" )
+        try:
+            cur.execute(f"SELECT title FROM movies WHERE idimdb='{i[0]}'" )
+        except :
+            con.rollback()
         temp=cur.fetchone()        
         temp.append(i)
         temp.append(0)
@@ -238,13 +264,22 @@ def watchlist():
         temp.append(watchorder[count])
         title.append(temp)
         count= count+1 
-    cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'and type =1") 
+    try:
+        cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'and type =1") 
+    except :
+            con.rollback()
     id =cur.fetchall()
-    cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'and type =1")
+    try:
+        cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'and type =1")
+    except :
+            con.rollback()
     watchorder_in = cur.fetchall()
     count=0
     for i in id:
-        cur.execute(f"SELECT title  FROM in_theaters WHERE id='{i[0]}'" )
+        try:
+            cur.execute(f"SELECT title  FROM in_theaters WHERE id='{i[0]}'" )
+        except :
+            con.rollback()
         temp=cur.fetchone()
         temp.append(i)
         temp.append(1)
@@ -263,7 +298,10 @@ def watchlist():
         type=request.form.get('type')        
         cur = con.cursor(cursor_factory=extras.DictCursor)
         movie_id=movie_id.split("'")[1]
-        cur.execute(f"DELETE FROM watchlist WHERE movie_id='{movie_id}' and type='{type[0]}' and username='{username}'")
+        try:
+            cur.execute(f"DELETE FROM watchlist WHERE movie_id='{movie_id}' and type='{type[0]}' and username='{username}'")
+        except :
+            con.rollback()
         con.commit()
         cur.close()      
         return redirect(url_for('watchlist'))
@@ -272,7 +310,10 @@ def watchlist():
         movie_id=request.form.get('movie_id')
         movie_id=movie_id.split("'")[1]
         cur = con.cursor(cursor_factory=extras.DictCursor)
-        cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'and movie_id ='{movie_id}'")
+        try:
+            cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'and movie_id ='{movie_id}'")
+        except :
+            con.rollback()
         order = cur.fetchone()
         order =order[0]
         
@@ -282,8 +323,10 @@ def watchlist():
 
         if(request.form.get("plus")=="+"and order<3):
             order =order+1
-            
-        cur.execute(f"UPDATE  watchlist SET watchorder ={order} WHERE username='{username}'and movie_id ='{movie_id}'")
+        try:    
+            cur.execute(f"UPDATE  watchlist SET watchorder ={order} WHERE username='{username}'and movie_id ='{movie_id}'")
+        except :
+            con.rollback()
         con.commit()
         cur.close
         return redirect(url_for('watchlist'))
@@ -301,20 +344,70 @@ def inTheaters():
 @app.route('/inTheaters/<string:id>/',methods=['GET','POST'])
 def theater(id):
     username = session['username']
-    if(request.method == 'POST'):
+    formname=request.form.get('formname')
+    print(formname)
+    if(request.method == 'POST'and formname=="Add"):
         cur = con.cursor(cursor_factory=extras.DictCursor) 
-        cur.execute(f"SELECT EXISTS(SELECT *FROM watchlist WHERE username='{username}' and movie_id = '{id}') ")
+        try:
+            cur.execute(f"SELECT EXISTS(SELECT *FROM watchlist WHERE username='{username}' and movie_id = '{id}') ")
+        except :
+            con.rollback()
         exist=cur.fetchone()
         
         if(exist[0]==True): 
             flash('It is already in your watchlist', 'danger')
         else:
-            cur.execute(f"INSERT INTO watchlist(username,movie_id,type) VALUES ('{username}','{id}','{1}')")
+            try:
+                cur.execute(f"INSERT INTO watchlist(username,movie_id,type) VALUES ('{username}','{id}','{1}')")
+            except :
+                con.rollback()
             con.commit()
             cur.close()
             flash('Added to your watchlist', 'success')
+    elif(request.method == 'POST' and formname=="delete"):
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        try: 
+            cur.execute(f"DELETE from watchlist  WHERE movie_id ='{id}' ")
+        except :
+            con.rollback()
+        try:
+            cur.execute(f"DELETE from in_theaters  WHERE id ='{id}' ")
+        except :
+            con.rollback()
+        con.commit()
+        cur.close()
+        return redirect(url_for('inTheaters'))
+    elif(request.method == 'POST' and formname=="like"):
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        cur.execute(f"SElECT plike FROM in_theaters where  id ='{id}'")
+        people = cur.fetchone()
+        
+        if(people[0]!=None and username in people[0] ):
+            flash("You have already liked it","danger")
+        else:
+            people=[]
+            people.append(username)
+            try:
+                        cur.execute(f"SElECT point FROM in_theaters where  id ='{id}'")
+            except :
+                    con.rollback()
+            point=cur.fetchone()
+            point[0]=int(point[0]) +1
+            try:
+                    cur.execute(f"UPDATE in_theaters set point = '{point[0]}'  WHERE id ='{id}' ")
+                    cur.execute(f"UPDATE in_theaters SET plike = array_append(plike,'{username}')  WHERE id ='{id}' ")
+            except:
+                    con.rollback()   
+
+            
+        
+        con.commit()
+        cur.close()
+        
+
     movie = requests.get(f'{domain}/api/inTheater/'+id)
     return render_template('theater.html', movie=movie.json()["content"])
+
 
 
 @app.route('/forum')
@@ -674,7 +767,10 @@ def deleteThread():
 def deleteMovie():
     id = request.args.get('id')
     cur = con.cursor(cursor_factory=extras.DictCursor)
+    cur.execute(f"Select idIMDB FROM MOVIES WHERE id={id}")
+    movie_id=cur.fetchone()
     cur.execute(f"DELETE FROM MOVIES WHERE id={id}")
+    cur.execute(f"DELETE FROM watchlist WHERE movie_id='{movie_id[0]}'")
     con.commit()
     cur.close()
     return {"content": "success"}
