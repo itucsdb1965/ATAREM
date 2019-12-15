@@ -1,17 +1,18 @@
-Welcome to itucsdbNN's documentation!
+Welcome to itucsdb1965's documentation!
 =====================================
 
-:Team: Team Name
+:Team: ATAREM
 
 :Members:
 
-   * Member 1
-   * Member 2
-   * Member 3
-   * Member 4
-   * Member 5
+   * Ekrem UĞUR
+   * Atahan ÖZER
 
-**project description goes here (a few paragraphs)**
+**Atarem is a website that aims to be a platform where people can share
+almost anything about movies all around the world. Right now we support
+imdb top 250 movies and the new movies that are in thears. We will be look
+for expansions soon.
+**
 
 Contents:
 

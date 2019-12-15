@@ -1,22 +1,18 @@
 User Guide
 ==========
 
-**explain how your application works from the user perspective, use
-screenshots whereever appropriate**
+**Welcome to *Atarem* user guide. Here we will walk you through our website briefly, and then you will be able to surf freely by yourself.**
 
-**to add a picture, use the following example**::
+.. figure:: logo.png
+   :scale 50 %
+   :alt: Atarem Logo
+   :align: center
 
-   .. figure:: picture.png
-      :scale: 50 %
-      :alt: map to buried treasure
-
-      This is the caption of the figure (a simple paragraph).
+.. figure:: landing.png
+   :scale 50 %
+   :alt: Atarem Landing Screen
+   :align: center
 
 .. toctree::
-
-   member1
-   member2
-   member3
-   member4
-   member5
-   
+   ekrem
+   atahan

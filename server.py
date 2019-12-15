@@ -156,6 +156,7 @@ def movies():
 
 
 @app.route('/movie/<string:id>/',methods=['GET','POST'])
+@is_logged_in
 def movie(id):
     username = session['username']
     if(request.method == 'POST'):
