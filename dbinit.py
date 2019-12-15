@@ -7,7 +7,7 @@ import psycopg2 as dbapi2
 import psycopg2.extras
 from random import shuffle
 
-IINIT_STATEMENTS = [
+INIT_STATEMENTS = [
     """
     /* USERS */
 
