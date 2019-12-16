@@ -1,12 +1,9 @@
 Flask>=1.0
 psycopg2-binary>=2.7
 gunicorn>=19.9
-Flask-SocketIO==4.2.1
 passlib==1.7.1
 psycopg2==2.8.3
-python-socketio==4.3.1
 requests==2.22.0
 wrapt==1.11.2
 WTForms==2.2.1
 requests==2.22.0
-furl==2.1.0
