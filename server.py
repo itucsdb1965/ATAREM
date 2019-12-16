@@ -164,10 +164,12 @@ def discussion():
 
 
 @app.route('/movies')
+@is_logged_in
 def movies():
     return render_template('movies.html')
 
 @app.route('/movie/<string:id>/',methods=['GET','POST'])
+@is_logged_in
 def movie(id):
     formname  = request.form.get('formname')
     username = session['username']
@@ -212,6 +214,7 @@ def movie(id):
 
 
 @app.route('/stars',methods=['GET','POST'])
+@is_logged_in
 def stars():
     form=RatingForm(request.form)
     id = request.form.get('user_id')
@@ -332,6 +335,7 @@ def inTheaters():
     return render_template('inTheaters.html')
 
 @app.route('/inTheaters/<string:id>/',methods=['GET','POST'])
+@is_logged_in
 def theater(id):
     username = session['username']
     formname=request.form.get('formname')
