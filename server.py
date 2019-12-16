@@ -11,7 +11,7 @@ import os
 con = connect(dbname=os.getenv("dbname"), user=os.getenv("dbuser"), port='5432',
             host=os.getenv("dbhost"), password=os.getenv("dbpassword"))
 app = Flask(__name__, static_url_path='/static')
-app.secret_key = '65vet6'
+app.secret_key = os.getenv("secret_key")
 domain = 'http://itucsdb1965.herokuapp.com:80'
 
 def cleanhtml(raw_html):
