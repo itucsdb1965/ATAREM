@@ -159,25 +159,25 @@ def initialize(url):
             cur.execute("INSERT INTO stars (name, urlIMDB, knownFor, rating) VALUES (%s, %s, %s, %s)",
                           (star['name'], star['urlIMDB'],knownFor,random.randint(6,10) ))
             
-        cur.execute('SELECT COUNT(*) FROM forumposts')
-        count_posts = cur.fetchone()
-        if count_posts[0] < 10:
-          for i in range(0, 25):
-            shuffle(head_part) 
-            shuffle(content_part)
-            user = random.choice(names)
-            cur.execute('INSERT INTO forumposts (username, title, body) VALUES (%s, %s, %s)', (user, " ".join(head_part), " ".join(content_part)))
-        cur.execute('SELECT COUNT(*) FROM comments')
-        count_comments = cur.fetchone()
-        if count_comments[0] < 10:
-          for i in range(0, 3):
-            for j in range(1, 26):
-              shuffle(content_part)
-              user = random.choice(names)
-              bodddy  = " ".join(content_part)
-              cur.execute(f"INSERT INTO comments (username, thread, body) VALUES ('{user}', '{j}', '{bodddy}')")
-        connection.commit()
-        cursor.close()
+        # cur.execute('SELECT COUNT(*) FROM forumposts')
+        # count_posts = cur.fetchone()
+        # if count_posts[0] < 10:
+        #   for i in range(0, 25):
+        #     shuffle(head_part) 
+        #     shuffle(content_part)
+        #     user = random.choice(names)
+        #     cur.execute('INSERT INTO forumposts (username, title, body) VALUES (%s, %s, %s)', (user, " ".join(head_part), " ".join(content_part)))
+        # cur.execute('SELECT COUNT(*) FROM comments')
+        # count_comments = cur.fetchone()
+        # if count_comments[0] < 10:
+        #   for i in range(0, 3):
+        #     for j in range(1, 26):
+        #       shuffle(content_part)
+        #       user = random.choice(names)
+        #       bodddy  = " ".join(content_part)
+        #       cur.execute(f"INSERT INTO comments (username, thread, body) VALUES ('{user}', '{j}', '{bodddy}')")
+        # connection.commit()
+        # cursor.close()
         
         cur.execute('SELECT COUNT(*) FROM IN_THEATERS')
         count_theater=cur.fetchone()
