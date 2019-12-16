@@ -10,7 +10,10 @@
   <br />
   <tr>
     <th>Watchlist</th>
+    <th>Avaible platforms</th>
     <th>Order</th>
+    <th>Notes</th>
+    <th>Status</th>
   </tr>
   {% for title in title %}
   <tr>
@@ -22,8 +25,9 @@
       {% if title[0]!="No movie has been added" %}
       <td>{{title[0]}}<input type="submit" value="Delete from my watchlist" class="btn btn-primary btn-black"
           style="float: right;" /> </td>
+      
     </form>
-
+    <td>{{stream}}</td>
 
     <td>
 
@@ -36,11 +40,18 @@
         <input type="hidden" value="order" name="formname" />
 
       </form>
+    </td>
+    <td>
+           {{title[4][0]}}
 
-
-
-
-
+    </td>
+    <td>
+      {% if title[5][0]==1 %}
+        Watched  
+      {% else %}
+        Not watched
+      {% endif %}
+      
     </td>
 
     {% endif %}
