@@ -22,29 +22,25 @@
     </div>
   </div>
   <div style="display: flex;">
-  <form name="Add" class="w-bg" action="" method="post" >
-        <input type="hidden" value="Add" name="formname" />   
-        <input type="submit" value="Add to my watchlist" class="btn btn-primary btn-black" /> 
-  </form>
-  <br>
-  <form name="delete" class="w-bg" action="" method="post" >
-      <input type="hidden" value="delete" name="formname" />   
-      <input type="submit" value="Delete" class="btn btn-primary btn-black" /> 
-</form>
+ 
+    <form name="delete" class="w-bg" action="" method="post">
+      <input type="hidden" value="delete" name="formname" />
 
-</form>
-<form name="likes"  action="" method="post">
-  <button class="w-bg">
-    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-    <input type="hidden" value="like" name="formname" /> 
-    
-  </button>
+      <input type="submit" value="Delete" class="btn btn-primary btn-black" />
+      <input type="checkbox" name="check" value="ok" style="margin: auto;">
+    </form>
 
-</form>
-<p class="w-bg"> Currrent likes {{movie['point']}} </p>
+    </form>
+    <form name="likes" action="" method="post">
+      <button class="w-bg">
+        <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+        <input type="hidden" value="like" name="formname" />
 
-</div>
+      </button>
 
+    </form>
+    <p class="w-bg"> Currrent likes {{movie['point']}} </p>
 
+ 
 </div>
 {% endblock %}
