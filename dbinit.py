@@ -19,19 +19,10 @@ CREATE TABLE IF NOT EXISTS USERS (
   password VARCHAR(200) NOT NULL,
   avatar VARCHAR NOT NULL DEFAULT '/static/img/defaultprofile.jpeg',
   birth_date DATE NOT NULL,
-  register_date DATE NOT NULL default CURRENT_DATE
+  gender VARCHAR(10) DEFAULT NULL,
+  register_date DATE NOT NULL default CURRENT_DATE,
+  UNIQUE(username)
 );
-
-CREATE TABLE IF NOT EXISTS WATCHLIST(
-  id BIGSERIAL PRIMARY KEY NOT NULL,
-  username VARCHAR(25) NOT NULL,
-  movie_id VARCHAR(25) NOT NULL,
-  type INT default 0,
-  watchOrder INT default 1,
-  register_date DATE NOT NULL default CURRENT_DATE
-);
-
-/* MOVIES */
 
 CREATE TABLE  IF NOT EXISTS MOVIES (
   id BIGSERIAL PRIMARY KEY NOT NULL,
@@ -47,8 +38,21 @@ CREATE TABLE  IF NOT EXISTS MOVIES (
   runtime VARCHAR NOT NULL,
   overallRating DOUBLE PRECISION DEFAULT 0,
   votes INTEGER NOT NULL DEFAULT 0,
-  rating DOUBLE PRECISION NOT NULL
+  rating DOUBLE PRECISION NOT NULL,
+   UNIQUE(idIMDB)
 );
+CREATE TABLE IF NOT EXISTS WATCHLIST(
+  id BIGSERIAL PRIMARY KEY NOT NULL,
+  username VARCHAR(25) REFERENCES users(username) on delete cascade NOT NULL,
+  movie_id VARCHAR(25) REFERENCES movies(idIMDB)  on delete cascade  NOT NULL,
+  type INT default 0,
+  watchOrder INT default 1,
+  register_date DATE NOT NULL default CURRENT_DATE,
+  notes VARCHAR[] DEFAULT NULL
+);
+
+/* MOVIES */
+
 
 CREATE TABLE IF NOT EXISTS STARS(
   id BIGSERIAL PRIMARY KEY NOT NULL,
@@ -99,6 +103,8 @@ CREATE TABLE  IF NOT EXISTS IN_THEATERS(
   writers VARCHAR[] NOT NULL,
   point int DEFAULT 0,
   plike VARCHAR[] DEFAULT NULL 
+  
+  
 );
 
 CREATE TABLE IF NOT EXISTS SHOWTIMES(
