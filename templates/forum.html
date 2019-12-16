@@ -15,7 +15,7 @@
                 <hr>
                 <ul id="unordered">
                   {% for thread in threads %}
-                    <li class="fadeIn animated {{ 'bg-success' ifthread['important'] }}">
+                    <li class="fadeIn animated {{ 'bg-success' if thread['important'] == 1 }}">
                       <a href="/forum/thread/{{thread['id']}}"><h6>{{thread["title"]}}<small style="float: right;">{{thread["username"]}}</small></h6></a>
                       <hr>
                     </li>
