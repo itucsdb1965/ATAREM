@@ -33,7 +33,7 @@
 
 
       <form name="plus" type="submit" method="post">
-        {{title[3][0]}}
+        {{title[3]}}
         <input type="hidden" value="{{title[1]}}" name="movie_id" />
         <input type="submit" value="+" name="plus" class="btn btn-primary btn-black" style="float: right;" />
         <input type="submit" value="-" name="minus" class="btn btn-primary btn-black" style="float: right;" />
@@ -42,11 +42,11 @@
       </form>
     </td>
     <td>
-           {{title[4][0]}}
+           {{title[4]}}
 
     </td>
     <td>
-      {% if title[5][0]==1 %}
+      {% if title[5]==1 %}
         Watched  
       {% else %}
         Not watched
