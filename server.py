@@ -139,6 +139,15 @@ def dash():
                 flash('Image uploaded successfully', 'success')
                 return redirect(url_for('dashboard'))
         return redirect(url_for('dashboard'))
+    if request.method == "POST" and formname=="gender":
+        gender=request.form.get("gender")
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        cur.execute(f"UPDATE users set gender='{gender}' WHERE username='{username}'")
+        con.commit()
+        cur.close
+        return redirect(url_for('dashboard'))
+    return render_template('dashboard.html', user=user,gender=gender)
+
 
 @app.route('/logout')
 @is_logged_in
