@@ -173,7 +173,7 @@ def movie(id):
     username = session['username']
     print(formname)
     if(request.method == 'POST' and formname =="add"):
-        check=request.form.get('check')
+        check=request.form['check']
         status=0
         if(check=="ok"):
             status=1
