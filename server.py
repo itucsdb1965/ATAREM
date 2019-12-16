@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, flash, session, logging, request
-from wtforms import Form, StringField, BooleanField, TextAreaField, PasswordField, validators, BooleanField, DateField
+from wtforms import Form, StringField, BooleanField, TextAreaField, PasswordField, validators, DateField
 from psycopg2 import connect, extras
 from passlib.hash import pbkdf2_sha256
 from functools import wraps
@@ -78,6 +78,7 @@ class RegistrationForm(Form):
         validators.Length(min=6, max=16)
     ])
     confirm = PasswordField('Confirm Password')
+    policy = BooleanField('I agree to Atarem Privacy Policy and Terms of Service agreements.', [validators.data_required()])
 
 class RatingForm(Form):
     point = StringField('')
