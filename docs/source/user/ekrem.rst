@@ -8,7 +8,7 @@ This page will be providing information on
 * *Atarem Forum*
 
 1. User Functionality
----------------------
+=====================
 
 While using Atarem, users are going to be able to accomplish *register* and *login* operations.
 Users can also *change their avatar image* and *delete their account* from the dashboard.
@@ -51,7 +51,7 @@ and upload the image you selected by pressing corresponding button.
 	:align: center
 
 2. Movie Pages
---------------
+==============
 
 Movies are the foundation of what we do here. So it is not surprising we have some pages that belong to the movies themselves.
 We do not let our users create (C) movies, but we allow them to do RUD operations on them!
@@ -91,13 +91,11 @@ please do not abuse this to get your favourite movie to the top!
 	:align: center
 
 3. Atarem Forum
----------------
+===============
 
 Forum is a place where you are free to share your opinion on anything.
 If you can not find what you are looking for, there is nothing stopping
 you from starting the topic about it.
-
-.. note:: Since we did not have enough users to keep the forum alive, we just created some random threads for you already!
 
 3.1 Creating Threads
 ~~~~~~~~~~~~~~~~~~~~
