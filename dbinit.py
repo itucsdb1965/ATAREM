@@ -163,9 +163,9 @@ def initialize(url):
         count_users = cur.fetchone()
         hashed = pbkdf2_sha256.hash('123456')
         if count_users[0] < 2:
-          cur.execute(f"INSERT INTO users (name, username, email, password, birth_date) VALUES ('ekrem', 'ugure17', 'ekremugur17@gmail.com', '{hashed}','10/02/1999')")
-          cur.execute(f"INSERT INTO users (name, username, email, password, birth_date) VALUES ('atahan', 'hola', 'atahan17@gmail.com', '{hashed}','21/06/1999')")
-          cur.execute(f"INSERT INTO users (name, username, email, password, birth_date) VALUES ('strange', 'stranger', 'strange17@gmail.com', '{hashed}','01/01/1995')")
+          cur.execute(f"INSERT INTO users (name, username, email, password, birth_date) VALUES ('ekrem', 'ugure17', 'ekremugur17@gmail.com', {hashed},'10/02/1999')")
+          cur.execute(f"INSERT INTO users (name, username, email, password, birth_date) VALUES ('atahan', 'hola', 'atahan17@gmail.com', {pbkdf2_sha256.hash('deneme')},'21/06/1999')")
+          cur.execute(f"INSERT INTO users (name, username, email, password, birth_date) VALUES ('strange', 'stranger', 'strange17@gmail.com', {hashed},'01/01/1995')")
         cur.execute('SELECT COUNT(*) FROM forumposts')
         count_posts = cur.fetchone()
         if count_posts[0] < 10:
