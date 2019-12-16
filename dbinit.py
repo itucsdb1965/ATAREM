@@ -163,7 +163,7 @@ def initialize(url):
         count_posts = cur.fetchone()
         if count_posts[0] < 10:
           for i in range(0, 25):
-            shuffle(head_part)
+            shuffle(head_part) 
             shuffle(content_part)
             user = random.choice(names)
             cur.execute('INSERT INTO forumposts (username, title, body) VALUES (%s, %s, %s)', (user, " ".join(head_part), " ".join(content_part)))
