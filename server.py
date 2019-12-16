@@ -117,10 +117,15 @@ def dash():
     flag = cur.fetchone()
     cur.execute(f"SELECT * FROM users WHERE username='%s'"%username)
     user =cur.fetchone()
+    if(user==None):
+        gender ="Not choosen"
+    else:
+        gender=user['gender']
+    formname =request.form.get('formname')
     if flag[0] == False:
         session.clear()
         return redirect(url_for('login'))
-    if request.method == "POST":
+    if request.method == "POST" and formname=="photo":
         if request.files:
             image = request.files["image"]
             if image.filename == "":
@@ -134,8 +139,6 @@ def dash():
                 flash('Image uploaded successfully', 'success')
                 return redirect(url_for('dashboard'))
         return redirect(url_for('dashboard'))
-    return render_template('dashboard.html', user=user)
-
 
 @app.route('/logout')
 @is_logged_in

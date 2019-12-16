@@ -34,4 +34,17 @@
       label.innerHTML = fname;
   })
 </script>
+<br>
+  <form name="gender"  method="post" style="flex: auto;" >
+    <p>Your current gender {{gender}}</p>
+    <select name="gender">
+      <option name="options" value="male" name="options">Male</option>
+      <option value="female" name="options">Female</option>
+      <option value="other" name="options">Other</option>
+      
+    </select>
+    <br>
+    <input  type="submit" value="Uptade gender" class="btn btn-primary btn-black"/> 
+    <input type="hidden" value="gender" name="formname" />
+  </form>
 {% endblock %}
