@@ -6,6 +6,7 @@ import random
 import psycopg2 as dbapi2
 import psycopg2.extras
 from random import shuffle
+from passlib.hash import pbkdf2_sha256
 
 INIT_STATEMENTS = [
     """
@@ -158,27 +159,32 @@ def initialize(url):
             knownFor.append(star['knownFor'])
             cur.execute("INSERT INTO stars (name, urlIMDB, knownFor, rating) VALUES (%s, %s, %s, %s)",
                           (star['name'], star['urlIMDB'],knownFor,random.randint(6,10) ))
-            
-        # cur.execute('SELECT COUNT(*) FROM forumposts')
-        # count_posts = cur.fetchone()
-        # if count_posts[0] < 10:
-        #   for i in range(0, 25):
-        #     shuffle(head_part) 
-        #     shuffle(content_part)
-        #     user = random.choice(names)
-        #     cur.execute('INSERT INTO forumposts (username, title, body) VALUES (%s, %s, %s)', (user, " ".join(head_part), " ".join(content_part)))
-        # cur.execute('SELECT COUNT(*) FROM comments')
-        # count_comments = cur.fetchone()
-        # if count_comments[0] < 10:
-        #   for i in range(0, 3):
-        #     for j in range(1, 26):
-        #       shuffle(content_part)
-        #       user = random.choice(names)
-        #       bodddy  = " ".join(content_part)
-        #       cur.execute(f"INSERT INTO comments (username, thread, body) VALUES ('{user}', '{j}', '{bodddy}')")
-        # connection.commit()
-        # cursor.close()
-        
+        cur.execute('SELECT COUNT(*) FROM USERS')
+        count_users = cur.fetchone()
+        hashed = pbkdf2_sha256.hash('123456')
+        if count_users[0] < 2:
+          cur.execute(f"INSERT INTO users (name, username, email, password, birth_date) VALUES ('ekrem', 'ugure17', 'ekremugur17@gmail.com', '{hashed}','10/02/1999')")
+          cur.execute(f"INSERT INTO users (name, username, email, password, birth_date) VALUES ('atahan', 'hola', 'atahan17@gmail.com', '{hashed}','21/06/1999')")
+          cur.execute(f"INSERT INTO users (name, username, email, password, birth_date) VALUES ('strange', 'stranger', 'strange17@gmail.com', '{hashed}','01/01/1995')")
+        cur.execute('SELECT COUNT(*) FROM forumposts')
+        count_posts = cur.fetchone()
+        if count_posts[0] < 10:
+          for i in range(0, 25):
+            shuffle(head_part) 
+            shuffle(content_part)
+            user = random.choice(names)
+            cur.execute('INSERT INTO forumposts (username, title, body) VALUES (%s, %s, %s)', (user, " ".join(head_part), " ".join(content_part)))
+        cur.execute('SELECT COUNT(*) FROM comments')
+        count_comments = cur.fetchone()
+        if count_comments[0] < 10:
+          for i in range(0, 3):
+            for j in range(1, 26):
+              shuffle(content_part)
+              user = random.choice(names)
+              bodddy  = " ".join(content_part)
+              cur.execute(f"INSERT INTO comments (username, thread, body) VALUES ('{user}', '{j}', '{bodddy}')")
+        connection.commit()
+        cursor.close()
         cur.execute('SELECT COUNT(*) FROM IN_THEATERS')
         count_theater=cur.fetchone()
         if count_theater[0]<4:
