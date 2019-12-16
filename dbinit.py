@@ -46,10 +46,11 @@ CREATE TABLE IF NOT EXISTS WATCHLIST(
   id BIGSERIAL PRIMARY KEY NOT NULL,
   username VARCHAR(25) REFERENCES users(username) on delete cascade NOT NULL,
   movie_id VARCHAR(25) REFERENCES movies(idIMDB)  on delete cascade  NOT NULL,
-  type INT default 0,
+  status INT default 0,
   watchOrder INT default 1,
   register_date DATE NOT NULL default CURRENT_DATE,
-  notes VARCHAR[] DEFAULT NULL
+  notes VARCHAR(200) DEFAULT NULL,
+  stream VARCHAR(80) DEFAULT NULL 
 );
 
 /* MOVIES */
