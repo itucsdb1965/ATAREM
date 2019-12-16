@@ -263,76 +263,66 @@ def stars():
 @is_logged_in
 def dashboard():
     return render_template('dashboard.html')
-
-@app.route('/watchlist',methods=['GET', 'POST'])
+@app.route('/watchlist', methods=['GET', 'POST'])
 @is_logged_in
 def watchlist():
-    
     stream = "Netflix,Disney+,AmazonPrime"
-    username=session['username']   
+    username = session['username']
     cur = con.cursor(cursor_factory=extras.DictCursor)
-    cur.execute(f"SELECT movie_id FROM watchlist WHERE username='{username}'")     
-    
-    movie_id =cur.fetchall()
-    cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'")
-    watchorder =cur.fetchall()
-    cur.execute(f"SELECT notes FROM watchlist WHERE username='{username}'")        
-    notes=cur.fetchall()
-    cur.execute(f"SELECT status FROM watchlist WHERE username='{username}'")
-    status =cur.fetchall()
-    cur.execute(f"UPDATE watchlist SET  stream='{stream}'")
-    title=[]
-    count =0    
-    for i in movie_id:
-        cur.execute(f"SELECT title FROM movies WHERE idimdb='{i[0]}'" )
-        temp=cur.fetchone()        
-        temp.append(i)
-        temp.append(0)  
+    cur.execute(
+        f"SELECT * from watchlist WHERE username='{username}'ORDER BY watchorder DESC")
+    watch = cur.fetchall()
+    title = []
 
-        temp.append(watchorder[count])
-        temp.append(notes[count])
-        temp.append(status[count])
+    for i in watch:
+        cur.execute(f"SELECT title FROM movies WHERE idimdb='{i[2]}'")
+        temp = cur.fetchone()
+        temp.append(i[2])
+        temp.append(0)
+        temp.append(i[4])
+        temp.append(i[6])
+        temp.append(i[3])
         title.append(temp)
-        count= count+1 
 
-    formname=request.form.get('formname')
-    
-    if request.method == 'POST'and formname=="delete":
-        
-        movie_id=request.form.get('movie_id')
-        type=request.form.get('type')        
+    formname = request.form.get('formname')
+
+    if request.method == 'POST'and formname == "delete":
+
+        movie_id = request.form.get('movie_id')
+        type = request.form.get('type')
         cur = con.cursor(cursor_factory=extras.DictCursor)
-        movie_id=movie_id.split("'")[1]
-        cur.execute(f"DELETE FROM watchlist WHERE movie_id='{movie_id}'  and username='{username}'")
+
+        cur.execute(
+            f"DELETE FROM watchlist WHERE movie_id='{movie_id}'  and username='{username}'")
         con.commit()
-        cur.close()      
+        cur.close()
         return redirect(url_for('watchlist'))
-   
-    if request.method == 'POST' and(formname=="order")  :
-        movie_id=request.form.get('movie_id')
-        movie_id=movie_id.split("'")[1]
-        cur = con.cursor(cursor_factory=extras.DictCursor)
-        cur.execute(f"SELECT watchorder FROM watchlist WHERE username='{username}'and movie_id ='{movie_id}'")
-        order = cur.fetchone()
-        order =order[0]
-        
-        if(request.form.get("minus")=='-' and order>1):
-            order =order-1
-            
 
-        if(request.form.get("plus")=="+"and order<3):
-            order =order+1
-            
-        cur.execute(f"UPDATE  watchlist SET watchorder ={order} WHERE username='{username}'and movie_id ='{movie_id}'")
+    if request.method == 'POST' and(formname == "order"):
+        movie_id = request.form.get('movie_id')
+
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        cur.execute(
+            f"SELECT watchorder FROM watchlist WHERE username='{username}'and movie_id ='{movie_id}'")
+        order = cur.fetchone()
+
+        order = order[0]
+
+        if(request.form.get("minus") == '-' and order > 1):
+            order = order-1
+
+        if(request.form.get("plus") == "+"and order < 3):
+            order = order+1
+
+        cur.execute(
+            f"UPDATE  watchlist SET watchorder ={order} WHERE username='{username}'and movie_id ='{movie_id}'")
         con.commit()
         cur.close
         return redirect(url_for('watchlist'))
-    if(title==[]):
-        return render_template('watchlist.html',username=username,title=[["No movie has been added"]])
-    
-    
+    if(title == []):
+        return render_template('watchlist.html', username=username, title=[["No movie has been added"]])
 
-    return render_template('watchlist.html',username=username,title=title,stream=stream)
+    return render_template('watchlist.html', username=username, title=title, stream=stream)
 
 
 @app.route('/inTheaters')
