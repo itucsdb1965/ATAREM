@@ -798,6 +798,7 @@ def repThread():
     id = request.args.get('id')
     cur = con.cursor(cursor_factory=extras.DictCursor)
     cur.execute(f"UPDATE forumposts SET rep=rep+1 WHERE id={id}")
+    cur.execute(f"UPDATE FORUMPOSTS SET important = CASE WHEN (rep > 5) THEN 1 ELSE 0 END WHERE id={id}")
     con.commit()
     cur.close()
     return {"content": "success"}
