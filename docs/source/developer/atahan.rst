@@ -226,3 +226,59 @@ If the formname is update ,the star will be found with the first query then the 
           return redirect(url_for('stars'))
           
 If the formname is "delete" the star will be deleted with this simple query.
+
+****************
+IN THEATERS
+****************
+
+1. Creation
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: sql
+
+      CREATE TABLE  IF NOT EXISTS IN_THEATERS(
+      id BIGSERIAL PRIMARY KEY NOT NULL,
+      type INT DEFAULT 0, 
+      title VARCHAR,
+      year INT NOT NULL,
+      releaseDate DATE NOT NULL ,
+      directors VARCHAR[] NOT NULL,
+      genres  VARCHAR[] NOT NULL,
+      simpleplot VARCHAR NOT NULL,
+      rating DOUBLE PRECISION NOT NULL,
+      runtime VARCHAR NOT NULL,
+      urlIMDB VARCHAR NOT NULL,
+      urlPoster VARCHAR NOT NULL,
+      writers VARCHAR[] NOT NULL,
+      point int DEFAULT 0,
+      plike VARCHAR[] DEFAULT NULL );
+      
+
+2. Inserting
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+                cur.execute('SELECT COUNT(*) FROM IN_THEATERS')
+                count_theater=cur.fetchone()
+                if count_theater[0]<4:
+                  resp_theaters=requests.get("https://www.myapifilms.com/imdb/inTheaters?token=93dd88e2-17fb-40e8-89a3-                                     1707b3c8ac82&format=json&language=en-us")
+                  data_t= json.loads(resp_theaters.text)
+
+                  movies=data_t['data']['inTheaters']
+                  for movie in movies:
+                    try:
+                      movies=movie['movies']
+                    except:
+                      pass
+                  for movie in movies:
+                      directors = []
+                      writers = []
+
+                      for director in movie['directors']:
+                          directors.append(director['name'])
+                      for writer in movie['writers']:
+                          writers.append(writer['name'])
+
+                      cur.execute("INSERT INTO IN_THEATERS (title, year, directors, writers, urlPoster, genres, simpleplot,rating,                                          runtime, urlIMDB,releaseDate) VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s)",
+                                  (movie['title'], movie['year'], directors, writers, movie['urlPoster'], movie['genres'],                                                  movie['simplePlot'] , movie['rating'], movie['runtime'], movie['urlIMDB'], movie['releaseDate']))
