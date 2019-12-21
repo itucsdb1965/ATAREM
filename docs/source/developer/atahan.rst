@@ -53,7 +53,9 @@ In the first query it is checked if the movie already exist in your watchlist,if
 
 3. Reading
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. code-block:: python
+
     username = session['username']
     cur = con.cursor(cursor_factory=extras.DictCursor)
     cur.execute(
@@ -79,6 +81,7 @@ In the first query  watchlist from a user  is read from database later on in the
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
+
     if request.method == 'POST' and(formname == "order"):
         movie_id = request.form.get('movie_id')
 
@@ -107,6 +110,7 @@ Orders of the movies in watchlist are updated with orderform.First query finds t
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
+    
     if request.method == 'POST'and formname == "delete":
 
         movie_id = request.form.get('movie_id')
