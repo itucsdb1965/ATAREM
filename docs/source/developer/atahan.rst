@@ -124,3 +124,105 @@ Orders of the movies in watchlist are updated with orderform.First query finds t
         return redirect(url_for('watchlist'))
         
 Movie is deleted if delete form is triggered.
+
+****************
+Stars
+****************
+
+1. Creation
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: sql
+
+      CREATE TABLE IF NOT EXISTS STARS(
+      id BIGSERIAL PRIMARY KEY NOT NULL,
+      urlIMDB VARCHAR(50) NOT NULL,
+      name VARCHAR(30) NOT NULL,
+      knownFor VARCHAR[] NOT NULL,
+      rating INT NOT NULL,
+      user_rating INT DEFAULT 0,
+      date_created DATE NOT NULL default CURRENT_DATE
+         );
+         
+2. Inserting
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+    
+      cur.execute('SELECT COUNT(*) FROM STARS')
+        count_star=cur.fetchone()
+        if count_star[0]<80:
+          resp_star=requests.get("https://www.myapifilms.com/imdb/starmeter?token=93dd88e2-17fb-40e8-89a3-1707b3c8ac82&format=json")
+          text= json.loads(resp_star.text)
+          for star in text['data']:
+            knownFor=[]
+            knownFor.append(star['knownFor'])
+            cur.execute("INSERT INTO stars (name, urlIMDB, knownFor, rating) VALUES (%s, %s, %s, %s)",
+                          (star['name'], star['urlIMDB'],knownFor,random.randint(6,10) ))
+         
+Inserting made by using myapifilms API.First star data requested from API then it is inserted to database automatically .Firts query exist in order to keep the size limited since inserting is automated any error may overload the database.
+
+3. Reading
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+    cur = con.cursor(cursor_factory=extras.DictCursor)
+    try:
+        cur.execute(f"SELECT * FROM stars ORDER BY id ASC ")
+    except :
+            con.rollback()
+    stars = cur.fetchall()
+    cur.close()
+    return render_template('stars.html', stars=stars , form=form)
+   
+Reading is implemented with this simple query.
+
+4. Updating
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+    
+    formname=request.form.get('formname')
+    if(request.method == 'POST' and formname=="update"):
+        
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        try:
+            cur.execute(f"SELECT user_rating FROM stars WHERE id={id} ")
+        except :
+            con.rollback()
+        star_rate=cur.fetchone()
+        try:
+            user_rating = int(form.point.data) + int(star_rate['user_rating'])
+        except:
+            flash("Must be a integer value","danger")
+            return redirect(url_for('stars'))
+        try:
+            cur.execute(
+            f"UPDATE stars SET user_rating={user_rating}  WHERE id={id}")
+        except :
+            con.rollback()
+        con.commit()
+        cur.close
+        return redirect(url_for('stars'))
+   
+If the formname is update ,the star will be found with the first query then the point of the star will be updated.
+
+
+5. Delete
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+        
+          elif (request.method == 'POST' and formname=="delete"):
+          cur = con.cursor(cursor_factory=extras.DictCursor)
+          name =request.form.get('name')
+          try:
+            cur.execute(f"DELETE FROM stars WHERE name='{name}'")
+          except :
+            con.rollback()
+          con.commit()
+          cur.close()
+          return redirect(url_for('stars'))
+          
+If the formname is "delete" the star will be deleted with this simple query.
