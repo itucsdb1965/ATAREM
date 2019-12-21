@@ -24,5 +24,5 @@ Code
 
 .. toctree::
 
-   Atahan
-   Ekrem
+   atahan
+   ekrem
