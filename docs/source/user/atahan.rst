@@ -43,7 +43,7 @@ Here you can find movies that are coming soon . We do not let our users create (
 
 2.1 Adding Movies
 ~~~~~~~~~~~~~~~~~
-We do not support  adding a upcoming by hand .It is automaticly updated by data from  IMDB.
+We do not support adding a upcoming movie by hand .It is automaticly updated by data from  IMDB.
 
 .. figure:: atahan/coming_soon.jpg
 	:scale: 50 %
@@ -52,7 +52,7 @@ We do not support  adding a upcoming by hand .It is automaticly updated by data 
 	
 2.2 Viewing & 2.3 Liking & 2.4 Deleting Movies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-If you click on a movie's poster in route *https://itucsdb1965.herokuapp.com/inTheaters*, you will be redirected to the that movie's own page where you can find more detailed information about that movie. In this page you can also like the movie and delete the movie (we do not reccommend).
+If you click on a movie's poster in route *https://itucsdb1965.herokuapp.com/inTheaters*, you will be redirected to the that movie's own page where you can find more detailed information about that movie. In this page you can also like the movie and delete the movie (we do not recommend).
 
 .. note:: You can not delete the movie without checking the box  and you can only like it for once.
 .. figure:: atahan/coming.jpg
@@ -60,3 +60,20 @@ If you click on a movie's poster in route *https://itucsdb1965.herokuapp.com/inT
 	:alt:  upcoming movies
 	:align: center
 	
+3. Starlist page
+=====================
+Here you can see a variety of movie stars,give them points and delete them from our website(we do not recommend).
+
+3.1 Adding Stars
+~~~~~~~~~~~~~~~~~
+We do not support  adding a star by hand .It is automaticly added by data from  IMDB.
+
+3.2 Viewing & 3.3 Giving a starpoint & 3.4 Deleting stars
+~~~~~~~~~~~~~~~~~
+In the stars page you can give starpoint to a star ,view  popular movies of and their IMDB rating and delete them from our app.
+
+.. note:: The starpoint that you would like to give must be an integer.
+.. figure:: atahan/starlist.png
+	:scale: 50 %
+	:alt:  upcoming movies
+	:align: center
