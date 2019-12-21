@@ -21,7 +21,7 @@ Get to the route *https://itucsdb1965.herokuapp.com/movie/tt0167261/* and select
 
 .. figure:: atahan/add_watchlist.jpg
 	:scale: 50 %
-	:alt: Registeration Page
+	:alt: Movie Page
 	:align: center
 	
 1.2 Watchlist order ,status and notes 
@@ -30,7 +30,7 @@ Get to the route *https://itucsdb1965.herokuapp.com/watchlist*.In this page it i
  
 .. figure:: atahan/watchlist.jpg
 	:scale: 50 %
-	:alt: Registeration Page
+	:alt: watchlist
 	:align: center
 	
 1.3 Deleting movie from watchlist 
@@ -39,4 +39,24 @@ If you press the "Delete from my watchlist button" the movie will be deleted fro
 
 2. Coming soon page
 =====================
+Here you can find movies that are coming soon . We do not let our users create (C) movies, but we allow them to do RUD operations on them!
 
+2.1 Adding Movies
+~~~~~~~~~~~~~~~~~
+We do not support  adding a upcoming by hand .It is automaticly updated by data from  IMDB.
+
+.. figure:: atahan/coming_soon.jpg
+	:scale: 50 %
+	:alt: Developer Added  upcoming movies
+	:align: center
+	
+2.2 Viewing & 2.3 Liking & 2.4 Deleting Movies
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If you click on a movie's poster in route *https://itucsdb1965.herokuapp.com/inTheaters*, you will be redirected to the that movie's own page where you can find more detailed information about that movie. In this page you can also like the movie and delete the movie (we do not reccommend).
+
+.. note:: You can not delete the movie without checking the box  and you can only like it for once.
+.. figure:: atahan/coming.jpg
+	:scale: 50 %
+	:alt:  upcoming movies
+	:align: center
+	
