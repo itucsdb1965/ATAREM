@@ -282,3 +282,84 @@ IN THEATERS
 
                       cur.execute("INSERT INTO IN_THEATERS (title, year, directors, writers, urlPoster, genres, simpleplot,rating,                                          runtime, urlIMDB,releaseDate) VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s)",
                                   (movie['title'], movie['year'], directors, writers, movie['urlPoster'], movie['genres'],                                                  movie['simplePlot'] , movie['rating'], movie['runtime'], movie['urlIMDB'], movie['releaseDate']))
+ 
+3. Reading
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+    # @Route /api/inTheaters
+    # @Methods get
+    # @Desc getting the intheater movies from database
+    @app.route('/api/inTheaters', methods=['GET'])
+    def getTheaters():
+        count = request.args.get("count")
+        if int(count) >= 10:
+            return {"content": {}}
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        cur.execute(f"SELECT * FROM in_theaters LIMIT 9 OFFSET {int(count)}")
+        movies = cur.fetchall()
+        for i in range(0, len(movies)):
+            movies[i] = dict(movies[i])
+        cur.close()
+        return {"content": movies}
+        
+Above is the python code which queries has been made and below is code that requests from API
+        
+.. code-block:: javascript
+        function loadItems() {
+            fetch(`/api/inTheaters?count=${count}`)
+              .then(response => response.json())
+              .then(data => {
+                if (!data.content.length) {
+                  sentinel.innerHTML = "For this is the end, hold your breath and count to ten...";
+                  setTimeout(() => {
+                    console.log("https://www.youtube.com/watch?v=DeumyOzKqgI")
+                  }, 10000)
+
+4. Updating
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+    
+        elif(request.method == 'POST' and formname=="like"):
+        cur = con.cursor(cursor_factory=extras.DictCursor)
+        cur.execute(f"SElECT plike FROM in_theaters where  id ='{id}'")
+        people = cur.fetchone()
+        
+        if(people[0]!=None and username in people[0] ):
+            flash("You have already liked it","danger")
+        else:
+            people=[]
+            people.append(username)
+            cur.execute(f"SElECT point FROM in_theaters where  id ='{id}'")
+            
+            point=cur.fetchone()
+            point[0]=int(point[0]) +1                    
+            cur.execute(f"UPDATE in_theaters set point = '{point[0]}'  WHERE id ='{id}' ")
+            cur.execute(f"UPDATE in_theaters SET plike = array_append(plike,'{username}')  WHERE id ='{id}' ")
+    
+        con.commit()
+        cur.close()
+
+If  like form is posted the value of the people who liked will increase and your name will be kept in a array so that you can not like it once more .
+
+5. Delete
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+        
+    if(request.method == 'POST' and formname=="delete"):
+        check= request.form.get('check')
+        if(check!="ok"):
+            flash("You must check the box ","danger")
+        else:
+            cur = con.cursor(cursor_factory=extras.DictCursor)
+            cur.execute(f"DELETE from watchlist  WHERE movie_id ='{id}' ")
+            cur.execute(f"DELETE from in_theaters  WHERE id ='{id}' ")
+            con.commit()
+            cur.close()
+            return redirect(url_for('inTheaters'))
+          
+If the formname is "delete" and the box is checked then the movie will be deleted with this simple query.
+
+
