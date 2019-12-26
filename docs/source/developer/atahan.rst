@@ -306,6 +306,7 @@ IN THEATERS
 Above is the python code which queries has been made and below is code that requests from API
         
 .. code-block:: javascript
+
         function loadItems() {
             fetch(`/api/inTheaters?count=${count}`)
               .then(response => response.json())
