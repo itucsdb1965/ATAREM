@@ -287,6 +287,7 @@ IN THEATERS
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
+
     # @Route /api/inTheaters
     # @Methods get
     # @Desc getting the intheater movies from database
