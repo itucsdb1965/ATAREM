@@ -75,7 +75,7 @@ In the first query it is checked if the movie already exist in your watchlist,if
 
      return render_template('watchlist.html', username=username, title=title)
      
-In the first query  watchlist from a user  is read from database later on in the second query details of a movie stored in title in order to send it to html.
+In the first query  watchlist from a user  is read from database later on in the second query details of a movie stored in title in order to send it to html.A list is used in order keep details of the movie because it is convenient while rendering with jinja.
 
 4.Updating
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -123,7 +123,7 @@ Orders of the movies in watchlist are updated with orderform.First query finds t
         cur.close()
         return redirect(url_for('watchlist'))
         
-Movie is deleted if delete form is triggered.
+Movie is deleted if delete form is posted.
 
 ****************
 Stars
@@ -144,6 +144,7 @@ Stars
       date_created DATE NOT NULL default CURRENT_DATE
          );
          
+Stars table created with this simple statement.
 2. Inserting
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -160,7 +161,7 @@ Stars
             cur.execute("INSERT INTO stars (name, urlIMDB, knownFor, rating) VALUES (%s, %s, %s, %s)",
                           (star['name'], star['urlIMDB'],knownFor,random.randint(6,10) ))
          
-Inserting made by using myapifilms API.First star data requested from API then it is inserted to database automatically .Firts query exist in order to keep the size limited since inserting is automated any error may overload the database.
+Inserting made by using myapifilms API.First star data requested from API then it is inserted to database automatically .Firts query exist in order to keep the size limited since inserting is automated any error may overload the database.You can reach the api that we have used, with the link in request.get part .
 
 3. Reading
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -176,7 +177,7 @@ Inserting made by using myapifilms API.First star data requested from API then i
     cur.close()
     return render_template('stars.html', stars=stars , form=form)
    
-Reading is implemented with this simple query.
+Reading is implemented with this simple query.In order to show higher priority films query listed as ascending.
 
 4. Updating
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -228,7 +229,7 @@ If the formname is update ,the star will be found with the first query then the 
 If the formname is "delete" the star will be deleted with this simple query.
 
 ****************
-IN THEATERS
+In Theaters
 ****************
 
 1. Creation
@@ -253,7 +254,7 @@ IN THEATERS
       point int DEFAULT 0,
       plike VARCHAR[] DEFAULT NULL );
       
-
+In_theaters table created with this simple statement.
 2. Inserting
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -282,7 +283,9 @@ IN THEATERS
 
                       cur.execute("INSERT INTO IN_THEATERS (title, year, directors, writers, urlPoster, genres, simpleplot,rating,                                          runtime, urlIMDB,releaseDate) VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s)",
                                   (movie['title'], movie['year'], directors, writers, movie['urlPoster'], movie['genres'],                                                  movie['simplePlot'] , movie['rating'], movie['runtime'], movie['urlIMDB'], movie['releaseDate']))
- 
+
+Inserting made by using myapifilms API.First coming movies  data requested from API then it is inserted to database automatically .Firts query exist in order to keep the size limited since inserting is an automated proces any error may overload the database.You can reach the api that we have used, with the link in request.get part .In order to use API data properly json respond is parsed with for loops.
+
 3. Reading
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
