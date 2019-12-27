@@ -1,0 +1,554 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Parts Implemented by Atahan ÖZER &mdash; ITUCSDB1965 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Parts Implemented by Ekrem UĞUR" href="ekrem.html" />
+    <link rel="prev" title="Developer Guide" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ITUCSDB1965
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#database-design">Database Design</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#code">Code</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Parts Implemented by Atahan ÖZER</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#watchlist">Watchlist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stars">Stars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#in-theaters">In Theaters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html">Parts Implemented by Ekrem UĞUR</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ITUCSDB1965</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+        
+      <li>Parts Implemented by Atahan ÖZER</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/developer/atahan.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="parts-implemented-by-atahan-ozer">
+<h1>Parts Implemented by Atahan ÖZER<a class="headerlink" href="#parts-implemented-by-atahan-ozer" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All table creations exist in db_init.py file.</p>
+</div>
+<div class="section" id="watchlist">
+<h2>Watchlist<a class="headerlink" href="#watchlist" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="creation">
+<h3>1. Creation<a class="headerlink" href="#creation" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">WATCHLIST</span><span class="p">(</span>
+  <span class="n">id</span> <span class="n">BIGSERIAL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">username</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">users</span><span class="p">(</span><span class="n">username</span><span class="p">)</span> <span class="k">on</span> <span class="k">delete</span> <span class="k">cascade</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">movie_id</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">movies</span><span class="p">(</span><span class="n">idIMDB</span><span class="p">)</span>  <span class="k">on</span> <span class="k">delete</span> <span class="k">cascade</span>  <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">status</span> <span class="nb">INT</span> <span class="k">default</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="n">watchOrder</span> <span class="nb">INT</span> <span class="k">default</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">register_date</span> <span class="nb">DATE</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">CURRENT_DATE</span><span class="p">,</span>
+  <span class="n">notes</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">stream</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Username references the users table and movie_id references to movies table .If one of the references is deleted the corresponding row will also be deleted</p>
+</div>
+<div class="section" id="inserting">
+<h3>2. Inserting<a class="headerlink" href="#inserting" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span> <span class="ow">and</span> <span class="n">formname</span> <span class="o">==</span><span class="s2">&quot;add&quot;</span><span class="p">):</span>
+<span class="n">check</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s1">&#39;check&#39;</span><span class="p">]</span>
+<span class="n">status</span><span class="o">=</span><span class="mi">0</span>
+<span class="k">if</span><span class="p">(</span><span class="n">check</span><span class="o">==</span><span class="s2">&quot;ok&quot;</span><span class="p">):</span>
+    <span class="n">status</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">cursor_factory</span><span class="o">=</span><span class="n">extras</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT EXISTS(SELECT *FROM watchlist WHERE username=&#39;</span><span class="si">{username}</span><span class="s2">&#39; and movie_id = &#39;</span><span class="si">{id}</span><span class="s2">&#39;) &quot;</span><span class="p">)</span>
+<span class="n">exist</span><span class="o">=</span><span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">exist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;It is already in your watchlist&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INSERT INTO watchlist(username,movie_id,status) VALUES (&#39;</span><span class="si">{username}</span><span class="s2">&#39;,&#39;</span><span class="si">{id}</span><span class="s2">&#39;,&#39;</span><span class="si">{status}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+    <span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Added to your watchlist&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the first query it is checked if the movie already exist in your watchlist,if it is not then it is inserted into the table.</p>
+</div>
+<div class="section" id="reading">
+<h3>3. Reading<a class="headerlink" href="#reading" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">username</span> <span class="o">=</span> <span class="n">session</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">cursor_factory</span><span class="o">=</span><span class="n">extras</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;SELECT * from watchlist WHERE username=&#39;</span><span class="si">{username}</span><span class="s2">&#39;ORDER BY watchorder DESC&quot;</span><span class="p">)</span>
+<span class="n">watch</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="n">title</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">watch</span><span class="p">:</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT title FROM movies WHERE idimdb=&#39;</span><span class="si">{i[2]}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">title</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+
+ <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;watchlist.html&#39;</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the first query  watchlist from a user  is read from database later on in the second query details of a movie stored in title in order to send it to html.A list is used in order keep details of the movie because it is convenient while rendering with jinja.</p>
+</div>
+<div class="section" id="updating">
+<h3>4.Updating<a class="headerlink" href="#updating" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span> <span class="ow">and</span><span class="p">(</span><span class="n">formname</span> <span class="o">==</span> <span class="s2">&quot;order&quot;</span><span class="p">):</span>
+    <span class="n">movie_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;movie_id&#39;</span><span class="p">)</span>
+
+    <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">cursor_factory</span><span class="o">=</span><span class="n">extras</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;SELECT watchorder FROM watchlist WHERE username=&#39;</span><span class="si">{username}</span><span class="s2">&#39;and movie_id =&#39;</span><span class="si">{movie_id}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+
+    <span class="n">order</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;minus&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span> <span class="ow">and</span> <span class="n">order</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">order</span><span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plus&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;+&quot;</span><span class="ow">and</span> <span class="n">order</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">order</span><span class="o">+</span><span class="mi">1</span>
+
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;UPDATE  watchlist SET watchorder =</span><span class="si">{order}</span><span class="s2"> WHERE username=&#39;</span><span class="si">{username}</span><span class="s2">&#39;and movie_id =&#39;</span><span class="si">{movie_id}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+    <span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">close</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;watchlist&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Orders of the movies in watchlist are updated with orderform.First query finds the corresponding watchorder and the second query updates the watchorder</p>
+</div>
+<div class="section" id="deleting">
+<h3>5.Deleting<a class="headerlink" href="#deleting" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="ow">and</span> <span class="n">formname</span> <span class="o">==</span> <span class="s2">&quot;delete&quot;</span><span class="p">:</span>
+
+    <span class="n">movie_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;movie_id&#39;</span><span class="p">)</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span>
+    <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">cursor_factory</span><span class="o">=</span><span class="n">extras</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;DELETE FROM watchlist WHERE movie_id=&#39;</span><span class="si">{movie_id}</span><span class="s2">&#39;  and username=&#39;</span><span class="si">{username}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+    <span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;watchlist&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Movie is deleted if delete form is posted.</p>
+</div>
+</div>
+<div class="section" id="stars">
+<h2>Stars<a class="headerlink" href="#stars" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>1. Creation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">STARS</span><span class="p">(</span>
+<span class="n">id</span> <span class="n">BIGSERIAL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">urlIMDB</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">knownFor</span> <span class="nb">VARCHAR</span><span class="p">[]</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">rating</span> <span class="nb">INT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">user_rating</span> <span class="nb">INT</span> <span class="k">DEFAULT</span> <span class="mi">0</span><span class="p">,</span>
+<span class="n">date_created</span> <span class="nb">DATE</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">CURRENT_DATE</span>
+   <span class="p">);</span>
+</pre></div>
+</div>
+<p>Stars table created with this simple statement.
+2. Inserting
+~~~~~~~~~~~~~~~~~~~~~~~~</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT COUNT(*) FROM STARS&#39;</span><span class="p">)</span>
+  <span class="n">count_star</span><span class="o">=</span><span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+  <span class="k">if</span> <span class="n">count_star</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">80</span><span class="p">:</span>
+    <span class="n">resp_star</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://www.myapifilms.com/imdb/starmeter?token=93dd88e2-17fb-40e8-89a3-1707b3c8ac82&amp;format=json&quot;</span><span class="p">)</span>
+    <span class="n">text</span><span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp_star</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">star</span> <span class="ow">in</span> <span class="n">text</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]:</span>
+      <span class="n">knownFor</span><span class="o">=</span><span class="p">[]</span>
+      <span class="n">knownFor</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">star</span><span class="p">[</span><span class="s1">&#39;knownFor&#39;</span><span class="p">])</span>
+      <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO stars (name, urlIMDB, knownFor, rating) VALUES (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+                    <span class="p">(</span><span class="n">star</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">star</span><span class="p">[</span><span class="s1">&#39;urlIMDB&#39;</span><span class="p">],</span><span class="n">knownFor</span><span class="p">,</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="p">))</span>
+</pre></div>
+</div>
+<p>Inserting made by using myapifilms API.First star data requested from API then it is inserted to database automatically .Firts query exist in order to keep the size limited since inserting is automated any error may overload the database.You can reach the api that we have used, with the link in request.get part .</p>
+</div>
+<div class="section" id="id2">
+<h3>3. Reading<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">cursor_factory</span><span class="o">=</span><span class="n">extras</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT * FROM stars ORDER BY id ASC &quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="p">:</span>
+        <span class="n">con</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+<span class="n">stars</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;stars.html&#39;</span><span class="p">,</span> <span class="n">stars</span><span class="o">=</span><span class="n">stars</span> <span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Reading is implemented with this simple query.In order to show higher priority films query listed as ascending.</p>
+</div>
+<div class="section" id="id3">
+<h3>4. Updating<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">formname</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;formname&#39;</span><span class="p">)</span>
+<span class="k">if</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span> <span class="ow">and</span> <span class="n">formname</span><span class="o">==</span><span class="s2">&quot;update&quot;</span><span class="p">):</span>
+
+    <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">cursor_factory</span><span class="o">=</span><span class="n">extras</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT user_rating FROM stars WHERE id=</span><span class="si">{id}</span><span class="s2"> &quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">:</span>
+        <span class="n">con</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+    <span class="n">star_rate</span><span class="o">=</span><span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">user_rating</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">star_rate</span><span class="p">[</span><span class="s1">&#39;user_rating&#39;</span><span class="p">])</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;Must be a integer value&quot;</span><span class="p">,</span><span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;stars&#39;</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;UPDATE stars SET user_rating=</span><span class="si">{user_rating}</span><span class="s2">  WHERE id=</span><span class="si">{id}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">:</span>
+        <span class="n">con</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+    <span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">close</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;stars&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>If the formname is update ,the star will be found with the first query then the point of the star will be updated.</p>
+</div>
+<div class="section" id="delete">
+<h3>5. Delete<a class="headerlink" href="#delete" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">elif</span> <span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span> <span class="ow">and</span> <span class="n">formname</span><span class="o">==</span><span class="s2">&quot;delete&quot;</span><span class="p">):</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">cursor_factory</span><span class="o">=</span><span class="n">extras</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+<span class="n">name</span> <span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DELETE FROM stars WHERE name=&#39;</span><span class="si">{name}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="p">:</span>
+  <span class="n">con</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+<span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;stars&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>If the formname is “delete” the star will be deleted with this simple query.</p>
+</div>
+</div>
+<div class="section" id="in-theaters">
+<h2>In Theaters<a class="headerlink" href="#in-theaters" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>1. Creation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span>  <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">IN_THEATERS</span><span class="p">(</span>
+<span class="n">id</span> <span class="n">BIGSERIAL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="k">type</span> <span class="nb">INT</span> <span class="k">DEFAULT</span> <span class="mi">0</span><span class="p">,</span>
+<span class="n">title</span> <span class="nb">VARCHAR</span><span class="p">,</span>
+<span class="k">year</span> <span class="nb">INT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">releaseDate</span> <span class="nb">DATE</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="p">,</span>
+<span class="n">directors</span> <span class="nb">VARCHAR</span><span class="p">[]</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">genres</span>  <span class="nb">VARCHAR</span><span class="p">[]</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">simpleplot</span> <span class="nb">VARCHAR</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">rating</span> <span class="n">DOUBLE</span> <span class="k">PRECISION</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">runtime</span> <span class="nb">VARCHAR</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">urlIMDB</span> <span class="nb">VARCHAR</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">urlPoster</span> <span class="nb">VARCHAR</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">writers</span> <span class="nb">VARCHAR</span><span class="p">[]</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="n">point</span> <span class="nb">int</span> <span class="k">DEFAULT</span> <span class="mi">0</span><span class="p">,</span>
+<span class="n">plike</span> <span class="nb">VARCHAR</span><span class="p">[]</span> <span class="k">DEFAULT</span> <span class="k">NULL</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>In_theaters table created with this simple statement.
+2. Inserting
+~~~~~~~~~~~~~~~~~~~~~~~~</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT COUNT(*) FROM IN_THEATERS&#39;</span><span class="p">)</span>
+<span class="n">count_theater</span><span class="o">=</span><span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">count_theater</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">4</span><span class="p">:</span>
+  <span class="n">resp_theaters</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://www.myapifilms.com/imdb/inTheaters?token=93dd88e2-17fb-40e8-89a3-                                     1707b3c8ac82&amp;format=json&amp;language=en-us&quot;</span><span class="p">)</span>
+  <span class="n">data_t</span><span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp_theaters</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+  <span class="n">movies</span><span class="o">=</span><span class="n">data_t</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;inTheaters&#39;</span><span class="p">]</span>
+  <span class="k">for</span> <span class="n">movie</span> <span class="ow">in</span> <span class="n">movies</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">movies</span><span class="o">=</span><span class="n">movie</span><span class="p">[</span><span class="s1">&#39;movies&#39;</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+      <span class="k">pass</span>
+  <span class="k">for</span> <span class="n">movie</span> <span class="ow">in</span> <span class="n">movies</span><span class="p">:</span>
+      <span class="n">directors</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="n">writers</span> <span class="o">=</span> <span class="p">[]</span>
+
+      <span class="k">for</span> <span class="n">director</span> <span class="ow">in</span> <span class="n">movie</span><span class="p">[</span><span class="s1">&#39;directors&#39;</span><span class="p">]:</span>
+          <span class="n">directors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">director</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+      <span class="k">for</span> <span class="n">writer</span> <span class="ow">in</span> <span class="n">movie</span><span class="p">[</span><span class="s1">&#39;writers&#39;</span><span class="p">]:</span>
+          <span class="n">writers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">writer</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+
+      <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO IN_THEATERS (title, year, directors, writers, urlPoster, genres, simpleplot,rating,                                          runtime, urlIMDB,releaseDate) VALUES (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+                  <span class="p">(</span><span class="n">movie</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span> <span class="n">movie</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">],</span> <span class="n">directors</span><span class="p">,</span> <span class="n">writers</span><span class="p">,</span> <span class="n">movie</span><span class="p">[</span><span class="s1">&#39;urlPoster&#39;</span><span class="p">],</span> <span class="n">movie</span><span class="p">[</span><span class="s1">&#39;genres&#39;</span><span class="p">],</span>                                                  <span class="n">movie</span><span class="p">[</span><span class="s1">&#39;simplePlot&#39;</span><span class="p">]</span> <span class="p">,</span> <span class="n">movie</span><span class="p">[</span><span class="s1">&#39;rating&#39;</span><span class="p">],</span> <span class="n">movie</span><span class="p">[</span><span class="s1">&#39;runtime&#39;</span><span class="p">],</span> <span class="n">movie</span><span class="p">[</span><span class="s1">&#39;urlIMDB&#39;</span><span class="p">],</span> <span class="n">movie</span><span class="p">[</span><span class="s1">&#39;releaseDate&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>Inserting made by using myapifilms API.First coming movies  data requested from API then it is inserted to database automatically .Firts query exist in order to keep the size limited since inserting is an automated proces any error may overload the database.You can reach the api that we have used, with the link in request.get part .In order to use API data properly json respond is parsed with for loops.</p>
+</div>
+<div class="section" id="id5">
+<h3>3. Reading<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># @Route /api/inTheaters</span>
+<span class="c1"># @Methods get</span>
+<span class="c1"># @Desc getting the intheater movies from database</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/api/inTheaters&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">getTheaters</span><span class="p">():</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">cursor_factory</span><span class="o">=</span><span class="n">extras</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT * FROM in_theaters LIMIT 9 OFFSET {int(count)}&quot;</span><span class="p">)</span>
+    <span class="n">movies</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">movies</span><span class="p">)):</span>
+        <span class="n">movies</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">movies</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">movies</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Above is the python code which queries has been made and below is code that requests from API</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">loadItems</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">fetch</span><span class="p">(</span><span class="sb">`/api/inTheaters?count=</span><span class="si">${</span><span class="nx">count</span><span class="si">}</span><span class="sb">`</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="p">=&gt;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">data</span><span class="p">.</span><span class="nx">content</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">sentinel</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;For this is the end, hold your breath and count to ten...&quot;</span><span class="p">;</span>
+          <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;https://www.youtube.com/watch?v=DeumyOzKqgI&quot;</span><span class="p">)</span>
+          <span class="p">},</span> <span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>4. Updating<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">elif</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span> <span class="ow">and</span> <span class="n">formname</span><span class="o">==</span><span class="s2">&quot;like&quot;</span><span class="p">):</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">cursor_factory</span><span class="o">=</span><span class="n">extras</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SElECT plike FROM in_theaters where  id =&#39;</span><span class="si">{id}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+<span class="n">people</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">people</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="kc">None</span> <span class="ow">and</span> <span class="n">username</span> <span class="ow">in</span> <span class="n">people</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">):</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;You have already liked it&quot;</span><span class="p">,</span><span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">people</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">people</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SElECT point FROM in_theaters where  id =&#39;</span><span class="si">{id}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+    <span class="n">point</span><span class="o">=</span><span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span><span class="mi">1</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;UPDATE in_theaters set point = &#39;</span><span class="si">{point[0]}</span><span class="s2">&#39;  WHERE id =&#39;</span><span class="si">{id}</span><span class="s2">&#39; &quot;</span><span class="p">)</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;UPDATE in_theaters SET plike = array_append(plike,&#39;</span><span class="si">{username}</span><span class="s2">&#39;)  WHERE id =&#39;</span><span class="si">{id}</span><span class="s2">&#39; &quot;</span><span class="p">)</span>
+
+<span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If  like form is posted the value of the people who liked will increase and your name will be kept in a array so that you can not like it once more .</p>
+</div>
+<div class="section" id="id7">
+<h3>5. Delete<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span> <span class="ow">and</span> <span class="n">formname</span><span class="o">==</span><span class="s2">&quot;delete&quot;</span><span class="p">):</span>
+    <span class="n">check</span><span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;check&#39;</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">check</span><span class="o">!=</span><span class="s2">&quot;ok&quot;</span><span class="p">):</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;You must check the box &quot;</span><span class="p">,</span><span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">cursor_factory</span><span class="o">=</span><span class="n">extras</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DELETE from watchlist  WHERE movie_id =&#39;</span><span class="si">{id}</span><span class="s2">&#39; &quot;</span><span class="p">)</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DELETE from in_theaters  WHERE id =&#39;</span><span class="si">{id}</span><span class="s2">&#39; &quot;</span><span class="p">)</span>
+        <span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;inTheaters&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>If the formname is “delete” and the box is checked then the movie will be deleted with this simple query.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ekrem.html" class="btn btn-neutral float-right" title="Parts Implemented by Ekrem UĞUR" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Developer Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ITUCSDB1965
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Developer Guide &mdash; ITUCSDB1965 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Parts Implemented by Atahan ÖZER" href="atahan.html" />
+    <link rel="prev" title="Parts Implemented by Atahan ÖZER" href="../user/atahan.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ITUCSDB1965
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#database-design">Database Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code">Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html">Parts Implemented by Atahan ÖZER</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html">Parts Implemented by Ekrem UĞUR</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ITUCSDB1965</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Developer Guide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/developer/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="developer-guide">
+<h1>Developer Guide<a class="headerlink" href="#developer-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="database-design">
+<h2>Database Design<a class="headerlink" href="#database-design" title="Permalink to this headline">¶</a></h2>
+<p>Atarem uses PostgreSQL to create a fairly simple and uncomplicated database structure. As you can see from the E/R diagram below, our database consists of a few tables and some of them reference to others.</p>
+<a class="reference internal image-reference" href="../_images/erchart.png"><img alt="E/R Chart" class="align-center" src="../_images/erchart.png" style="width: 764.0px; height: 662.0px;" /></a>
+</div>
+<div class="section" id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="atahan.html">Parts Implemented by Atahan ÖZER</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="atahan.html#watchlist">Watchlist</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#creation">1. Creation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#inserting">2. Inserting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#reading">3. Reading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#updating">4.Updating</a></li>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#deleting">5.Deleting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="atahan.html#stars">Stars</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#id1">1. Creation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#id2">3. Reading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#id3">4. Updating</a></li>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#delete">5. Delete</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="atahan.html#in-theaters">In Theaters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#id4">1. Creation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#id5">3. Reading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#id6">4. Updating</a></li>
+<li class="toctree-l3"><a class="reference internal" href="atahan.html#id7">5. Delete</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ekrem.html">Parts Implemented by Ekrem UĞUR</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ekrem.html#movies">MOVIES</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#initilization">1. Initilization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#create">2. Create</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#read">3. Read</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#update">4. Update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#delete">5. Delete</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ekrem.html#forumposts">FORUMPOSTS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#id1">1. Initilization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#id2">2. Create</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#id3">3. Read</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#id4">4. Update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#id5">5. Delete</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ekrem.html#users">USERS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#id6">1. Initilization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#id7">2. Create</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#id8">3. Read</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#id9">4. Update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ekrem.html#id10">5. Delete</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="atahan.html" class="btn btn-neutral float-right" title="Parts Implemented by Atahan ÖZER" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../user/atahan.html" class="btn btn-neutral float-left" title="Parts Implemented by Atahan ÖZER" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ITUCSDB1965
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
