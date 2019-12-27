@@ -3,7 +3,7 @@ Parts Implemented by Ekrem UĞUR
 .. note:: All table are created in db_init.py file.
 
 **************
-Movies
+MOVIES
 **************
 
 1. Initilization
