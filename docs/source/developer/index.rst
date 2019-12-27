@@ -4,10 +4,10 @@ Developer Guide
 Database Design
 ---------------
 
-.. image:: diag.jpeg
-  :scale 50 %
-  :alt: ER Diagram of ATAREM
-  :align: center
+.. image:: erchart.png
+	:scale: 40 %
+	:alt: E/R Chart
+	:align: center
 
 Code
 ----
