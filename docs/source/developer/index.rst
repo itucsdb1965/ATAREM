@@ -5,7 +5,7 @@ Database Design
 ---------------
 
 .. image:: erchart.png
-	:scale: 40 %
+	:scale: 100 %
 	:alt: E/R Chart
 	:align: center
 

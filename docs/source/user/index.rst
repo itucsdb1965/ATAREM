@@ -3,15 +3,15 @@ User Guide
 
 **Welcome to *Atarem* user guide. Here we will walk you through our website briefly, and then you will be able to surf freely by yourself.**
 
-.. image:: logo.png
-  :scale 50 %
-  :alt: Atarem Logo
-  :align: center
+.. image:: arlogo.png
+	:scale: 100 %
+	:alt: Logo
+	:align: center
 
-.. image:: landing.png
-  :scale 50 %
-  :alt: Atarem Landing Screen
-  :align: center
+.. image:: arland.png
+	:scale: 100 %
+	:alt: Landing
+	:align: center
 
 .. toctree::
   ekrem
