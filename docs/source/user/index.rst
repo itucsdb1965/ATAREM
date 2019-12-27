@@ -8,11 +8,6 @@ User Guide
 	:alt: Logo
 	:align: center
 
-.. image:: arland.png
-	:scale: 100 %
-	:alt: Landing
-	:align: center
-
 .. toctree::
   ekrem
   atahan
